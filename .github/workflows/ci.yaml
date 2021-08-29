@@ -65,7 +65,7 @@ jobs:
             -c bioconda \
             -c defaults \
             --override-channels \
-            --output-folder $BUILD_DIR \
+            --output-folder $GITHUB_WORKSPACE/$BUILD_DIR \
             --no-anaconda-upload \
             $RECIPE_PATH
 
@@ -74,6 +74,6 @@ jobs:
           PACKAGE_NAME: ${{ matrix.distro }}-${{ env.PLATFORM }}
           LIBRARY_TOKEN: ${{ secrets.LIBRARY_TOKEN }}
         run: |
-          sudo conda search -c $BUILD_DIR $PACKAGE_NAME --json
-          sudo conda search -c $BUILD_DIR $PACKAGE_NAME --json | \
+          sudo conda search -c $GITHUB_WORKSPACE/$BUILD_DIR $PACKAGE_NAME --json
+          sudo conda search -c $GITHUB_WORKSPACE/$BUILD_DIR $PACKAGE_NAME --json | \
             jq --arg PKG "$PACKAGE_NAME" -r '.[$PKG][0].version'
