@@ -71,7 +71,7 @@ jobs:
 
       - name: phone home
         env:
-          PACKAGE_NAME: ${{ matrix.distro }}-${{ env.PLATFORM }}
+          PACKAGE_NAME: qiime2-${{ matrix.distro }}
           LIBRARY_TOKEN: ${{ secrets.LIBRARY_TOKEN }}
         run: |
           sudo conda search -c $GITHUB_WORKSPACE/$BUILD_DIR $PACKAGE_NAME --json
