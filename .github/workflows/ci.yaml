@@ -16,7 +16,7 @@ jobs:
         epoch:
           - '2021.8'
     env:
-      BUILD_DIR: build/
+      BUILD_DIR: ${{ env.GITHUB_WORKSPACE }}/build/
     steps:
       - name: set host helper env vars
         run: |
@@ -68,12 +68,6 @@ jobs:
             --output-folder $BUILD_DIR \
             --no-anaconda-upload \
             $RECIPE_PATH
-
-      - name: upload build artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.distro }}-${{ env.PLATFORM }}
-          path: ${{ env.BUILD_DIR }}/*/**
 
       - name: phone home
         env:
