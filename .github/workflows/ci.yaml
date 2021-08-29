@@ -16,7 +16,7 @@ jobs:
         epoch:
           - '2021.8'
     env:
-      BUILD_DIR: ${{ env.GITHUB_WORKSPACE }}/build/
+      BUILD_DIR: ./build/
     steps:
       - name: set host helper env vars
         run: |
