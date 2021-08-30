@@ -69,26 +69,26 @@ jobs:
           sudo conda install -n base -q -y -c defaults --override-channels conda-build conda-verify
           conda info -a
 
-      # - name: build recipe
-      #   env:
-      #     Q2_CHANNEL: https://packages.qiime2.org/qiime2/${{ matrix.epoch }}/tested/
-      #     RECIPE_PATH: ${{ matrix.epoch }}/staged/${{ matrix.distro }}/
-      #   run: |
-      #     sudo conda build \
-      #       -c $Q2_CHANNEL \
-      #       -c conda-forge \
-      #       -c bioconda \
-      #       -c defaults \
-      #       --override-channels \
-      #       --output-folder $BUILD_DIR \
-      #       --no-anaconda-upload \
-      #       $RECIPE_PATH
+      - name: build recipe
+        env:
+          Q2_CHANNEL: https://packages.qiime2.org/qiime2/${{ matrix.epoch }}/tested/
+          RECIPE_PATH: ${{ matrix.epoch }}/staged/${{ matrix.distro }}/
+        run: |
+          sudo conda build \
+            -c $Q2_CHANNEL \
+            -c conda-forge \
+            -c bioconda \
+            -c defaults \
+            --override-channels \
+            --output-folder $BUILD_DIR \
+            --no-anaconda-upload \
+            $RECIPE_PATH
 
-      # - name: upload build artifact
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: ${{ matrix.distro }}-${{ env.PLATFORM }}
-      #     path: ${{ env.BUILD_DIR }}/*/**
+      - name: upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.distro }}-${{ env.PLATFORM }}
+          path: ${{ env.BUILD_DIR }}/*/**
 
       - name: phone home
         env:
@@ -100,26 +100,25 @@ jobs:
                                 jq --arg PKG "$PACKAGE_NAME" -r '.[$PKG][0].version')
           package_versions=$(python .github/workflows/bin/integration_versions.py $TEMPLATE_PATH | \
                              jq -aRs .)
-          echo $package_versions
-          # resp=$(curl \
-          #   --silent \
-          #   --include \
-          #   --data-urlencode "token=$LIBRARY_TOKEN" \
-          #   --data-urlencode "version=$metapackage_version" \
-          #   --data-urlencode "package_versions=$package_versions" \
-          #   --data "run_id=$GITHUB_RUN_ID" \
-          #   --data "distro=${{ matrix.distro }}" \
-          #   --data "epoch=${{ matrix.epoch }}" \
-          #   --data "artifact_name=${{ matrix.distro }}-${{ env.PLATFORM }}" \
-          #   --data "pr_number=${{ github.event.pull_request.number }}" \
-          #   --header "Content-Type: application/x-www-form-urlencoded" \
-          #   --request POST \
-          #   https://library.qiime2.org/api/v1/packages/finalize/
-          # )
-          # code=$(echo $resp | grep HTTP | awk '{print $2}')
-          # if [[ $code -ne 200 ]]
-          # then
-          #   echo "whoops"
-          #   echo $resp
-          #   exit 1
-          # fi
+          resp=$(curl \
+            --silent \
+            --include \
+            --data-urlencode "token=$LIBRARY_TOKEN" \
+            --data-urlencode "version=$metapackage_version" \
+            --data-urlencode "package_versions=$package_versions" \
+            --data "run_id=$GITHUB_RUN_ID" \
+            --data "distro=${{ matrix.distro }}" \
+            --data "epoch=${{ matrix.epoch }}" \
+            --data "artifact_name=${{ matrix.distro }}-${{ env.PLATFORM }}" \
+            --data "pr_number=${{ github.event.pull_request.number }}" \
+            --header "Content-Type: application/x-www-form-urlencoded" \
+            --request POST \
+            https://library.qiime2.org/api/v1/packages/finalize/
+          )
+          code=$(echo $resp | grep HTTP | awk '{print $2}')
+          if [[ $code -ne 200 ]]
+          then
+            echo "whoops"
+            echo $resp
+            exit 1
+          fi
