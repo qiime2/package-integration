@@ -94,19 +94,23 @@ jobs:
         env:
           PACKAGE_NAME: qiime2-${{ matrix.distro }}
           LIBRARY_TOKEN: ${{ secrets.LIBRARY_TOKEN }}
+          TEMPLATE_PATH: ${{ matrix.epoch }}/staged/${{ matrix.distro }}/
         run: |
-          package_version=$(sudo conda search -c $BUILD_DIR $PACKAGE_NAME --json | \
-                            jq --arg PKG "$PACKAGE_NAME" -r '.[$PKG][0].version')
+          metapackage_version=$(sudo conda search -c $BUILD_DIR $PACKAGE_NAME --json | \
+                                jq --arg PKG "$PACKAGE_NAME" -r '.[$PKG][0].version')
+          package_versions=$(python .github/workflows/bin/integration_versions $TEMPLATE_PATH | \
+                             jq -aRs .)
           resp=$(curl \
             --silent \
             --include \
             --data-urlencode "token=$LIBRARY_TOKEN" \
-            --data-urlencode "version=$package_version" \
+            --data-urlencode "version=$metapackage_version" \
             --data "run_id=$GITHUB_RUN_ID" \
             --data "distro=${{ matrix.distro }}" \
             --data "epoch=${{ matrix.epoch }}" \
             --data "artifact_name=${{ matrix.distro }}-${{ env.PLATFORM }}" \
             --data "pr_number=${{ github.event.pull_request.number }}" \
+            --data "package_versions=$package_versions" \
             --header "Content-Type: application/x-www-form-urlencoded" \
             --request POST \
             https://library.qiime2.org/api/v1/packages/finalize/
