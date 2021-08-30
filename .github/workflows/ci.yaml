@@ -2,8 +2,6 @@ name: ci
 
 on:
   pull_request:
-    paths:
-      - 2021.8/staged/**
 
 jobs:
   version:
@@ -89,35 +87,3 @@ jobs:
         with:
           name: ${{ matrix.distro }}-${{ env.PLATFORM }}
           path: ${{ env.BUILD_DIR }}/*/**
-
-      - name: phone home
-        env:
-          PACKAGE_NAME: qiime2-${{ matrix.distro }}
-          LIBRARY_TOKEN: ${{ secrets.LIBRARY_TOKEN }}
-        run: |
-          metapackage_version=$(sudo conda search -c $BUILD_DIR $PACKAGE_NAME --json | \
-                                jq --arg PKG "$PACKAGE_NAME" -r '.[$PKG][0].version')
-          package_versions=$(python .github/workflows/bin/integration_versions.py $TEMPLATE_PATH | \
-                             jq -aRs .)
-          resp=$(curl \
-            --silent \
-            --include \
-            --data-urlencode "token=$LIBRARY_TOKEN" \
-            --data-urlencode "version=$metapackage_version" \
-            --data-urlencode "package_versions=$package_versions" \
-            --data "run_id=$GITHUB_RUN_ID" \
-            --data "distro=${{ matrix.distro }}" \
-            --data "epoch=${{ matrix.epoch }}" \
-            --data "artifact_name=${{ matrix.distro }}-${{ env.PLATFORM }}" \
-            --data "pr_number=${{ github.event.pull_request.number }}" \
-            --header "Content-Type: application/x-www-form-urlencoded" \
-            --request POST \
-            https://library.qiime2.org/api/v1/packages/finalize/
-          )
-          code=$(echo $resp | grep HTTP | awk '{print $2}')
-          if [[ $code -ne 200 ]]
-          then
-            echo "whoops"
-            echo $resp
-            exit 1
-          fi
