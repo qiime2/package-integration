@@ -17,13 +17,13 @@ q2_deblur:
 q2_demux:
 - 2021.8.0.dev0+3.gbc3c5cf
 q2_diversity:
-- 2021.8.0.dev0+5.g7381575
+- 2021.8.0.dev0+6.gc1a10dc
 q2_diversity_lib:
 - 2021.8.0.dev0+4.g59456f9
 q2_emperor:
 - 2021.8.0.dev0+3.g0657213
 q2_feature_classifier:
-- 2021.8.0.dev0+4.g180d869
+- 2021.8.0.dev0+5.gc5a3336
 q2_feature_table:
 - 2021.8.0.dev0+4.g7856273
 q2_fragment_insertion:
@@ -31,7 +31,7 @@ q2_fragment_insertion:
 q2_gneiss:
 - 2021.8.0.dev0+3.gc785ad9
 q2_longitudinal:
-- 2021.8.0.dev0+5.gc8e817b
+- 2021.8.0.dev0+6.gec71cb5
 q2_metadata:
 - 2021.8.0.dev0+3.g0c444b1
 q2_mystery_stew:
