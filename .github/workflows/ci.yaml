@@ -79,12 +79,16 @@ jobs:
           PACKAGE_NAME: qiime2-${{ matrix.distro }}
           LIBRARY_TOKEN: ${{ secrets.LIBRARY_TOKEN }}
         run: |
+          source "$CONDA/etc/profile.d/conda.sh"
           phone_home=$(yq eval ".meta.phone_home|false" $TEMPLATE_PATH/data.yaml)
           if [[ $phone_home == "false" ]]
           then
               echo "skipping library upload due to disabled phone_home"
               exit 0
           fi
+
+          # TODO: remove
+          exit 0
 
           metapackage_version=$(sudo conda search -c $BUILD_DIR $PACKAGE_NAME --json | \
                                 jq --arg PKG "$PACKAGE_NAME" -r '.[$PKG][0].version')
