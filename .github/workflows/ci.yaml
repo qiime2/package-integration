@@ -2,9 +2,8 @@ name: ci
 
 on:
   pull_request:
-    # TODO
-    # paths:
-    #   - 2021.8/staged/**
+    paths:
+      - 2021.8/staged/**
 
 jobs:
   integrate:
@@ -57,24 +56,23 @@ jobs:
           sudo conda install -n base -q -y -c defaults --override-channels conda-build conda-verify yq
           conda info -a
 
-      # TODO
-      # - name: build recipe
-      #   run: |
-      #     sudo conda build \
-      #       -c $Q2_CHANNEL \
-      #       -c conda-forge \
-      #       -c bioconda \
-      #       -c defaults \
-      #       --override-channels \
-      #       --output-folder $BUILD_DIR \
-      #       --no-anaconda-upload \
-      #       $TEMPLATE_PATH
+      - name: build recipe
+        run: |
+          sudo conda build \
+            -c $Q2_CHANNEL \
+            -c conda-forge \
+            -c bioconda \
+            -c defaults \
+            --override-channels \
+            --output-folder $BUILD_DIR \
+            --no-anaconda-upload \
+            $TEMPLATE_PATH
 
-      # - name: upload build artifact
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: ${{ matrix.distro }}-${{ env.PLATFORM }}
-      #     path: ${{ env.BUILD_DIR }}/*/**
+      - name: upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.distro }}-${{ env.PLATFORM }}
+          path: ${{ env.BUILD_DIR }}/*/**
 
       - name: phone home
         env:
