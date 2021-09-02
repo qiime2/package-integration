@@ -1,6 +1,5 @@
 meta:
-  # TODO: revert to true to merge when done testing
-  phone_home: false
+  phone_home: true
 run:
 - q2-alignment
 - q2-composition
@@ -28,3 +27,4 @@ run:
 - q2cli
 - q2templates
 - qiime2
+version: 2021.09.01.21.34.35
