@@ -51,6 +51,8 @@ jobs:
 
       - name: collect tar.bz2's
         id: collect_urls
+        env:
+          DATA_FILE:  ${{ env.epoch }}/staged/${{ env.distro }}/data.yaml
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
           conda activate base
