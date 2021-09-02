@@ -2,8 +2,9 @@ name: ci
 
 on:
   pull_request:
-    paths:
-      - 2021.8/staged/**
+    # TODO
+    # paths:
+    #   - 2021.8/staged/**
 
 jobs:
   integrate:
