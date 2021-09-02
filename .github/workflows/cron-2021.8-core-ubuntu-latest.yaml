@@ -15,7 +15,7 @@ jobs:
   install_env:
     runs-on: ubuntu-latest
     outputs:
-      urls: ${{ steps.collect_urls.outputs.urls }}
+      pkgs: ${{ steps.collect_urls.outputs.pkgs }}
       metapackage_spec: ${{ steps.metapackage.outputs.spec }}
     steps:
       - name: checkout source
@@ -59,17 +59,19 @@ jobs:
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
           conda activate test-env
-          urls=$(jq -cs '[ .[0].run[] as $packages | .[1][] | select(.name | IN($packages)) | .base_url + "/" + .platform + "/" + .dist_name + ".tar.bz2"]' \
+          pkgs=$(jq -cs '[ .[0].run[] as $packages | .[1][] | select(.name | IN($packages)) | {url: (.base_url + "/" + .platform + "/" + .dist_name + ".tar.bz2"), name: .name} ]' \
                   <(conda run -n base yq -cj '.' $DATA_FILE) \
                   <(conda list --json))
-          echo "::set-output name=urls::$urls"
+          echo "::set-output name=pkgs::$pkgs"
 
   test_package:
+    name: test ${{ matrix.pkg.name }}
     needs: install_env
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        url: ${{ fromJson(needs.install_env.outputs.urls) }}
+        pkg: ${{ fromJson(needs.install_env.outputs.pkgs) }}
     steps:
       - name: configure conda and friends
         run: |
@@ -89,5 +91,5 @@ jobs:
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
           conda activate base
-          wget ${{ matrix.url }}
+          wget ${{ matrix.pkg.url }}
           sudo conda build -q -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults --extra-deps ${{ needs.install_env.outputs.metapackage_spec }} -t "*.tar.bz2"
