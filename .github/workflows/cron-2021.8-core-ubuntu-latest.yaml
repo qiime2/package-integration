@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       urls: ${{ steps.collect_urls.outputs.urls }}
-      metapackage_spec: ${{ steps.metapackage.spec }}
+      metapackage_spec: ${{ steps.metapackage.outputs.spec }}
     steps:
       - name: checkout source
         uses: actions/checkout@v2
@@ -43,7 +43,7 @@ jobs:
           Q2_CHANNEL:  https://packages.qiime2.org/qiime2/${{ env.epoch }}/staged/${{ env.distro }}
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
-          sudo conda install -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults ${{ steps.metapackage.spec }}
+          sudo conda install -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults ${{ steps.metapackage.outputs.spec }}
           python -c 'import qiime2'
 
       - name: collect tar.bz2's
