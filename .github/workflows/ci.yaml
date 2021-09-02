@@ -88,9 +88,6 @@ jobs:
               exit 0
           fi
 
-          # TODO: remove
-          exit 0
-
           metapackage_version=$(sudo conda search -c $BUILD_DIR $PACKAGE_NAME --json | \
                                 jq --arg PKG "$PACKAGE_NAME" -r '.[$PKG][0].version')
           package_versions=$(python .github/workflows/bin/integration_versions.py $TEMPLATE_PATH)
