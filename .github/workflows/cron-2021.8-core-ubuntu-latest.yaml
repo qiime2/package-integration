@@ -60,7 +60,7 @@ jobs:
           source "$CONDA/etc/profile.d/conda.sh"
           conda activate test-env
           urls=$(jq -cs '[ .[0].run[] as $packages | .[1][] | select(.name | IN($packages)) | .base_url + "/" + .platform + "/" + .dist_name + ".tar.bz2"]' \
-                  <(yq -cj '.' $DATA_FILE) \
+                  <(conda run -n base yq -cj '.' $DATA_FILE) \
                   <(conda list --json))
           echo "::set-output name=urls::$urls"
 
