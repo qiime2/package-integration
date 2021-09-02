@@ -87,6 +87,7 @@ jobs:
         env:
           Q2_CHANNEL:  https://packages.qiime2.org/qiime2/${{ env.epoch }}/staged/${{ env.distro }}
         run: |
-          wget ${{ matrix.url }}
+          source "$CONDA/etc/profile.d/conda.sh"
           conda activate base
+          wget ${{ matrix.url }}
           sudo conda build -q -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults --extra-deps ${{ needs.install_env.outputs.metapackage_spec }} -t "*.tar.bz2"
