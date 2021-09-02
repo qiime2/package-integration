@@ -24,6 +24,7 @@ jobs:
       - name: configure conda and friends
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
+          conda activate base
           conda config --set always_yes yes --set changeps1 no
           sudo conda upgrade -n base -q -y -c defaults --override-channels conda
           sudo conda install -n base -q -y -c defaults --override-channels conda-build yq
@@ -36,6 +37,7 @@ jobs:
           META_FILE: ${{ env.epoch }}/staged/${{ env.distro }}/meta.yaml.jinja
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
+          conda activate base
           echo "::set-output name=spec::$(head -n 2 $META_FILE | yq -r .package.name)=$(yq -r .version $DATA_FILE)"
 
       - name: install metapackage
@@ -43,6 +45,7 @@ jobs:
           Q2_CHANNEL:  https://packages.qiime2.org/qiime2/${{ env.epoch }}/staged/${{ env.distro }}
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
+          conda activate base
           sudo conda install -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults ${{ steps.metapackage.outputs.spec }}
           python -c 'import qiime2'
 
@@ -50,6 +53,7 @@ jobs:
         id: collect_urls
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
+          conda activate base
           urls=$(jq -cs '[ .[0].run[] as $packages | .[1][] | select(.name | IN($packages)) | .base_url + "/" + .platform + "/" + .dist_name + ".tar.bz2"]' \
                   <(yq -cj '.' $DATA_FILE) \
                   <(conda list --json))
@@ -65,6 +69,7 @@ jobs:
       - name: configure conda and friends
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
+          conda activate base
           conda config --set always_yes yes --set changeps1 no
           sudo conda upgrade -n base -q -y -c defaults --override-channels conda
           sudo conda install -n base -q -y -c defaults --override-channels conda-build
@@ -75,4 +80,5 @@ jobs:
           Q2_CHANNEL:  https://packages.qiime2.org/qiime2/${{ env.epoch }}/staged/${{ env.distro }}
         run: |
           wget ${{ matrix.url }}
+          conda activate base
           sudo conda build -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults --extra-deps ${{ needs.install_env.outputs.metapackage_spec }} -t "*.tar.bz2"
