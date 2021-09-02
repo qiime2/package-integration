@@ -46,8 +46,8 @@ jobs:
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
           conda activate base
-          sudo conda install -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults ${{ steps.metapackage.outputs.spec }}
-          python -c 'import qiime2'
+          sudo conda create -n test-env -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults ${{ steps.metapackage.outputs.spec }}
+          sudo conda run -n test-env python -c 'import qiime2'
 
       - name: collect tar.bz2's
         id: collect_urls
