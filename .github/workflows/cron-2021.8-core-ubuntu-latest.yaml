@@ -25,7 +25,7 @@ jobs:
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
           conda activate base
-          conda config --set always_yes yes --set changeps1 no
+          conda config --set always_yes yes --set changeps1 no --set quiet yes
           sudo conda upgrade -n base -q -y -c defaults --override-channels conda
           sudo conda install -n base -q -y -c defaults --override-channels conda-build yq
           conda info -a
@@ -70,7 +70,7 @@ jobs:
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
           conda activate base
-          conda config --set always_yes yes --set changeps1 no
+          conda config --set always_yes yes --set changeps1 no --set quiet yes
           sudo conda upgrade -n base -q -y -c defaults --override-channels conda
           sudo conda install -n base -q -y -c defaults --override-channels conda-build
           conda info -a
