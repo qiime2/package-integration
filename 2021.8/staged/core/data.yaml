@@ -1,5 +1,5 @@
 meta:
-  # TODO: revert to true
+  # TODO: revert to true to merge when done testing
   phone_home: false
 run:
 - q2-alignment
