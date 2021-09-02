@@ -14,10 +14,6 @@ on:
 jobs:
   install_env:
     runs-on: ubuntu-latest
-    env:
-      DATA_FILE:  ${{ env.epoch }}/staged/${{ env.distro }}/data.yaml
-      META_FILE: ${{ env.epoch }}/staged/${{ env.distro }}/meta.yaml.jinja
-      Q2_CHANNEL:  https://packages.qiime2.org/qiime2/${{ env.epoch }}/staged/${{ env.distro }}
     output:
       urls: ${{ steps.collect_urls.outputs.urls }}
       metapackage_spec: ${{ steps.metapackage.spec }}
@@ -35,11 +31,16 @@ jobs:
 
       - name: identify metapackage
         id: metapackage
+        env:
+          DATA_FILE:  ${{ env.epoch }}/staged/${{ env.distro }}/data.yaml
+          META_FILE: ${{ env.epoch }}/staged/${{ env.distro }}/meta.yaml.jinja
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
           echo "::set-output name=spec::$(head -n 2 $META_FILE | yq -r .package.name)=$(yq -r .version $DATA_FILE)"
 
       - name: install metapackage
+        env:
+          Q2_CHANNEL:  https://packages.qiime2.org/qiime2/${{ env.epoch }}/staged/${{ env.distro }}
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
           sudo conda install -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults ${{ steps.metapackage.spec }}
@@ -60,12 +61,7 @@ jobs:
     strategy:
       matrix:
         url: ${{ fromJson(needs.install_env.outputs.urls) }}
-    env:
-      Q2_CHANNEL:  https://packages.qiime2.org/qiime2/${{ env.epoch }}/staged/${{ env.distro }}
     steps:
-      - name: checkout source
-        uses: actions/checkout@v2
-
       - name: configure conda and friends
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
@@ -75,7 +71,8 @@ jobs:
           conda info -a
 
       - name: run test
+        env:
+          Q2_CHANNEL:  https://packages.qiime2.org/qiime2/${{ env.epoch }}/staged/${{ env.distro }}
         run: |
-          source "$CONDA/etc/profile.d/conda.sh"
           wget ${{ matrix.url }}
-          conda build -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults --extra-deps ${{ needs.install_env.outputs.metapackage.spec }} -t *.tar.bz2
+          sudo conda build -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults --extra-deps ${{ needs.install_env.outputs.metapackage_spec }} -t "*.tar.bz2"
