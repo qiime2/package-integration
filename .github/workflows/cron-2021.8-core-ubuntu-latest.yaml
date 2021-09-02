@@ -14,7 +14,7 @@ on:
 jobs:
   install_env:
     runs-on: ubuntu-latest
-    output:
+    outputs:
       urls: ${{ steps.collect_urls.outputs.urls }}
       metapackage_spec: ${{ steps.metapackage.spec }}
     steps:
