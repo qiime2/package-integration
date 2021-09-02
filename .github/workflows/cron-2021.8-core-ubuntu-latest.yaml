@@ -1,0 +1,81 @@
+name: cron-2021.8-core-ubuntu-latest
+
+env:
+  os: ubuntu-latest
+  distro: core
+  epoch: '2021.8'
+
+on:
+  pull_request: {}
+#  schedule:
+#    # evey 4 hrs
+#    - cron: '0 */4 * * *'
+
+jobs:
+  install_env:
+    runs-on: ${{ env.os }}
+    env:
+      DATA_FILE:  ${{ env.epoch }}/staged/${{ env.distro }}/data.yaml
+      META_FILE: ${{ env.epoch }}/staged/${{ env.distro }}/meta.yaml.jinja
+      Q2_CHANNEL:  https://packages.qiime2.org/qiime2/${{ env.epoch }}/staged/${{ env.distro }}
+    output:
+      urls: ${{ steps.collect_urls.outputs.urls }}
+      metapackage_spec: ${{ steps.metapackage.spec }}
+    steps:
+      - name: checkout source
+        uses: actions/checkout@v2
+
+      - name: configure conda and friends
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          conda config --set always_yes yes --set changeps1 no
+          sudo conda upgrade -n base -q -y -c defaults --override-channels conda
+          sudo conda install -n base -q -y -c defaults --override-channels conda-build yq
+          conda info -a
+
+      - name: identify metapackage
+        id: metapackage
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          echo "::set-output name=spec::$(head -n 2 $META_FILE | yq -r .package.name)=$(yq -r .version $DATA_FILE)"
+
+      - name: install metapackage
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          sudo conda install -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults ${{ steps.metapackage.spec }}
+          python -c 'import qiime2'
+
+      - name: collect tar.bz2's
+        id: collect_urls
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          urls=$(jq -cs '[ .[0].run[] as $packages | .[1][] | select(.name | IN($packages)) | .base_url + "/" + .platform + "/" + .dist_name + ".tar.bz2"]' \
+                  <(yq -cj '.' $DATA_FILE) \
+                  <(conda list --json))
+          echo -n "::set-output name=urls::$urls"
+
+  test_package:
+    needs: install_env
+    runs-on: ${{ env.os }}
+    strategy:
+      matrix:
+        url: ${{ fromJson(needs.install_env.outputs.urls) }}
+    env:
+      Q2_CHANNEL:  https://packages.qiime2.org/qiime2/${{ env.epoch }}/staged/${{ env.distro }}
+    steps:
+      - name: checkout source
+        uses: actions/checkout@v2
+
+      - name: configure conda and friends
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          conda config --set always_yes yes --set changeps1 no
+          sudo conda upgrade -n base -q -y -c defaults --override-channels conda
+          sudo conda install -n base -q -y -c defaults --override-channels conda-build
+          conda info -a
+
+      - name: run test
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          wget ${{ matrix.url }}
+          conda build -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults --extra-deps ${{ needs.install_env.outputs.metapackage.spec }} -t *.tar.bz2
