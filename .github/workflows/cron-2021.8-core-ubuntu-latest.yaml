@@ -25,10 +25,13 @@ jobs:
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
           conda activate base
-          conda config --set always_yes yes --set changeps1 no --set quiet true
+          conda config --set always_yes yes
+          conda config --set changeps1 no
+          conda config --set quiet true
           sudo conda upgrade -n base -q -y -c defaults --override-channels conda
           sudo conda install -n base -q -y -c defaults --override-channels conda-build yq
           conda info -a
+          conda config --show
 
       - name: identify metapackage
         id: metapackage
@@ -59,7 +62,7 @@ jobs:
           urls=$(jq -cs '[ .[0].run[] as $packages | .[1][] | select(.name | IN($packages)) | .base_url + "/" + .platform + "/" + .dist_name + ".tar.bz2"]' \
                   <(yq -cj '.' $DATA_FILE) \
                   <(conda list --json))
-          echo -n "::set-output name=urls::$urls"
+          echo "::set-output name=urls::$urls"
 
   test_package:
     needs: install_env
@@ -72,10 +75,13 @@ jobs:
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
           conda activate base
-          conda config --set always_yes yes --set changeps1 no --set quiet yes
+          conda config --set always_yes yes
+          conda config --set changeps1 no
+          conda config --set quiet true
           sudo conda upgrade -n base -q -y -c defaults --override-channels conda
           sudo conda install -n base -q -y -c defaults --override-channels conda-build
           conda info -a
+          conda config --show
 
       - name: run test
         env:
