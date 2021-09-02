@@ -1,5 +1,6 @@
 meta:
-  auto_merge: true
+  # TODO: revert to true
+  phone_home: false
 run:
 - q2-alignment
 - q2-composition
