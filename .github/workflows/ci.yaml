@@ -53,13 +53,8 @@ jobs:
           source "$CONDA/etc/profile.d/conda.sh"
           conda config --set always_yes yes --set changeps1 no
           sudo conda upgrade -n base -q -y -c defaults --override-channels conda
-          sudo conda install -n base -q -y -c defaults --override-channels conda-build conda-verify
+          sudo conda install -n base -q -y -c defaults --override-channels conda-build conda-verify yq
           conda info -a
-
-          if [[ `uname -s` == 'Darwin' ]]
-          then
-              brew install yq
-          fi
 
       - name: build recipe
         run: |
