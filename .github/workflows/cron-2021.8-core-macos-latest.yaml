@@ -58,6 +58,7 @@ jobs:
           DATA_FILE:  ${{ env.epoch }}/staged/${{ env.distro }}/data.yaml
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
+          conda activate base
           consistent=$(jq -cs '[([.[1] as $build | .[0].run[] | {(.): $build[. | split("-") | join("_")][0]}] | add) as $lookup | .[2][] | select(.name | in($lookup)) | .version == $lookup[.name]] | all' \
                         <(yq -cj '.' $DATA_FILE) \
                         <(yq -cj '.' $BUILD_FILE) \
@@ -78,6 +79,7 @@ jobs:
           DATA_FILE:  ${{ env.epoch }}/staged/${{ env.distro }}/data.yaml
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
+          conda activate base
           pkgs=$(jq -cs '[ .[0].run[] as $packages | .[1][] | select(.name | IN($packages)) | {url: (.base_url + "/" + .platform + "/" + .dist_name + ".tar.bz2"), name: .name} ]' \
                   <(yq -cj '.' $DATA_FILE) \
                   <(conda list -n test-env --json))
