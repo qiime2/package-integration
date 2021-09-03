@@ -13,6 +13,7 @@ on:
 
 jobs:
   install_env:
+    name: "metapackage qiime2-core=2021.8 (ubuntu-latest)"
     runs-on: ubuntu-latest
     outputs:
       pkgs: ${{ steps.collect_urls.outputs.pkgs }}
