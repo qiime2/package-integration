@@ -53,6 +53,27 @@ jobs:
           sudo conda create -q -n test-env -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults ${{ steps.metapackage.outputs.spec }}
           sudo conda run -n test-env python -c 'import qiime2'
 
+      - name: check repo consistency
+        env:
+          BUILD_FILE: ${{ env.epoch }}/staged/${{ env.distro }}/conda_build_config.yaml
+          DATA_FILE:  ${{ env.epoch }}/staged/${{ env.distro }}/data.yaml
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          conda activate test-env
+          consistent=$(jq -cs '[([.[1] as $build | .[0].run[] | {(.): $build[. | split("-") | join("_")][0]}] | add) as $lookup | .[2][] | select(.name | in($lookup)) | .version == $lookup[.name]] | all' \
+                        <(conda run -n base yq -cj '.' $DATA_FILE) \
+                        <(conda run -n base yq -cj '.' $BUILD_FILE) \
+                        <(conda list --json))
+          if [[ $consistent == "false" ]]
+          then
+              echo "conda_build_config.yaml is inconsistent with the metapackage"
+              jq -s '([.[1] as $build | .[0].run[] | {(.): $build[. | split("-") | join("_")][0]}] | add) as $lookup | .[2][] | select(.name | in($lookup)) | select(.version != $lookup[.name]) | {package: .name, version: .version, conda_build_config: $lookup[.name] }' \
+                                <(yq -cj '.' $DATA_FILE) \
+                                <(yq -cj '.' $BUILD_FILE) \
+                                <(conda list --json)
+              exit 1
+          fi
+
       - name: collect tar.bz2's
         id: collect_urls
         env:
