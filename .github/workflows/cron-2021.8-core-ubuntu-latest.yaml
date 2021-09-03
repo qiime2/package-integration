@@ -68,8 +68,8 @@ jobs:
           then
               echo "conda_build_config.yaml is inconsistent with the metapackage"
               jq -s '([.[1] as $build | .[0].run[] | {(.): $build[. | split("-") | join("_")][0]}] | add) as $lookup | .[2][] | select(.name | in($lookup)) | select(.version != $lookup[.name]) | {package: .name, version: .version, conda_build_config: $lookup[.name] }' \
-                                <(yq -cj '.' $DATA_FILE) \
-                                <(yq -cj '.' $BUILD_FILE) \
+                                <(conda run -n base yq -cj '.' $DATA_FILE) \
+                                <(conda run -n base yq -cj '.' $BUILD_FILE) \
                                 <(conda list --json)
               exit 1
           fi
