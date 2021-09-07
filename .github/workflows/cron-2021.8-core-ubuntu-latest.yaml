@@ -6,7 +6,6 @@ env:
   epoch: '2021.8'
 
 on:
-  pull_request: {}
   schedule:
     # evey 2 hrs
     - cron: '37 */2 * * *'
