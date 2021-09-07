@@ -113,7 +113,7 @@ jobs:
           source "$CONDA/etc/profile.d/conda.sh"
           conda activate base
           wget ${{ matrix.pkg.url }}
-          sudo conda build -q -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults --extra-deps ${{ needs.install_env.outputs.metapackage_spec }} -t "*.tar.bz2"
+          #sudo conda build -q -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults --extra-deps ${{ needs.install_env.outputs.metapackage_spec }} -t "*.tar.bz2"
 
   phone_home:
     needs: test_package
