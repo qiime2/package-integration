@@ -119,6 +119,9 @@ jobs:
     needs: test_package
     runs-on: ubuntu-latest
     steps:
+      - name: checkout source
+        uses: actions/checkout@v2
+
       - name: configure conda and friends
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
