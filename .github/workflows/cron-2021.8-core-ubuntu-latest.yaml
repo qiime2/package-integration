@@ -114,3 +114,48 @@ jobs:
           conda activate base
           wget ${{ matrix.pkg.url }}
           sudo conda build -q -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults --extra-deps ${{ needs.install_env.outputs.metapackage_spec }} -t "*.tar.bz2"
+
+  phone_home:
+    needs: test_package
+    runs-on: ubuntu-latest
+    steps:
+      - name: phone home
+        env:
+          LIBRARY_TOKEN: ${{ secrets.LIBRARY_TOKEN }}
+          DATA_FILE:  ${{ env.epoch }}/staged/${{ env.distro }}/data.yaml
+          BUILD_FILE: ${{ env.epoch }}/staged/${{ env.distro }}/conda_build_config.yaml
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          conda activate base
+          phone_home=$(yq ".meta.phone_home" $DATA_FILE)
+          if [ "$phone_home" = "false" ]
+          then
+              echo "skipping library upload due to disabled phone_home"
+              exit 0
+          fi
+          metapackage_version=$(yq -r .version $DATA_FILE)
+          package_versions=$(jq -cs '[.[1] as $build | .[0].run[] | {(.): $build[. | split("-") | join("_")][0]}] | add' \
+                              <(yq -cj '.' $DATA_FILE) \
+                              <(yq -cj '.' $BUILD_FILE))
+          resp=$(curl \
+            --silent \
+            --include \
+            --data-urlencode "token=$LIBRARY_TOKEN" \
+            --data-urlencode "version=$metapackage_version" \
+            --data-urlencode "package_versions=$package_versions" \
+            --data "run_id=$GITHUB_RUN_ID" \
+            --data "distro=${{ env.distro }}" \
+            --data "epoch=${{ env.epoch }}" \
+            --data "artifact_name=${{ env.distro }}-linux" \
+            --data "pr_number=0" \
+            --header "Content-Type: application/x-www-form-urlencoded" \
+            --request POST \
+            https://library.qiime2.org/api/v1/packages/pass/
+          )
+          code=$(echo $resp | grep HTTP | awk '{print $2}')
+          if [[ $code -ne 200 ]]
+          then
+            echo "whoops"
+            echo $resp
+            exit 1
+          fi
