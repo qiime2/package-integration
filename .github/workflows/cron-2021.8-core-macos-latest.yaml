@@ -6,10 +6,9 @@ env:
   epoch: '2021.8'
 
 on:
-  pull_request: {}
-#  schedule:
-#    # evey 4 hrs
-#    - cron: '0 */4 * * *'
+  schedule:
+    # evey 2 hrs
+    - cron: '37 */2 * * *'
 
 jobs:
   install_env:
