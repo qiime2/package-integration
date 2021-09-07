@@ -49,7 +49,6 @@ jobs:
           Q2_CHANNEL:  https://packages.qiime2.org/qiime2/${{ env.epoch }}/staged/${{ env.distro }}
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
-          conda activate base
           sudo conda create -q -n test-env -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults ${{ steps.metapackage.outputs.spec }}
           sudo conda run -n test-env python -c 'import qiime2'
 
@@ -59,18 +58,18 @@ jobs:
           DATA_FILE:  ${{ env.epoch }}/staged/${{ env.distro }}/data.yaml
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
-          conda activate test-env
+          conda activate base
           consistent=$(jq -cs '[([.[1] as $build | .[0].run[] | {(.): $build[. | split("-") | join("_")][0]}] | add) as $lookup | .[2][] | select(.name | in($lookup)) | .version == $lookup[.name]] | all' \
-                        <(conda run -n base yq -cj '.' $DATA_FILE) \
-                        <(conda run -n base yq -cj '.' $BUILD_FILE) \
-                        <(conda list --json))
+                        <(yq -cj '.' $DATA_FILE) \
+                        <(yq -cj '.' $BUILD_FILE) \
+                        <(conda list -n test-env --json))
           if [[ $consistent == "false" ]]
           then
               echo "conda_build_config.yaml is inconsistent with the metapackage"
               jq -s '([.[1] as $build | .[0].run[] | {(.): $build[. | split("-") | join("_")][0]}] | add) as $lookup | .[2][] | select(.name | in($lookup)) | select(.version != $lookup[.name]) | {package: .name, version: .version, conda_build_config: $lookup[.name] }' \
-                                <(conda run -n base yq -cj '.' $DATA_FILE) \
-                                <(conda run -n base yq -cj '.' $BUILD_FILE) \
-                                <(conda list --json)
+                                <(yq -cj '.' $DATA_FILE) \
+                                <(yq -cj '.' $BUILD_FILE) \
+                                <(conda list -n test-env --json)
               exit 1
           fi
 
@@ -80,10 +79,10 @@ jobs:
           DATA_FILE:  ${{ env.epoch }}/staged/${{ env.distro }}/data.yaml
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
-          conda activate test-env
+          conda activate base
           pkgs=$(jq -cs '[ .[0].run[] as $packages | .[1][] | select(.name | IN($packages)) | {url: (.base_url + "/" + .platform + "/" + .dist_name + ".tar.bz2"), name: .name} ]' \
-                  <(conda run -n base yq -cj '.' $DATA_FILE) \
-                  <(conda list --json))
+                  <(yq -cj '.' $DATA_FILE) \
+                  <(conda list -n test-env --json))
           echo "::set-output name=pkgs::$pkgs"
 
   test_package:
