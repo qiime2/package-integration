@@ -7,19 +7,19 @@ python:
 q2_alignment:
 - 2021.8.0.dev0+4.g978b7d5
 q2_composition:
-- 2021.8.0.dev0+5.g5193056
+- 2021.8.0
 q2_cutadapt:
-- 2021.8.0.dev0+4.g66c3f5c
+- 2021.8.0
 q2_dada2:
 - 2021.8.0.dev0+7.ge7dd0b7
 q2_deblur:
-- 2021.8.0.dev0+5.g974b409
+- 2021.8.0
 q2_demux:
 - 2021.8.0.dev0+4.g9a0570d
 q2_diversity:
-- 2021.8.0.dev0+9.ge80b507
+- 2021.8.0
 q2_diversity_lib:
-- 2021.8.0.dev0+5.g4a3476f
+- 2021.8.0
 q2_emperor:
 - 2021.8.0.dev0+4.g6ea0507
 q2_feature_classifier:
@@ -33,13 +33,13 @@ q2_gneiss:
 q2_longitudinal:
 - 2021.8.0.dev0+6.gec71cb5
 q2_metadata:
-- 2021.8.0.dev0+4.gcb61c53
+- 2021.8.0
 q2_mystery_stew:
 - 2021.8.0.dev0+4.ga7c672d
 q2_phylogeny:
-- 2021.8.0.dev0+8.g725ed1f
+- 2021.8.0
 q2_quality_control:
-- 2021.8.0.dev0+4.gbc8eb92
+- 2021.8.0
 q2_quality_filter:
 - 2021.8.0.dev0+4.gae8dba5
 q2_sample_classifier:
@@ -49,14 +49,14 @@ q2_taxa:
 q2_types:
 - 2021.8.0.dev0+7.gc0efaa0
 q2_vsearch:
-- 2021.8.0.dev0+6.g5e7919f
+- 2021.8.0
 q2cli:
 - 2021.8.0.dev0+7.gca76eea
 q2galaxy:
 - 2021.8.0.dev0+2.g6f9519d
 q2templates:
-- 2021.8.0.dev0+3.gd744b4d
+- 2021.8.0
 qiime2:
-- 2021.8.0.dev0+11.g0e7d9ae
+- 2021.8.0
 qiime2_epoch:
 - 2021.8
