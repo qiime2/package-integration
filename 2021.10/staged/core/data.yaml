@@ -1,4 +1,9 @@
 meta:
   phone_home: false
-run: []
-version: 2021.09.09.22.42.04
+run:
+- q2-diversity
+- q2-phylogeny
+- q2-quality-control
+- q2-sample-classifier
+- q2-vsearch
+version: 2021.09.14.01.23.01
