@@ -1,4 +1,6 @@
 meta:
   phone_home: false
-run: []
-version: 2021.09.09.22.42.04
+run:
+- q2-feature-classifier
+- q2-longitudinal
+version: 2021.09.14.02.23.01
