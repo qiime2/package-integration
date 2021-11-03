@@ -1,4 +1,12 @@
 meta:
   phone_home: false
-run: []
-version: 2021.11.03.17.17.46
+run:
+- q2-diversity
+- q2-gneiss
+- q2-longitudinal
+- q2-phylogeny
+- q2-quality-filter
+- q2-vsearch
+- q2cli
+- q2galaxy
+version: 2021.11.03.22.23.01
