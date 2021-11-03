@@ -1,4 +1,12 @@
 meta:
   phone_home: false
-run: []
-version: 2021.11.03.17.17.46
+run:
+- q2-alignment
+- q2-diversity-lib
+- q2-emperor
+- q2-feature-table
+- q2-metadata
+- q2-mystery-stew
+- q2-quality-control
+- q2-taxa
+version: 2021.11.03.20.23.01
