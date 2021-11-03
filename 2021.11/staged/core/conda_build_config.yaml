@@ -1,9 +1,25 @@
 hdf5:
-- '1.10.6'
+- 1.10.6
 pandas:
-- '1.2.*'
+- 1.2.*
 python:
 - '3.8'
+q2_diversity:
+- 2021.11.0.dev0
+q2_gneiss:
+- 2021.11.0.dev0
+q2_longitudinal:
+- 2021.11.0.dev0
+q2_phylogeny:
+- 2021.11.0.dev0
+q2_quality_filter:
+- 2021.11.0.dev0
+q2_vsearch:
+- 2021.11.0.dev0
+q2cli:
+- 2021.11.0.dev0
+q2galaxy:
+- 2021.11.0.dev0
 qiime2_epoch:
 - '2021.11'
 scikit_learn:
