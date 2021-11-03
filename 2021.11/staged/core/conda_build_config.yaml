@@ -1,9 +1,25 @@
 hdf5:
-- '1.10.6'
+- 1.10.6
 pandas:
-- '1.2.*'
+- 1.2.*
 python:
 - '3.8'
+q2_composition:
+- 2021.11.0.dev0
+q2_cutadapt:
+- 2021.11.0.dev0
+q2_dada2:
+- 2021.11.0.dev0
+q2_deblur:
+- 2021.11.0.dev0
+q2_demux:
+- 2021.11.0.dev0
+q2_feature_classifier:
+- 2021.11.0.dev0
+q2_fragment_insertion:
+- 2021.11.0.dev0
+q2_sample_classifier:
+- 2021.11.0.dev0+1.gd6c4a52
 qiime2_epoch:
 - '2021.11'
 scikit_learn:
