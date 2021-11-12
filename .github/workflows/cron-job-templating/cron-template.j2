@@ -1,18 +1,20 @@
-name: cron-{{ INPUT_EPOCH }}-core-macos-latest
+{% raw %}
+
+name: cron-{{ input_epoch }}-core-macos-latest
 
 env:
   os: macos-latest
   distro: core
-  epoch: '{{ INPUT_EPOCH }}'
+  epoch: '{{ input_epoch }}'
 
-schedule_on:
+on:
   schedule:
     # every other day
     - cron: '37 3 */2 * *'
 
 jobs:
   install_env:
-    name: "install qiime2-core={{ INPUT_EPOCH }} (macos-latest)"
+    name: "install qiime2-core={{ input_epoch }} (macos-latest)"
     runs-on: macos-latest
     outputs:
       pkgs: ${{ steps.collect_urls.outputs.pkgs }}
@@ -166,3 +168,5 @@ jobs:
             echo $resp
             exit 1
           fi
+
+{% endraw %}
