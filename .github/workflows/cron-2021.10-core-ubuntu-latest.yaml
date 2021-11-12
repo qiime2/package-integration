@@ -84,6 +84,15 @@ jobs:
                   <(conda list -n test-env --json))
           echo "::set-output name=pkgs::$pkgs"
 
+      - name: comment on install failure
+        if: ${{ failure() }}
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: 71
+          body: |
+            - 🥺  GHA run # ${{ github.run_number }} for ${{ env.epoch }} on ${{ env.os }} failed on install.
+            - See https://github.com/qiime2/package-integration/actions/runs/${{ github.run_id }} for more.
+
   test_package:
     name: test ${{ matrix.pkg.name }}
     needs: install_env
@@ -113,6 +122,15 @@ jobs:
           conda activate base
           wget ${{ matrix.pkg.url }}
           sudo conda build -q -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults --extra-deps ${{ needs.install_env.outputs.metapackage_spec }} -t "*.tar.bz2"
+
+      - name: comment on test failure
+        if: ${{ failure() }}
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: 71
+          body: |
+            - 🥺  GHA run # ${{ github.run_number }} for ${{ env.epoch }} on ${{ env.os }} failed on test run.
+            - See https://github.com/qiime2/package-integration/actions/runs/${{ github.run_id }} for more.
 
   phone_home:
     needs: test_package
@@ -174,3 +192,12 @@ jobs:
             echo $resp
             exit 1
           fi
+
+      - name: comment on phone home
+        if: ${{ failure() }}
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: 71
+          body: |
+            - 🥺  GHA run # ${{ github.run_number }} for ${{ env.epoch }} on ${{ env.os }} failed on phone home.
+            - See https://github.com/qiime2/package-integration/actions/runs/${{ github.run_id }} for more.
