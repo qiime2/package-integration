@@ -20,7 +20,7 @@ def write_recipe(jinja):
         for os in 'macos', 'ubuntu':
             filename = 'cron-' + epoch + '-core-' + os + '-latest.yaml'
             outfile = open(filename, 'w')
-            outfile.write(template.render(input_epoch=epoch))
+            outfile.write(template.render(input_epoch=epoch, input_os=os))
             outfile.close()
 
 

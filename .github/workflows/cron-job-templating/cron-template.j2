@@ -1,24 +1,25 @@
-{% raw %}
-
-name: cron-{{ input_epoch }}-core-macos-latest
+name: cron-{{ input_epoch }}-core-{{ input_os }}-latest
 
 env:
-  os: macos-latest
+  os: {{ input_os }}-latest
   distro: core
   epoch: '{{ input_epoch }}'
 
-on:
+
+{{ 'on:' }}
   schedule:
     # every other day
     - cron: '37 3 */2 * *'
 
 jobs:
   install_env:
-    name: "install qiime2-core={{ input_epoch }} (macos-latest)"
-    runs-on: macos-latest
+    name: "install qiime2-core={{ input_epoch }} ({{ input_os }}-latest)"
+    runs-on: {{ input_os }}-latest
+    {% raw %}
     outputs:
       pkgs: ${{ steps.collect_urls.outputs.pkgs }}
       metapackage_spec: ${{ steps.metapackage.outputs.spec }}
+    {% endraw %}
     steps:
       - name: checkout source
         uses: actions/checkout@v2
@@ -36,6 +37,7 @@ jobs:
           conda config --show
       - name: identify metapackage
         id: metapackage
+  {% raw %}
         env:
           DATA_FILE:  ${{ env.epoch }}/staged/${{ env.distro }}/data.yaml
           META_FILE: ${{ env.epoch }}/staged/${{ env.distro }}/meta.yaml.jinja
@@ -83,8 +85,10 @@ jobs:
           echo "::set-output name=pkgs::$pkgs"
   test_package:
     name: test ${{ matrix.pkg.name }}
+  {% endraw %}
     needs: install_env
-    runs-on: macos-latest
+    runs-on: {{ input_os }}-latest
+    {% raw %}
     strategy:
       fail-fast: false
       matrix:
@@ -109,9 +113,11 @@ jobs:
           conda activate base
           wget ${{ matrix.pkg.url }}
           sudo conda build -q -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults --extra-deps ${{ needs.install_env.outputs.metapackage_spec }} -t "*.tar.bz2"
+    {% endraw %}
   phone_home:
     needs: test_package
-    runs-on: macos-latest
+    runs-on: {{ input_os }}-latest
+    {% raw %}
     steps:
       - name: checkout source
         uses: actions/checkout@v2
@@ -168,5 +174,4 @@ jobs:
             echo $resp
             exit 1
           fi
-
-{% endraw -%}
+    {% endraw %}
