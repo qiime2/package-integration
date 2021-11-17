@@ -1,8 +1,6 @@
 import argparse
-import datetime
 import json
 import os
-import sys
 
 import yaml
 
@@ -23,7 +21,9 @@ def main(recipe_dir):
 
     print(json.dumps(payload))
 
+
 if __name__ == '__main__':
+
     parser = argparse.ArgumentParser(description='get metapackage versions')
     parser.add_argument('recipe_dir', type=str, help='path to recipe dir')
 

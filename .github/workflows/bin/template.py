@@ -1,7 +1,6 @@
 import argparse
 import datetime
 import os
-import sys
 
 from jinja2 import Template
 import yaml
