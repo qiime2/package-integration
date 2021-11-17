@@ -1,10 +1,9 @@
-name: cron-{{ input_epoch }}-core-{{ input_os }}-latest
+name: cron-{{{ input_epoch }}}-core-{{{ input_os }}}-latest
 
 env:
-  os: {{ input_os }}-latest
+  os: {{{ input_os }}}-latest
   distro: core
-  epoch: '{{ input_epoch }}'
-
+  epoch: '{{{ input_epoch }}}'
 
 on:
   schedule:
@@ -13,13 +12,11 @@ on:
 
 jobs:
   install_env:
-    name: "install qiime2-core={{ input_epoch }} ({{ input_os }}-latest)"
-    runs-on: {{ input_os }}-latest
-    {% raw %}
+    name: "install qiime2-core={{{ input_epoch }}} ({{{ input_os }}}-latest)"
+    runs-on: {{{ input_os }}}-latest
     outputs:
       pkgs: ${{ steps.collect_urls.outputs.pkgs }}
       metapackage_spec: ${{ steps.metapackage.outputs.spec }}
-    {% endraw %}
     steps:
       - name: checkout source
         uses: actions/checkout@v2
@@ -37,7 +34,6 @@ jobs:
           conda config --show
       - name: identify metapackage
         id: metapackage
-  {% raw %}
         env:
           DATA_FILE:  ${{ env.epoch }}/staged/${{ env.distro }}/data.yaml
           META_FILE: ${{ env.epoch }}/staged/${{ env.distro }}/meta.yaml.jinja
@@ -85,10 +81,8 @@ jobs:
           echo "::set-output name=pkgs::$pkgs"
   test_package:
     name: test ${{ matrix.pkg.name }}
-  {% endraw %}
     needs: install_env
-    runs-on: {{ input_os }}-latest
-    {% raw %}
+    runs-on: {{{ input_os }}}-latest
     strategy:
       fail-fast: false
       matrix:
@@ -113,11 +107,9 @@ jobs:
           conda activate base
           wget ${{ matrix.pkg.url }}
           sudo conda build -q -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults --extra-deps ${{ needs.install_env.outputs.metapackage_spec }} -t "*.tar.bz2"
-    {% endraw %}
   phone_home:
     needs: test_package
-    runs-on: {{ input_os }}-latest
-    {% raw %}
+    runs-on: {{{ input_os }}}-latest
     steps:
       - name: checkout source
         uses: actions/checkout@v2
@@ -162,7 +154,7 @@ jobs:
             --data "run_id=$GITHUB_RUN_ID" \
             --data "distro=${{ env.distro }}" \
             --data "epoch=${{ env.epoch }}" \
-            --data "artifact_name=${{ env.distro }}-osx" \
+            --data "artifact_name=${{ env.distro }}-{{{ op_sys }}}" \
             --header "Content-Type: application/x-www-form-urlencoded" \
             --request POST \
             https://library.qiime2.org/api/v1/packages/pass/
@@ -174,4 +166,3 @@ jobs:
             echo $resp
             exit 1
           fi
-    {% endraw %}
