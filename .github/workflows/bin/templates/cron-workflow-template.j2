@@ -169,6 +169,7 @@ jobs:
 
   comment_on_any_failure:
     runs-on: {{{ input_os }}}-latest
+    needs: [install_env, test_package, phone_home]
     if: always() && (needs.install_env.result == 'failure' || needs.test_package.result == 'failure' || needs.phone_home.result == 'failure')
     steps:
       - name: comment on failure
