@@ -1,6 +1,6 @@
 # QIIME 2 Package Integration: Github Workflows
 
-This directory contains all of the scripts used for generating the Github workflow files for each package build.
+This directory contains all of the scripts used for generating the Github workflow files for each epoch.
 
 # Generage cron workflows
 
