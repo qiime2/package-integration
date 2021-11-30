@@ -1,4 +1,7 @@
 meta:
   phone_home: false
-run: []
-version: 2021.11.29.22.10.02
+run:
+- q2-types
+- q2templates
+- qiime2
+version: 2021.11.30.17.23.00
