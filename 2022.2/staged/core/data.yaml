@@ -1,4 +1,7 @@
 meta:
   phone_home: false
-run: []
-version: 2021.11.29.22.10.02
+run:
+- q2-alignment
+- q2-feature-table
+- q2-taxa
+version: 2021.11.30.18.23.00
