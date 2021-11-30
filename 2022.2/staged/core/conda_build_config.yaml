@@ -4,6 +4,36 @@ pandas:
 - 1.2.*
 python:
 - '3.8'
+q2_composition:
+- 2022.2.0.dev0
+q2_cutadapt:
+- 2022.2.0.dev0
+q2_dada2:
+- 2022.2.0.dev0
+q2_deblur:
+- 2022.2.0.dev0
+q2_demux:
+- 2022.2.0.dev0
+q2_diversity:
+- 2022.2.0.dev0
+q2_feature_classifier:
+- 2022.2.0.dev0
+q2_fragment_insertion:
+- 2022.2.0.dev0
+q2_gneiss:
+- 2022.2.0.dev0
+q2_longitudinal:
+- 2022.2.0.dev0
+q2_phylogeny:
+- 2022.2.0.dev0
+q2_quality_filter:
+- 2022.2.0.dev0
+q2_vsearch:
+- 2022.2.0.dev0
+q2cli:
+- 2022.2.0.dev0
+q2galaxy:
+- 2022.2.0.dev0
 qiime2_epoch:
 - '2022.2'
 scikit_learn:
