@@ -1,4 +1,10 @@
 meta:
   phone_home: false
-run: []
-version: 2021.11.29.22.10.02
+run:
+- q2-diversity-lib
+- q2-emperor
+- q2-metadata
+- q2-mystery-stew
+- q2-quality-control
+- q2-sample-classifier
+version: 2021.11.30.19.23.00
