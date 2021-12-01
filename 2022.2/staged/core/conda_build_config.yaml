@@ -4,6 +4,8 @@ pandas:
 - 1.2.*
 python:
 - '3.8'
+q2_dada2:
+- 2022.2.0.dev0+1.gae2607f
 qiime2_epoch:
 - '2022.2'
 scikit_learn:
