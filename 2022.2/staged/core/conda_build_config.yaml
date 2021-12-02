@@ -4,6 +4,10 @@ pandas:
 - 1.2.*
 python:
 - '3.8'
+q2_demux:
+- 2022.2.0.dev0+1.g528bc07
+q2_diversity:
+- 2022.2.0.dev0+1.g6d7e723
 qiime2_epoch:
 - '2022.2'
 scikit_learn:
