@@ -1,4 +1,5 @@
 meta:
   phone_home: false
-run: []
-version: 2021.11.29.22.10.02
+run:
+- q2-taxa
+version: 2021.12.02.19.23.00
