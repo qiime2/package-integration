@@ -31,13 +31,13 @@ q2_fragment_insertion:
 q2_gneiss:
 - 2022.2.0.dev0+1.g1addb7d
 q2_longitudinal:
-- 2022.2.0.dev0+2.g639ced8
+- 2022.2.0
 q2_metadata:
 - 2022.2.0.dev0+1.gee72651
 q2_mystery_stew:
 - 2022.2.0.dev0+3.g7c414fa
 q2_phylogeny:
-- 2022.2.0.dev0+1.g9b43909
+- 2022.2.0
 q2_quality_control:
 - 2022.2.0.dev0+1.g812639f
 q2_quality_filter:
@@ -53,7 +53,7 @@ q2_vsearch:
 q2cli:
 - 2022.2.0.dev0+7.gaee8a15
 q2galaxy:
-- 2022.2.0.dev0+5.g17e2768
+- 2022.2.0
 q2templates:
 - 2022.2.0.dev0+1.g80b6c1e
 qiime2:
