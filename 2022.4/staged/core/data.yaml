@@ -1,4 +1,9 @@
 meta:
   phone_home: false
-run: []
-version: 2022.02.22.19.19.30
+run:
+- q2-diversity
+- q2-quality-filter
+- q2-vsearch
+- q2cli
+- q2galaxy
+version: 2022.02.23.02.23.00
