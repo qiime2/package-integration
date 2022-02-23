@@ -4,6 +4,16 @@ pandas:
 - 1.2.*
 python:
 - '3.8'
+q2_diversity:
+- 2022.4.0.dev0
+q2_quality_filter:
+- 2022.4.0.dev0
+q2_vsearch:
+- 2022.4.0.dev0
+q2cli:
+- 2022.4.0.dev0
+q2galaxy:
+- 2022.4.0.dev0
 qiime2_epoch:
 - '2022.4'
 scikit_learn:
