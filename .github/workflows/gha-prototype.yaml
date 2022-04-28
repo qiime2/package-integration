@@ -23,3 +23,6 @@ jobs:
 
       - name: destructure metapackage
         uses: ./.github/actions/destructure-metapackage
+        with:
+          distro: ${{ matrix.distro }}
+          epoch: ${{ matrix.epoch }}
