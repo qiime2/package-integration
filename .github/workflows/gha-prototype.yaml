@@ -1,0 +1,25 @@
+name: gha-prototype
+
+on:
+  pull_request:
+    paths:
+      - .github
+
+jobs:
+  integrate:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+        distro:
+          - core
+        epoch:
+          - '2022.4'
+    steps:
+      - name: checkout source
+        uses: actions/checkout@v2
+
+      - name: destructure package
+        uses: ./.github/actions/destructure-package
