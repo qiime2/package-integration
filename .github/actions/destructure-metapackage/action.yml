@@ -19,7 +19,6 @@ runs:
   steps:
     - name: prepare variables
       shell: bash
-      env:
       run: |
         echo "DATA_FILE=${{ inputs.epoch }}/staged/${{ inputs.distro }}/data.yaml" >> $GITHUB_ENV
         echo "META_FILE=${{ inputs.epoch }}/staged/${{ inputs.distro }}/meta.yaml.jinja" >> $GITHUB_ENV
