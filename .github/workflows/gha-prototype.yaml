@@ -22,7 +22,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: destructure metapackage
+        id: destructure
         uses: ./.github/actions/destructure-metapackage
         with:
           distro: ${{ matrix.distro }}
           epoch: ${{ matrix.epoch }}
+
+      - name: debug
+        run: |
+          echo "${{ steps.destructure.outputs.pkgs }}"
+          echo "${{ steps.destructure.outputs.spec }}"
