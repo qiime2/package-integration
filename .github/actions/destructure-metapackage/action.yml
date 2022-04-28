@@ -20,15 +20,11 @@ runs:
     - name: prepare variables
       shell: bash
       env:
-        DATA_FILE: ${{ inputs.epoch }}/staged/${{ inputs.distro }}/data.yaml
-        META_FILE: ${{ inputs.epoch }}/staged/${{ inputs.distro }}/meta.yaml.jinja
-        BUILD_FILE: ${{ inputs.epoch }}/staged/${{ inputs.distro }}/conda_build_config.yaml
-        Q2_CHANNEL: https://packages.qiime2.org/qiime2/${{ inputs.epoch }}/staged/${{ inputs.distro }}
       run: |
-        echo "DATA_FILE=$DATA_FILE" >> $GITHUB_ENV
-        echo "META_FILE=$META_FILE" >> $GITHUB_ENV
-        echo "BUILD_FILE=$BUILD_FILE" >> $GITHUB_ENV
-        echo "Q2_CHANNEL=$Q2_CHANNEL" >> $GITHUB_ENV
+        echo "DATA_FILE=${{ inputs.epoch }}/staged/${{ inputs.distro }}/data.yaml" >> $GITHUB_ENV
+        echo "META_FILE=${{ inputs.epoch }}/staged/${{ inputs.distro }}/meta.yaml.jinja" >> $GITHUB_ENV
+        echo "BUILD_FILE=${{ inputs.epoch }}/staged/${{ inputs.distro }}/conda_build_config.yaml" >> $GITHUB_ENV
+        echo "Q2_CHANNEL=https://packages.qiime2.org/qiime2/${{ inputs.epoch }}/staged/${{ inputs.distro }}" >> $GITHUB_ENV
 
     - name: configure conda and friends
       shell: bash
