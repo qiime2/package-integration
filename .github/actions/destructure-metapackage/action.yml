@@ -20,7 +20,7 @@ runs:
     - name: prepare variables
       shell: bash
       env:
-        DATA_FILE: ${{ inputx.epoch }}/staged/${{ inputs.distro }}/data.yaml
+        DATA_FILE: ${{ inputs.epoch }}/staged/${{ inputs.distro }}/data.yaml
         META_FILE: ${{ inputs.epoch }}/staged/${{ inputs.distro }}/meta.yaml.jinja
         BUILD_FILE: ${{ inputs.epoch }}/staged/${{ inputs.distro }}/conda_build_config.yaml
         Q2_CHANNEL: https://packages.qiime2.org/qiime2/${{ inputs.epoch }}/staged/${{ inputs.distro }}
