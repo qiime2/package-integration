@@ -3,7 +3,7 @@ name: gha-prototype
 on:
   pull_request:
     paths:
-      - .github
+      - .github/**
 
 jobs:
   integrate:
