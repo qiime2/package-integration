@@ -27,6 +27,10 @@ jobs:
   integrate:
     needs: config
     runs-on: ${{ needs.config.outputs.platform }}
+    outputs:
+      pkgs: ${{ steps.destructure.outputs.pkgs }}
+      metapackage-spec: ${{ steps.destructure.outputs.metapackage-spec }}
+      q2-channel: ${{ steps.destructure.outputs.q2-channel }}
     steps:
       - name: checkout source
         uses: actions/checkout@v2
