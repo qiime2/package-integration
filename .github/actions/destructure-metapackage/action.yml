@@ -14,9 +14,9 @@ outputs:
   metapackage-spec:
     description: 'metapackage specification'
     value: ${{ steps.metapackage.outputs.spec }}
-  q2_channel:
+  q2-channel:
     description: 'package channel url'
-    value: ${{ steps.collect-urls.outputs.q2_channel }}
+    value: ${{ steps.collect-urls.outputs.channel }}
 runs:
   using: 'composite'
   steps:
@@ -75,4 +75,4 @@ runs:
                 <(yq -cj '.' $DATA_FILE) \
                 <(conda list -n test-env --json))
         echo "::set-output name=pkgs::$pkgs"
-        echo "::set-output name=q2_channel::$Q2_CHANNEL"
+        echo "::set-output name=channel::$Q2_CHANNEL"
