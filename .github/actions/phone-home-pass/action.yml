@@ -45,7 +45,6 @@ runs:
                             <(yq -cj '.' $DATA_FILE) \
                             <(yq -cj '.' $BUILD_FILE) \
                             <(head -n 2 $META_FILE | yq -cj '.package'))
-        echo $TOKEN
         resp=$(curl \
           --silent \
           --include \
