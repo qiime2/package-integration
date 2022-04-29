@@ -9,10 +9,11 @@ jobs:
   config:
     runs-on: ubuntu-latest
     outputs:
-      distros: ${{ steps.config.outputs.distros }}
-      epochs: ${{ steps.config.outputs.epochs }}
+      distros: ${{ steps.set-vars.outputs.distros }}
+      epochs: ${{ steps.set-vars.outputs.epochs }}
     steps:
-      - name: config
+      - name: set-vars
+        id: set-vars
         run: |
           # bash arrays, space separated
           DISTROS="core"
