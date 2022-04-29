@@ -30,4 +30,5 @@ jobs:
 
       - name: debug
         run: |
-          echo "${{ steps.destructure.outputs.spec }}"
+          echo "${{ steps.destructure.outputs.pkgs }}"
+          echo "${{ steps.destructure.outputs.metapackage-spec }}"
