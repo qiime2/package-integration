@@ -9,30 +9,24 @@ jobs:
   config:
     runs-on: ubuntu-latest
     env:
-      # bash arrays, space separated
-      PLATFORMS: ubuntu-latest macos-latest
-      DISTROS: core
-      EPOCHS: 2022.4
+      PLATFORM: ubuntu-latest
+      DISTRO: core
+      EPOCH: 2022.4
     outputs:
-      platforms: ${{ steps.set-vars.outputs.platforms }}
-      distros: ${{ steps.set-vars.outputs.distros }}
-      epochs: ${{ steps.set-vars.outputs.epochs }}
+      platform: ${{ steps.set-vars.outputs.platform }}
+      distro: ${{ steps.set-vars.outputs.distro }}
+      epoch: ${{ steps.set-vars.outputs.epoch }}
     steps:
       - name: set-vars
         id: set-vars
         run: |
-          echo "::set-output name=platforms::$(jq -nc '$ARGS.positional' --args $PLATFORMS)"
-          echo "::set-output name=distros::$(jq -nc '$ARGS.positional' --args $DISTROS)"
-          echo "::set-output name=epochs::$(jq -nc '$ARGS.positional' --args $EPOCHS)"
+          echo "::set-output name=platform::$PLATFORM"
+          echo "::set-output name=distro::$DISTRO"
+          echo "::set-output name=epoch::$EPOCH"
 
   integrate:
     needs: config
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: ${{ fromJson(needs.config.outputs.platforms) }}
-        distro: ${{ fromJson(needs.config.outputs.distros) }}
-        epoch: ${{ fromJson(needs.config.outputs.epochs) }}
+    runs-on: ${{ needs.config.outputs.platform }}
     steps:
       - name: checkout source
         uses: actions/checkout@v2
@@ -41,19 +35,16 @@ jobs:
         id: destructure
         uses: ./.github/actions/destructure-metapackage
         with:
-          distro: ${{ matrix.distro }}
-          epoch: ${{ matrix.epoch }}
+          distro: ${{ needs.config.outputs.distro }}
+          epoch: ${{ needs.config.outputs.epoch }}
 
   test-package:
     name: test ${{ matrix.pkg.name }}
     needs: [config, integrate]
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ needs.config.outputs.platform }}
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.config.outputs.platforms) }}
-        distro: ${{ fromJson(needs.config.outputs.distros) }}
-        epoch: ${{ fromJson(needs.config.outputs.epochs) }}
         pkg: ${{ fromJson(needs.integrate.outputs.pkgs) }}
     steps:
       - name: configure conda and friends
@@ -68,11 +59,8 @@ jobs:
           conda info -a
           conda config --show
       - name: run test
-        env:
-          Q2_CHANNEL:  https://packages.qiime2.org/qiime2/${{ env.epoch }}/staged/${{ env.distro }}
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
           conda activate base
           wget ${{ matrix.pkg.url }}
-          sudo conda build -q -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults --extra-deps ${{ needs.install_env.outputs.metapackage_spec }} -t "*.tar.bz2"
-
+          # TODO
