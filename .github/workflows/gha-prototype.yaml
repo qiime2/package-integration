@@ -18,8 +18,8 @@ jobs:
           DISTROS="core"
           EPOCHS="2022.4"
 
-          echo "::set-output name=distros::$(jq -nc '$ARGS.positional' --args core)"
-          echo "::set-output name=epochs::$(jq -nc '$ARGS.positional' --args 2022.4)"
+          echo "::set-output name=distros::$(jq -nc '$ARGS.positional' --args $DISTROS)"
+          echo "::set-output name=epochs::$(jq -nc '$ARGS.positional' --args $EPOCHS)"
 
   integrate:
     needs: config
@@ -44,9 +44,7 @@ jobs:
 
   test-package:
     name: test ${{ matrix.pkg.name }}
-    needs:
-      - config
-      - integrate
+    needs: [config, integrate]
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
