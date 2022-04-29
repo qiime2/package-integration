@@ -29,11 +29,20 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
-        distro: ${{ fromJson(needs.config.outputs.distros) }}
-        epoch: ${{ fromJson(needs.config.outputs.epochs) }}
+        distro:
+          - core
+        epoch:
+          - 2022.4
+        # distro: ${{ fromJson(needs.config.outputs.distros) }}
+        # epoch: ${{ fromJson(needs.config.outputs.epochs) }}
     steps:
       - name: checkout source
         uses: actions/checkout@v2
+
+      - name: debug
+        run: |
+          echo ${{ needs.config.outputs.distros }}
+          echo ${{ needs.config.outputs.epochs }}
 
       - name: destructure metapackage
         id: destructure
@@ -41,3 +50,38 @@ jobs:
         with:
           distro: ${{ matrix.distro }}
           epoch: ${{ matrix.epoch }}
+
+  test-package:
+    name: test ${{ matrix.pkg.name }}
+    needs: [config, integrate]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+        distro: ${{ fromJson(needs.config.outputs.distros) }}
+        epoch: ${{ fromJson(needs.config.outputs.epochs) }}
+        pkg: ${{ fromJson(needs.integrate.outputs.pkgs) }}
+    steps:
+      - name: configure conda and friends
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          conda activate base
+          conda config --set always_yes yes
+          conda config --set changeps1 no
+          conda config --set quiet true
+          sudo conda upgrade -n base -q -y -c defaults --override-channels conda
+          sudo conda install -n base -q -y -c defaults --override-channels conda-build
+          conda info -a
+          conda config --show
+      - name: run test
+        env:
+          Q2_CHANNEL:  https://packages.qiime2.org/qiime2/${{ env.epoch }}/staged/${{ env.distro }}
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          conda activate base
+          wget ${{ matrix.pkg.url }}
+          sudo conda build -q -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults --extra-deps ${{ needs.install_env.outputs.metapackage_spec }} -t "*.tar.bz2"
+
