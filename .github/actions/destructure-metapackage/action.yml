@@ -37,13 +37,20 @@ runs:
       run: |
         source "$CONDA/etc/profile.d/conda.sh"
         conda activate base
-        echo "::set-output name=spec::$(head -n 2 $META_FILE | yq -r .package.name)=$(yq -r .version $DATA_FILE)"
+        spec=$(head -n 2 $META_FILE | yq -r .package.name)=$(yq -r .version $DATA_FILE)
+        echo "::set-output name=spec::$spec"
 
     - name: install metapackage
       shell: bash
       run: |
         source "$CONDA/etc/profile.d/conda.sh"
-        sudo conda create -q -n test-env -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults ${{ steps.metapackage.outputs.spec }}
+        sudo conda create -q \
+          -n test-env \
+          -c $Q2_CHANNEL \
+          -c conda-forge \
+          -c bioconda \
+          -c defaults \
+          ${{ steps.metapackage.outputs.spec }}
         sudo conda run -n test-env python -c 'import qiime2'
 
     - name: check repo consistency
