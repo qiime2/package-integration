@@ -43,7 +43,7 @@ jobs:
     runs-on: ${{ needs.config.outputs.platform }}
     steps:
       - name: debug
-        run:
+        run: |
           echo 'pkgs: ${{ needs.integrate.outputs.pkgs }}'
           echo 'metapackage-spec: ${{ needs.integrate.outputs.metapackage-spec }}'
           echo 'q2-channel: ${{ needs.integrate.outputs.q2-channel }}'
