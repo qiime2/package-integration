@@ -32,8 +32,7 @@ jobs:
       metapackage-spec: ${{ steps.destructure.outputs.metapackage-spec }}
       q2-channel: ${{ steps.destructure.outputs.q2-channel }}
     steps:
-      - name: checkout source
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
       - name: destructure metapackage
         id: destructure
@@ -61,8 +60,8 @@ jobs:
       matrix:
         pkg: ${{ fromJson(needs.integrate.outputs.pkgs) }}
     steps:
-      - name: configure conda and friends
-        uses: ./.github/actions/configure-conda
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/configure-conda
 
       - name: run test
         run: |
