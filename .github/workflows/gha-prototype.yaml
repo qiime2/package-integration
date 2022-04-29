@@ -8,17 +8,20 @@ on:
 jobs:
   config:
     runs-on: ubuntu-latest
+    env:
+      # bash arrays, space separated
+      PLATFORMS: ubuntu-latest macos-latest
+      DISTROS: core
+      EPOCHS: 2022.4
     outputs:
+      platforms: ${{ steps.set-vars.outputs.platforms }}
       distros: ${{ steps.set-vars.outputs.distros }}
       epochs: ${{ steps.set-vars.outputs.epochs }}
     steps:
       - name: set-vars
         id: set-vars
         run: |
-          # bash arrays, space separated
-          DISTROS="core"
-          EPOCHS="2022.4"
-
+          echo "::set-output name=osii::$(jq -nc '$ARGS.positional' --args $PLATFORMS)"
           echo "::set-output name=distros::$(jq -nc '$ARGS.positional' --args $DISTROS)"
           echo "::set-output name=epochs::$(jq -nc '$ARGS.positional' --args $EPOCHS)"
 
@@ -27,23 +30,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-        distro:
-          - core
-        epoch:
-          - 2022.4
-        # distro: ${{ fromJson(needs.config.outputs.distros) }}
-        # epoch: ${{ fromJson(needs.config.outputs.epochs) }}
+        os: ${{ fromJson(needs.config.outputs.platforms) }}
+        distro: ${{ fromJson(needs.config.outputs.distros) }}
+        epoch: ${{ fromJson(needs.config.outputs.epochs) }}
     steps:
       - name: checkout source
         uses: actions/checkout@v2
-
-      - name: debug
-        run: |
-          echo ${{ needs.config.outputs.distros }}
-          echo ${{ needs.config.outputs.epochs }}
 
       - name: destructure metapackage
         id: destructure
@@ -59,9 +51,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
+        os: ${{ fromJson(needs.config.outputs.platforms) }}
         distro: ${{ fromJson(needs.config.outputs.distros) }}
         epoch: ${{ fromJson(needs.config.outputs.epochs) }}
         pkg: ${{ fromJson(needs.integrate.outputs.pkgs) }}
