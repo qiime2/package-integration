@@ -21,7 +21,7 @@ jobs:
       - name: set-vars
         id: set-vars
         run: |
-          echo "::set-output name=osii::$(jq -nc '$ARGS.positional' --args $PLATFORMS)"
+          echo "::set-output name=platforms::$(jq -nc '$ARGS.positional' --args $PLATFORMS)"
           echo "::set-output name=distros::$(jq -nc '$ARGS.positional' --args $DISTROS)"
           echo "::set-output name=epochs::$(jq -nc '$ARGS.positional' --args $EPOCHS)"
 
