@@ -20,7 +20,7 @@ runs:
     - name: prepare variables
       shell: bash
       run: |
-        echo "TOKEN=${{ inputs.token }}" >> $GITHUB_ENV
+        echo "LIBRARY_TOKEN=${{ inputs.token }}" >> $GITHUB_ENV
         echo "DATA_FILE=${{ inputs.epoch }}/staged/${{ inputs.distro }}/data.yaml" >> $GITHUB_ENV
         echo "META_FILE=${{ inputs.epoch }}/staged/${{ inputs.distro }}/meta.yaml.jinja" >> $GITHUB_ENV
         echo "BUILD_FILE=${{ inputs.epoch }}/staged/${{ inputs.distro }}/conda_build_config.yaml" >> $GITHUB_ENV
@@ -48,7 +48,7 @@ runs:
         resp=$(curl \
           --silent \
           --include \
-          --data-urlencode "token=$TOKEN" \
+          --data-urlencode "token=$LIBRARY_TOKEN" \
           --data-urlencode "version=$metapackage_version" \
           --data-urlencode "package_versions=$package_versions" \
           --data "run_id=$GITHUB_RUN_ID" \
