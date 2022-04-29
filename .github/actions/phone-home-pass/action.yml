@@ -29,6 +29,7 @@ runs:
         esac
 
     - name: phone home
+      shell: bash
       run: |
         source "$CONDA/etc/profile.d/conda.sh"
         conda activate base

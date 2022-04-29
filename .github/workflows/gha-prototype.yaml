@@ -33,7 +33,6 @@ jobs:
       q2-channel: ${{ steps.destructure.outputs.q2-channel }}
     steps:
       - uses: actions/checkout@v2
-
       - name: destructure metapackage
         id: destructure
         uses: ./.github/actions/destructure-metapackage
