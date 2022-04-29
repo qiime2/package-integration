@@ -16,14 +16,13 @@ runs:
     - name: run test
       shell: bash
       run: |
-        echo 'done'
-        # source "$CONDA/etc/profile.d/conda.sh"
-        # conda activate base
-        # wget ${{ inputs.pkg-url }}
-        # sudo conda build -q \
-        #   -c ${{ inputs.q2-channel }} \
-        #   -c conda-forge \
-        #   -c bioconda \
-        #   -c defaults \
-        #   --extra-deps ${{ inputs.metapackage-spec }} \
-        #   -t "*.tar.bz2"
+        source "$CONDA/etc/profile.d/conda.sh"
+        conda activate base
+        wget ${{ inputs.pkg-url }}
+        sudo conda build -q \
+          -c ${{ inputs.q2-channel }} \
+          -c conda-forge \
+          -c bioconda \
+          -c defaults \
+          --extra-deps ${{ inputs.metapackage-spec }} \
+          -t "*.tar.bz2"

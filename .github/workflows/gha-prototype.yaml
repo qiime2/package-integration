@@ -1,10 +1,11 @@
 name: gha-prototype
 
-# Edit these three variables as necessary, everything else should work as-is
+# Edit these four variables as necessary, everything else should work as-is
 env:
   CONF_PLATFORM: ubuntu-latest
   CONF_DISTRO: core
   CONF_EPOCH: 2022.4
+  CONF_ISSUE_NUM: 71
 
 on:
   pull_request:
@@ -18,6 +19,7 @@ jobs:
       platform: ${{ steps.set-vars.outputs.platform }}
       distro: ${{ steps.set-vars.outputs.distro }}
       epoch: ${{ steps.set-vars.outputs.epoch }}
+      issue-number: ${{ steps.set-vars.outputs.issue-number }}
     steps:
       - name: set-vars
         id: set-vars
@@ -25,6 +27,7 @@ jobs:
           echo "::set-output name=platform::$CONF_PLATFORM"
           echo "::set-output name=distro::$CONF_DISTRO"
           echo "::set-output name=epoch::$CONF_EPOCH"
+          echo "::set-output name=epoch::$CONF_ISSUE_NUM"
 
   integrate:
     needs: conf
@@ -71,3 +74,21 @@ jobs:
           epoch: ${{ needs.conf.outputs.epoch }}
           distro: ${{ needs.conf.outputs.distro }}
           platform: ${{ needs.conf.outputs.platform }}
+
+
+  comment-on-any-failure:
+    runs-on: ubuntu-latest  # this job is always run on linux
+    needs: [conf, integrate, test-package, phone-home]
+    if: |
+      always() && (needs.conf.result == 'failure' ||
+                   needs.integrate.result == 'failure' ||
+                   needs.test-package.result == 'failure' ||
+                   needs.phone-home.result == 'failure')
+    steps:
+      - name: comment on failure
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ needs.conf.issue-number }}
+          body: |
+            - 🥺  GHA run # ${{ github.run_number }} for ${{ env.epoch }} on ${{ env.os }} failed.
+            - See https://github.com/qiime2/package-integration/actions/runs/${{ github.run_id }} for more.
