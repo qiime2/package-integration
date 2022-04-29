@@ -69,9 +69,9 @@ jobs:
           conda activate base
           wget ${{ matrix.pkg.url }}
           sudo conda build -q \
-            -c ${{ needs.integrate.outputs.q2_channel }} \
+            -c ${{ needs.integrate.outputs.q2-channel }} \
             -c conda-forge \
             -c bioconda \
             -c defaults \
-            --extra-deps ${{ needs.integrate.outputs.metapackage_spec }} \
+            --extra-deps ${{ needs.integrate.outputs.metapackage-spec }} \
             -t "*.tar.bz2"
