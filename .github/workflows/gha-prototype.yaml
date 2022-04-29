@@ -27,7 +27,7 @@ jobs:
           echo "::set-output name=platform::$CONF_PLATFORM"
           echo "::set-output name=distro::$CONF_DISTRO"
           echo "::set-output name=epoch::$CONF_EPOCH"
-          echo "::set-output name=epoch::$CONF_ISSUE_NUM"
+          echo "::set-output name=issue-number::$CONF_ISSUE_NUM"
 
   integrate:
     needs: conf
