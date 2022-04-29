@@ -1,5 +1,11 @@
 name: gha-prototype
 
+# Edit these three variables as necessary, everything else should work as-is
+env:
+  CONF_PLATFORM: ubuntu-latest
+  CONF_DISTRO: core
+  CONF_EPOCH: 2022.4
+
 on:
   pull_request:
     paths:
@@ -7,11 +13,7 @@ on:
 
 jobs:
   conf:
-    runs-on: ubuntu-latest  # this is always run on linux
-    env:
-      PLATFORM: ubuntu-latest
-      DISTRO: core
-      EPOCH: 2022.4
+    runs-on: ubuntu-latest  # this job is always run on linux
     outputs:
       platform: ${{ steps.set-vars.outputs.platform }}
       distro: ${{ steps.set-vars.outputs.distro }}
@@ -20,9 +22,9 @@ jobs:
       - name: set-vars
         id: set-vars
         run: |
-          echo "::set-output name=platform::$PLATFORM"
-          echo "::set-output name=distro::$DISTRO"
-          echo "::set-output name=epoch::$EPOCH"
+          echo "::set-output name=platform::$CONF_PLATFORM"
+          echo "::set-output name=distro::$CONF_DISTRO"
+          echo "::set-output name=epoch::$CONF_EPOCH"
 
   integrate:
     needs: conf
