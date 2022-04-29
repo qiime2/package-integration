@@ -7,6 +7,7 @@ on:
 
 jobs:
   conf:
+    runs-on: ubuntu-latest  # this is always run on linux
     env:
       PLATFORM: ubuntu-latest
       DISTRO: core
