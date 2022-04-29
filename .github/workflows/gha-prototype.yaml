@@ -67,7 +67,8 @@ jobs:
       - uses: ./.github/actions/configure-conda
       - uses: ./.github/actions/phone-home-pass
         with:
-          token: ${{ secrets.LIBRARY_TOKEN }}
+          # token: ${{ secrets.LIBRARY_TOKEN }}
+          token: testing-1-2-3
           epoch: ${{ needs.conf.outputs.epoch }}
           distro: ${{ needs.conf.outputs.distro }}
           platform: ${{ needs.conf.outputs.platform }}
