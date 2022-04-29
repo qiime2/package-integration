@@ -6,7 +6,7 @@ on:
       - .github/**
 
 jobs:
-  config:
+  conf:
     runs-on: ubuntu-latest
     env:
       PLATFORM: ubuntu-latest
@@ -25,8 +25,8 @@ jobs:
           echo "::set-output name=epoch::$EPOCH"
 
   integrate:
-    needs: config
-    runs-on: ${{ needs.config.outputs.platform }}
+    needs: conf
+    runs-on: ${{ needs.conf.outputs.platform }}
     outputs:
       pkgs: ${{ steps.destructure.outputs.pkgs }}
       metapackage-spec: ${{ steps.destructure.outputs.metapackage-spec }}
@@ -38,23 +38,13 @@ jobs:
         id: destructure
         uses: ./.github/actions/destructure-metapackage
         with:
-          distro: ${{ needs.config.outputs.distro }}
-          epoch: ${{ needs.config.outputs.epoch }}
-
-  debug:
-    needs: [config, integrate]
-    runs-on: ${{ needs.config.outputs.platform }}
-    steps:
-      - name: debug
-        run: |
-          echo 'pkgs: ${{ needs.integrate.outputs.pkgs }}'
-          echo 'metapackage-spec: ${{ needs.integrate.outputs.metapackage-spec }}'
-          echo 'q2-channel: ${{ needs.integrate.outputs.q2-channel }}'
+          distro: ${{ needs.conf.outputs.distro }}
+          epoch: ${{ needs.conf.outputs.epoch }}
 
   test-package:
     name: test ${{ matrix.pkg.name }}
-    needs: [config, integrate]
-    runs-on: ${{ needs.config.outputs.platform }}
+    needs: [conf, integrate]
+    runs-on: ${{ needs.conf.outputs.platform }}
     strategy:
       fail-fast: false
       matrix:
@@ -62,16 +52,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/configure-conda
+      - uses: ./.github/actions/test-package
+        with:
+          pkg-url: ${{ matrix.pkg.url }}
+          q2-channel: ${{ needs.integrate.outputs.q2-channel }}
+          metapackage-spec: ${{ needs.integrate.outputs.metapackage-spec }}
 
-      - name: run test
-        run: |
-          source "$CONDA/etc/profile.d/conda.sh"
-          conda activate base
-          wget ${{ matrix.pkg.url }}
-          sudo conda build -q \
-            -c ${{ needs.integrate.outputs.q2-channel }} \
-            -c conda-forge \
-            -c bioconda \
-            -c defaults \
-            --extra-deps ${{ needs.integrate.outputs.metapackage-spec }} \
-            -t "*.tar.bz2"
+  phone-home:
+    needs: [conf, test-package]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/configure-conda
+      - uses: ./.github/actions/phone-home-pass
+        with:
+          token: ${{ secrets.LIBRARY_TOKEN }}
+          epoch: ${{ needs.conf.outputs.epoch }}
+          distro: ${{ needs.conf.outputs.distro }}
+          platform: ${{ needs.conf.outputs.platform }}
