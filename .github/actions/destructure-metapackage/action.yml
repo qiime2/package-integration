@@ -131,7 +131,7 @@ runs:
       run: |
         conda env export \
           --no-builds \
-          -n test-env
+          -n test-env \
           | yq -y '
           {
            channels: [
