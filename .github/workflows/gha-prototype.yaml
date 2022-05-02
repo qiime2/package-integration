@@ -75,7 +75,6 @@ jobs:
           distro: ${{ needs.conf.outputs.distro }}
           platform: ${{ needs.conf.outputs.platform }}
 
-
   comment-on-any-failure:
     runs-on: ubuntu-latest  # this job is always run on linux
     needs: [conf, integrate, test-package, phone-home]

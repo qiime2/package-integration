@@ -58,7 +58,13 @@ runs:
       run: |
         source "$CONDA/etc/profile.d/conda.sh"
         conda activate base
-        consistent=$(jq -cs '[([.[1] as $build | .[0].run[] | {(.): $build[. | split("-") | join("_")][0]}] | add) as $lookup | .[2][] | select(.name | in($lookup)) | .version == $lookup[.name]] | all' \
+        consistent=$(jq -cs '[([.[1] as $build | .[0].run[] |
+                               {(.): $build[. | split("-") | join("_")][0]}] |
+                               add) as $lookup |
+                              .[2][] |
+                              select(.name | in($lookup)) |
+                              .version == $lookup[.name]] |
+                              all' \
                       <(yq -cj '.' $DATA_FILE) \
                       <(yq -cj '.' $BUILD_FILE) \
                       <(conda list -n test-env --json))
