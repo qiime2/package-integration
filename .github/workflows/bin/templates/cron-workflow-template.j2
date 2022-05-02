@@ -4,7 +4,7 @@ name: cron-{{{ epoch }}}-{{{ distro }}}-{{{ platform }}}
 env:
   CONF_PLATFORM: {{{ platform }}}
   CONF_DISTRO: {{{ distro }}}
-  CONF_EPOCH: {{{ epoch }}}
+  CONF_EPOCH: '{{{ epoch }}}'
   CONF_ISSUE_NUM: 71
 
 on:
@@ -94,3 +94,4 @@ jobs:
           body: |
             [GHA run](https://github.com/qiime2/package-integration/actions/runs/${{ github.run_id }})
             ${{ github.run_number }} for ${{ env.epoch }} on ${{ env.os }} failed.
+

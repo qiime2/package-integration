@@ -4,7 +4,7 @@ name: cron-2022.2-core-ubuntu-latest
 env:
   CONF_PLATFORM: ubuntu-latest
   CONF_DISTRO: core
-  CONF_EPOCH: 2022.2
+  CONF_EPOCH: '2022.2'
   CONF_ISSUE_NUM: 71
 
 on:

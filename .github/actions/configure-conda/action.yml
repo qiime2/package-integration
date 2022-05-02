@@ -12,6 +12,14 @@ runs:
         conda config --set changeps1 no
         conda config --set quiet true
         sudo conda upgrade -n base -q -y -c defaults --override-channels conda
-        sudo conda install -n base -q -y -c defaults --override-channels conda-build yq
+        sudo conda install -n base \
+          -q -y \
+          -c conda-forge \
+          -c defaults \
+          --override-channels \
+          conda-build \
+          yq \
+          jinja2 \
+          pyyaml
         conda info -a
         conda config --show
