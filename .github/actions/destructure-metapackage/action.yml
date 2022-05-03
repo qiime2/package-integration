@@ -129,6 +129,8 @@ runs:
     - name: create convenience env file
       shell: bash
       run: |
+        source "$CONDA/etc/profile.d/conda.sh"
+
         yq --version
         yq --help
 
