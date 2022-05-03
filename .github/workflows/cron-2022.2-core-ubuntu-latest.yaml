@@ -93,4 +93,4 @@ jobs:
           issue-number: ${{ needs.conf.outputs.issue-number }}
           body: |
             [GHA run](https://github.com/qiime2/package-integration/actions/runs/${{ github.run_id }})
-            ${{ github.run_number }} for ${{ env.epoch }} on ${{ env.platform }} failed.
+            ${{ github.run_number }} for ${{ env.epoch }} on ${{ env.os }} failed.
