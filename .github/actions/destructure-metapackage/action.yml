@@ -131,13 +131,14 @@ runs:
       run: |
         source "$CONDA/etc/profile.d/conda.sh"
 
+        which yq
         yq --version
         yq --help
 
         conda env export \
           --no-builds \
           -n test-env \
-          | yq -y '
+          | yq '
           {
            channels: [
             "https://packages.qiime2.org/qiime2/${{ inputs.epoch }}/passed/${{ inputs.distro }}/",
