@@ -146,7 +146,7 @@ runs:
            dependencies: .dependencies |
              map(select(. | startswith("qiime2-${{ inputs.distro }}") | not))
           }' > $ENV_FILE
-        ::notice file=${{ env.ENV_FILE }}::This env file will only work after Library uploads the metapackage to packages.qiime2.org
+        echo "::notice file=${{ env.ENV_FILE }}::This env file will only work after Library uploads the metapackage to packages.qiime2.org"
 
     - name: upload convenience env file
       uses: actions/upload-artifact@v2
