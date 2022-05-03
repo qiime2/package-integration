@@ -129,6 +129,9 @@ runs:
     - name: create convenience env file
       shell: bash
       run: |
+        yq --version
+        yq --help
+
         conda env export \
           --no-builds \
           -n test-env \
