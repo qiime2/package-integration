@@ -130,24 +130,19 @@ runs:
       shell: bash
       run: |
         source "$CONDA/etc/profile.d/conda.sh"
-
-        which yq
-        yq --version
-        yq --help
-
         conda env export \
           --no-builds \
           -n test-env \
           | yq '
           {
-           channels: [
+           "channels": [
             "https://packages.qiime2.org/qiime2/${{ inputs.epoch }}/passed/${{ inputs.distro }}/",
             "qiime2/label/r${{ inputs.epoch }}",
             "conda-forge",
             "bioconda",
             "defaults"
            ],
-           dependencies: .dependencies |
+           "dependencies": .dependencies |
              map(select(. | startswith("qiime2-${{ inputs.distro }}") | not))
           }' > $ENV_FILE
         ::notice file=${{ env.ENV_FILE }}::This env file will only work after Library uploads the metapackage to packages.qiime2.org

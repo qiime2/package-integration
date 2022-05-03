@@ -17,7 +17,6 @@ runs:
           -c conda-forge \
           -c defaults \
           --override-channels \
-          conda-build \
-          yq
+          conda-build
         conda info -a
         conda config --show
