@@ -151,5 +151,5 @@ runs:
     - name: upload convenience env file
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.ENV_FILE }}
+        name: ${{ env.ENV_FILE }}.zip
         path: ${{ env.ENV_FILE }}
