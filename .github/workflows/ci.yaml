@@ -1,18 +1,37 @@
 name: ci
 
+# Edit this variable as necessary and the `paths` list below, everything else should work as-is
+env:
+  # space-delimited epochs
+  CONF_EPOCHS: 2022.2 2022.4
+
 on:
   workflow_dispatch: {}
   pull_request:
     paths:
+      - 2022.2/staged/**
       - 2022.4/staged/**
 
 jobs:
+  conf:
+    runs-on: ubuntu-latest  # this job is always run on linux
+    outputs:
+      epoch: ${{ steps.set-vars.outputs.epoch }}
+    steps:
+      - name: set-vars
+        id: set-vars
+        run: |
+          # Parse the git changes to figure out which epoch triggered this workflow.
+          EPOCH=$(python .github/workflows/bin/determine_epochs $CONF_EPOCHS)
+          echo "::set-output name=epoch::$EPOCH"
+
   integrate:
     runs-on: ${{ matrix.platform }}
+    needs: [conf]
     strategy:
       matrix:
         epoch:
-          - '2022.4'
+          - ${{ needs.conf.epoch }}
         distro:
           - core
         platform:
