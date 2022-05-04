@@ -20,6 +20,8 @@ jobs:
       epochs: ${{ steps.set-vars.outputs.epochs }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 100  # surely this is enough
 
       - name: set-vars
         id: set-vars
