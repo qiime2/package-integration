@@ -30,7 +30,7 @@ jobs:
           # EPOCHS=$(python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS")
           # echo $EPOCHS
           git branch
-          git diff --name-only "$GITHUB_BASE_REF...$GITHUB_HEAD_REF"
+          git diff --name-only "$GITHUB_BASE_REF...pull/145/merge"
           python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS"
           echo "::set-output name=epochs::$EPOCHS"
 
