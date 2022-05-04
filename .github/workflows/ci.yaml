@@ -29,6 +29,7 @@ jobs:
           # Parse the git changes to figure out which epoch triggered this workflow.
           # EPOCHS=$(python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS")
           # echo $EPOCHS
+          git diff --name-only $GITHUB_BASE_REF...$GITHUB_HEAD_REF
           python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS"
           echo "::set-output name=epochs::$EPOCHS"
 
