@@ -24,6 +24,7 @@ def get_changed():
     captured = subprocess.run(cmd, capture_output=True, text=True)
     files = captured.stdout.split('\n')
     files = [f for f in files if f != '']
+    print(captured, files)
     if not files:
         raise Exception('No files changed?!')
     return files
