@@ -20,7 +20,7 @@ def main(epochs):
 def get_changed():
     base = os.environ['GITHUB_BASE_REF']
     head = os.environ['GITHUB_HEAD_REF']
-    cmd = ['git', 'diff', '--name-only', '%s...%s' % (base, head)]
+    cmd = ['git', 'diff', '--name-only', '%s...%s' % (base, head), '--']
     captured = subprocess.run(cmd, capture_output=True, text=True)
     files = captured.stdout.split('\n')
     files = [f for f in files if f != '']
