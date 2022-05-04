@@ -17,7 +17,7 @@ jobs:
   conf:
     runs-on: ubuntu-latest  # this job is always run on linux
     outputs:
-      epoch: ${{ steps.set-vars.outputs.epoch }}
+      epochs: ${{ steps.set-vars.outputs.epochs }}
     steps:
       - uses: actions/checkout@v2
 
@@ -25,9 +25,9 @@ jobs:
         id: set-vars
         run: |
           # Parse the git changes to figure out which epoch triggered this workflow.
-          EPOCH=$(python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS")
-          echo $EPOCH
-          echo "::set-output name=epoch::$EPOCH"
+          EPOCHS=$(python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS")
+          echo $EPOCHS
+          echo "::set-output name=epochs::$EPOCHS"
 
   # temporary: commented out for testing
   # integrate:
@@ -35,8 +35,7 @@ jobs:
   #   needs: [conf]
   #   strategy:
   #     matrix:
-  #       epoch:
-  #         - ${{ needs.conf.epoch }}
+  #       epoch: ${{ fromJson(needs.conf.epochs) }}
   #       distro:
   #         - core
   #       platform:

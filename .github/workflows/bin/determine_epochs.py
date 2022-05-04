@@ -4,23 +4,18 @@ import subprocess
 
 
 def main(epochs):
-    seen = None
+    seen = set()
     changed_files = get_changed()
 
     for file in changed_files:
         for epoch in epochs:
             if epoch in file:
-                if seen is None:
-                    seen = epoch
-                elif seen == epoch:
-                    pass
-                else:
-                    raise Exception('PR updates multiple epochs, please split')
+                seen.add(epoch)
 
-    if seen is None:
+    if not seen:
         raise Exception('No matches')
 
-    print(seen, end='')
+    print(list(seen), end='')
 
 def get_changed():
     base = os.environ['GITHUB_BASE_REF']
@@ -29,6 +24,7 @@ def get_changed():
     captured = subprocess.run(cmd, capture_output=True, text=True)
     files = captured.stdout.split('\n')
     files = [f for f in files if f != '']
+    print(files)
     if not files:
         raise Exception('No files changed?!')
     return files
