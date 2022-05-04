@@ -25,6 +25,7 @@ def get_changed():
     files = captured.stdout.split('\n')
     files = [f for f in files if f != '']
     print(captured, files)
+    raise
     if not files:
         raise Exception('No files changed?!')
     return files
