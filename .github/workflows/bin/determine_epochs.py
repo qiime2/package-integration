@@ -12,6 +12,8 @@ def main(epochs):
             if epoch in file:
                 if seen is None:
                     seen = epoch
+                elif seen == epoch:
+                    pass
                 else:
                     raise Exception('PR updates multiple epochs, please split')
 

@@ -25,7 +25,7 @@ jobs:
         id: set-vars
         run: |
           # Parse the git changes to figure out which epoch triggered this workflow.
-          EPOCH=$(python .github/workflows/bin/determine_epochs.py $CONF_EPOCHS)
+          EPOCH=$(python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS")
           echo $EPOCH
           echo "::set-output name=epoch::$EPOCH"
 
