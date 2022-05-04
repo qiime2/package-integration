@@ -20,6 +20,10 @@ jobs:
       epochs: ${{ steps.set-vars.outputs.epochs }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: tj-actions/changed-files@v19
+        id: changed
 
       - name: set-vars
         id: set-vars
@@ -27,8 +31,8 @@ jobs:
           # Parse the git changes to figure out which epoch triggered this workflow.
           # EPOCHS=$(python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS")
           # echo $EPOCHS
-          git fetch origin $GITHUB_BASE_REF $GITHUB_HEAD_REF
-          python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS"
+          CHANGED="${{ steps.changed.outputs.all_changed_files }}"
+          python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS" "$CHANGED"
           # echo "::set-output name=epochs::$EPOCHS"
 
   # temporary: commented out for testing
