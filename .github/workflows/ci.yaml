@@ -20,8 +20,6 @@ jobs:
       epochs: ${{ steps.set-vars.outputs.epochs }}
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 100  # surely this is enough
 
       - name: set-vars
         id: set-vars
@@ -29,6 +27,7 @@ jobs:
           # Parse the git changes to figure out which epoch triggered this workflow.
           # EPOCHS=$(python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS")
           # echo $EPOCHS
+          git fetch --depth=1 origin +refs/tags/*:refs/tags/*
           git branch
           git diff --name-only "$GITHUB_BASE_REF...pull/145/merge"
           python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS"
