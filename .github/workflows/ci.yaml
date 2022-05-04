@@ -3,7 +3,7 @@ name: ci
 # Edit this variable as necessary and the `paths` list below, everything else should work as-is
 env:
   # space-delimited epochs
-  CONF_EPOCHS: 2022.2 2022.4
+  CONF_EPOCHS: '2022.2 2022.4'
 
 on:
   workflow_dispatch: {}
