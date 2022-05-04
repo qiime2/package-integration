@@ -19,7 +19,7 @@ jobs:
     outputs:
       epochs: ${{ steps.set-vars.outputs.epochs }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 100  # surely this is enough
 
@@ -58,7 +58,7 @@ jobs:
   #           'macos-latest') echo 'CONDA_PLATFORM=osx' >> $GITHUB_ENV ;;
   #         esac
 
-  #     - uses: actions/checkout@v2
+  #     - uses: actions/checkout@v3
   #     - uses: ./.github/actions/configure-conda
 
   #     - name: template recipe
