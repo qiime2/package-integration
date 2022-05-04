@@ -19,6 +19,8 @@ jobs:
     outputs:
       epoch: ${{ steps.set-vars.outputs.epoch }}
     steps:
+      - uses: actions/checkout@v2
+
       - name: set-vars
         id: set-vars
         run: |
