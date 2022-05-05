@@ -32,6 +32,7 @@ jobs:
           # EPOCHS=$(python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS")
           # echo $EPOCHS
           CHANGED="${{ steps.changed.outputs.all_changed_files }}"
+          echo $CHANGED
           python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS" "$CHANGED"
           # echo "::set-output name=epochs::$EPOCHS"
 

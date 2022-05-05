@@ -1,9 +1,11 @@
 import argparse
+import json
 
 
 def main(epochs, changed_files):
     seen = confirm_seen(epochs, changed_files)
-    print(list(seen), end='')
+    seen = json.dumps(list(seen))
+    print(seen, end='')
 
 
 def confirm_seen(epochs, changed_files):
