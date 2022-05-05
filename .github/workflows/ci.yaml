@@ -38,6 +38,7 @@ jobs:
     runs-on: ${{ matrix.platform }}
     needs: [conf]
     strategy:
+      fail-fast: false
       matrix:
         epoch: ${{ fromJson(needs.conf.outputs.epochs) }}
         distro:
