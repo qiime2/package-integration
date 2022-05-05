@@ -83,7 +83,7 @@ jobs:
             --override-channels \
             --output-folder $BUILD_DIR \
             --no-anaconda-upload \
-            -v \
+            --debug \
             $TEMPLATE_PATH
 
       - name: upload build artifact
