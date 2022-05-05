@@ -30,7 +30,6 @@ jobs:
           # Parse the git changes to figure out which epoch triggered this workflow.
           CHANGED="${{ steps.changed.outputs.all_changed_files }}"
           EPOCHS=$(python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS" "$CHANGED")
-          echo "$EPOCHS"
           echo "::set-output name=epochs::$EPOCHS"
 
   integrate:
@@ -81,7 +80,6 @@ jobs:
             --override-channels \
             --output-folder $BUILD_DIR \
             --no-anaconda-upload \
-            --debug \
             $TEMPLATE_PATH
 
       - name: upload build artifact
