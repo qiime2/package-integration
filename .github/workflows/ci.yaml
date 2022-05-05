@@ -73,6 +73,7 @@ jobs:
       - name: build recipe
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
+          conda activate base
           sudo conda build \
             -c $Q2_CHANNEL \
             -c conda-forge \
