@@ -13,6 +13,7 @@ def confirm_seen(epochs, changed_files):
 
     for file in changed_files:
         for epoch in epochs:
+            # This check could probably be more sophisticated, but this'll do
             if epoch in file:
                 seen.add(epoch)
                 if seen == epochs:

@@ -31,6 +31,7 @@ jobs:
           # Parse the git changes to figure out which epoch triggered this workflow.
           # EPOCHS=$(python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS")
           # echo $EPOCHS
+          set -x
           CHANGED="${{ steps.changed.outputs.all_changed_files }}"
           echo $CHANGED
           python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS" "$CHANGED"
