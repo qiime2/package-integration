@@ -11,13 +11,12 @@ def main(epochs, changed_files):
 def confirm_seen(epochs, changed_files):
     seen = set()
 
-    for file in changed_files:
-        for epoch in epochs:
+    for epoch in epochs:
+        for file in changed_files:
             # This check could probably be more sophisticated, but this'll do
             if epoch in file:
                 seen.add(epoch)
-                if seen == epochs:
-                    return seen
+                break
 
     if not seen:
         raise Exception('No matches')
