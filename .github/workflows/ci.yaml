@@ -29,69 +29,65 @@ jobs:
         id: set-vars
         run: |
           # Parse the git changes to figure out which epoch triggered this workflow.
-          # EPOCHS=$(python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS")
-          # echo $EPOCHS
-          set -x
           CHANGED="${{ steps.changed.outputs.all_changed_files }}"
-          echo "$CHANGED"
-          # python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS" "$CHANGED"
-          # echo "::set-output name=epochs::$EPOCHS"
+          EPOCHS=$(python .github/workflows/bin/determine_epochs.py "$CONF_EPOCHS" "$CHANGED")
+          echo "::set-output name=epochs::$EPOCHS"
+
+  integrate:
+    runs-on: ${{ matrix.platform }}
+    needs: [conf]
+    strategy:
+      matrix:
+        epoch: ${{ fromJson(needs.conf.epochs) }}
+        distro:
+          - core
+        platform:
+          - ubuntu-latest
+          - macos-latest
+    env:
+      BUILD_DIR: ./build/
+      TEMPLATE_PATH: ${{ matrix.epoch }}/staged/${{ matrix.distro }}/
+      Q2_CHANNEL: https://packages.qiime2.org/qiime2/${{ matrix.epoch }}/tested/
+    steps:
+      - name: set host helper env vars
+        run: |
+          case "${{ matrix.platform }}" in
+            'ubuntu-latest') echo 'CONDA_PLATFORM=linux' >> $GITHUB_ENV ;;
+            'macos-latest') echo 'CONDA_PLATFORM=osx' >> $GITHUB_ENV ;;
+          esac
+
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/configure-conda
+
+      - name: template recipe
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          pip install 'jinja2' pyyaml
+          python .github/workflows/bin/template.py $TEMPLATE_PATH
+
+      - name: debug recipe
+        run: cat $TEMPLATE_PATH/meta.yaml
+
+      - name: build recipe
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          sudo conda build \
+            -c $Q2_CHANNEL \
+            -c conda-forge \
+            -c bioconda \
+            -c defaults \
+            --override-channels \
+            --output-folder $BUILD_DIR \
+            --no-anaconda-upload \
+            $TEMPLATE_PATH
+
+      - name: upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.distro }}-${{ env.PLATFORM }}
+          path: ${{ env.BUILD_DIR }}/*/**
 
   # temporary: commented out for testing
-  # integrate:
-  #   runs-on: ${{ matrix.platform }}
-  #   needs: [conf]
-  #   strategy:
-  #     matrix:
-  #       epoch: ${{ fromJson(needs.conf.epochs) }}
-  #       distro:
-  #         - core
-  #       platform:
-  #         - ubuntu-latest
-  #         - macos-latest
-  #   env:
-  #     BUILD_DIR: ./build/
-  #     TEMPLATE_PATH: ${{ matrix.epoch }}/staged/${{ matrix.distro }}/
-  #     Q2_CHANNEL: https://packages.qiime2.org/qiime2/${{ matrix.epoch }}/tested/
-  #   steps:
-  #     - name: set host helper env vars
-  #       run: |
-  #         case "${{ matrix.platform }}" in
-  #           'ubuntu-latest') echo 'CONDA_PLATFORM=linux' >> $GITHUB_ENV ;;
-  #           'macos-latest') echo 'CONDA_PLATFORM=osx' >> $GITHUB_ENV ;;
-  #         esac
-
-  #     - uses: actions/checkout@v3
-  #     - uses: ./.github/actions/configure-conda
-
-  #     - name: template recipe
-  #       run: |
-  #         source "$CONDA/etc/profile.d/conda.sh"
-  #         pip install 'jinja2' pyyaml
-  #         python .github/workflows/bin/template.py $TEMPLATE_PATH
-
-  #     - name: debug recipe
-  #       run: cat $TEMPLATE_PATH/meta.yaml
-
-  #     - name: build recipe
-  #       run: |
-  #         source "$CONDA/etc/profile.d/conda.sh"
-  #         sudo conda build \
-  #           -c $Q2_CHANNEL \
-  #           -c conda-forge \
-  #           -c bioconda \
-  #           -c defaults \
-  #           --override-channels \
-  #           --output-folder $BUILD_DIR \
-  #           --no-anaconda-upload \
-  #           $TEMPLATE_PATH
-
-  #     - name: upload build artifact
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: ${{ matrix.distro }}-${{ env.PLATFORM }}
-  #         path: ${{ env.BUILD_DIR }}/*/**
-
   #     - name: phone home
   #       env:
   #         PACKAGE_NAME: qiime2-${{ matrix.distro }}
