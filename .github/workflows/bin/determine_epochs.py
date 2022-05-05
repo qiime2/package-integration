@@ -2,17 +2,25 @@ import argparse
 
 
 def main(epochs, changed_files):
+    seen = confirm_seen(epochs, changed_files)
+    print(list(seen), end='')
+
+
+def confirm_seen(epochs, changed_files):
     seen = set()
 
     for file in changed_files:
         for epoch in epochs:
             if epoch in file:
                 seen.add(epoch)
+                if seen == epochs:
+                    return seen
 
     if not seen:
         raise Exception('No matches')
 
-    print(list(seen), end='')
+    return seen
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='determine epochs changed')
