@@ -39,7 +39,7 @@ jobs:
     needs: [conf]
     strategy:
       matrix:
-        epoch: ${{ fromJson(needs.conf.epochs) }}
+        epoch: ${{ fromJson(needs.conf.outputs.epochs) }}
         distro:
           - core
         platform:
