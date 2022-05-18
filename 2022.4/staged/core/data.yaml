@@ -1,5 +1,5 @@
 meta:
-  phone_home: true
+  phone_home: false
 run:
 - q2-alignment
 - q2-composition
@@ -28,4 +28,4 @@ run:
 - q2galaxy
 - q2templates
 - qiime2
-version: 2022.05.12.21.23.00
+version: 2022.05.18.21.23.00
