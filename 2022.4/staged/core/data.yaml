@@ -20,8 +20,6 @@ ignore:
   - q2-sample-classifier
   - q2-taxa
   - q2-vsearch
-  - q2galaxy
-  - q2templates
 meta:
   phone_home: false
 run:
