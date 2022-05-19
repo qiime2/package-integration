@@ -1,14 +1,5 @@
 ignore:
-- q2-demux
-- q2-diversity
-- q2-feature-classifier
-- q2-fragment-insertion
-- q2-gneiss
-- q2-longitudinal
-- q2-phylogeny
-- q2-quality-filter
-- q2-vsearch
-- q2galaxy
+- q2-deblur
 meta:
   phone_home: false
 run:
