@@ -9,7 +9,6 @@ ignore:
   - q2-diversity-lib
   - q2-emperor
   - q2-feature-classifier
-  - q2-feature-table
   - q2-fragment-insertion
   - q2-gneiss
   - q2-longitudinal
@@ -20,7 +19,6 @@ ignore:
   - q2-quality-filter
   - q2-sample-classifier
   - q2-taxa
-  - q2-types
   - q2-vsearch
   - q2galaxy
   - q2templates
