@@ -1,5 +1,4 @@
 ignore:
-- q2-deblur
 - q2-demux
 - q2-diversity
 - q2-feature-classifier
