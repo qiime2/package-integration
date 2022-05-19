@@ -42,7 +42,6 @@ jobs:
           - core
         platform:
           - ubuntu-latest
-          - macos-latest
     env:
       BUILD_DIR: ./build/
       TEMPLATE_PATH: ${{ matrix.epoch }}/staged/${{ matrix.distro }}/
