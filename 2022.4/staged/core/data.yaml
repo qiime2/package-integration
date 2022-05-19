@@ -1,17 +1,3 @@
-ignore:
-  - q2-composition
-  - q2-cutadapt
-  - q2-dada2
-  - q2-deblur
-  - q2-demux
-  - q2-diversity
-  - q2-feature-classifier
-  - q2-fragment-insertion
-  - q2-gneiss
-  - q2-longitudinal
-  - q2-phylogeny
-  - q2-quality-filter
-  - q2-vsearch
 meta:
   phone_home: false
 run:
