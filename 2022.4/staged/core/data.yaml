@@ -1,5 +1,4 @@
 ignore:
-- q2-composition
 - q2-cutadapt
 - q2-dada2
 - q2-deblur
