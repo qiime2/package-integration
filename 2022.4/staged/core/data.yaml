@@ -1,5 +1,5 @@
 ignore:
-  - q2-diversity
+  - q2-taxa
 meta:
   phone_home: false
 run:
