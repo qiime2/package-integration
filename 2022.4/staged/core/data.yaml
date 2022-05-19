@@ -1,5 +1,6 @@
 ignore:
-  - q2cli
+  - q2-mystery-stew
+  - q2galaxy
 meta:
   phone_home: false
 run:
