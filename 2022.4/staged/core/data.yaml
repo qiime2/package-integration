@@ -18,7 +18,6 @@ ignore:
   - q2-quality-control
   - q2-quality-filter
   - q2-sample-classifier
-  - q2-taxa
   - q2-vsearch
 meta:
   phone_home: false
