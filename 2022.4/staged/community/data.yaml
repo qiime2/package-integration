@@ -1,3 +1,5 @@
+ignore:
+- q2-assembly
 meta:
   phone_home: true
 run:
