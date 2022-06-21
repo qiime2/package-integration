@@ -27,7 +27,7 @@ q2_diversity_lib:
 q2_emperor:
 - 2022.4.0.dev0+1.gfe04904
 q2_feature_classifier:
-- 2022.4.0.dev0+1.g81836c5
+- 2022.4.0.dev0+3.gdc66209
 q2_feature_table:
 - 2022.4.0.dev0+1.g5128da6
 q2_fmt:
@@ -49,7 +49,7 @@ q2_mystery_stew:
 q2_phylogeny:
 - 2022.4.0.dev0+2.g6d70e3d
 q2_quality_control:
-- 2022.4.0.dev0+4.gb348f08
+- 2022.4.0.dev0+6.g4bcf507
 q2_quality_filter:
 - 2022.4.0.dev0+1.gcae1001
 q2_sample_classifier:
@@ -63,7 +63,7 @@ q2_types:
 q2_types_genomics:
 - 2022.4.0.dev0
 q2_vsearch:
-- 2022.4.0.dev0+1.g7185730
+- 2022.4.0.dev0+3.gfb3526f
 q2cli:
 - 2022.4.0.dev0+1.g851e6a6
 q2galaxy:
