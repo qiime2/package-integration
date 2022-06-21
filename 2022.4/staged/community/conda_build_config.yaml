@@ -15,11 +15,11 @@ q2_composition:
 q2_cutadapt:
 - 2022.4.0.dev0+1.g5e6a984
 q2_dada2:
-- 2022.4.0.dev0+3.g2bf6939
+- 2022.4.0.dev0+4.g84f4c78
 q2_deblur:
-- 2022.4.0.dev0+3.g0bbcdc8
+- 2022.4.0.dev0+4.g2bdb02a
 q2_demux:
-- 2022.4.0.dev0+3.g200e91b
+- 2022.4.0.dev0+4.gd3275d7
 q2_diversity:
 - 2022.4.0.dev0+4.g1c0d9e3
 q2_diversity_lib:
@@ -27,7 +27,7 @@ q2_diversity_lib:
 q2_emperor:
 - 2022.4.0.dev0+1.gfe04904
 q2_feature_classifier:
-- 2022.4.0.dev0+1.g81836c5
+- 2022.4.0.dev0+2.g6ef168b
 q2_feature_table:
 - 2022.4.0.dev0+1.g5128da6
 q2_fmt:
@@ -35,11 +35,11 @@ q2_fmt:
 q2_fondue:
 - 2022.4.0.dev0+5.g8afd9f6.dirty
 q2_fragment_insertion:
-- 2022.4.0.dev0+1.g90258f5
+- 2022.4.0.dev0+2.g46fc22f
 q2_gneiss:
-- 2022.4.0.dev0+1.g6353a1e
+- 2022.4.0.dev0+2.g36f5801
 q2_longitudinal:
-- 2022.4.0.dev0+1.gdea62f5
+- 2022.4.0.dev0+2.ge77af89
 q2_metadata:
 - 2022.4.0.dev0+1.g43b32d0
 q2_moshpit:
@@ -51,7 +51,7 @@ q2_phylogeny:
 q2_quality_control:
 - 2022.4.0.dev0+4.gb348f08
 q2_quality_filter:
-- 2022.4.0.dev0+1.gcae1001
+- 2022.4.0.dev0+2.g9ae247e
 q2_sample_classifier:
 - 2022.4.0.dev0+1.ge7fb6c6
 q2_stats:
@@ -63,7 +63,7 @@ q2_types:
 q2_types_genomics:
 - 2022.4.0.dev0
 q2_vsearch:
-- 2022.4.0.dev0+1.g7185730
+- 2022.4.0.dev0+2.g8a94679
 q2cli:
 - 2022.4.0.dev0+1.g851e6a6
 q2galaxy:
