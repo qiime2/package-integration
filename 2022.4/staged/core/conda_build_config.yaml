@@ -27,7 +27,7 @@ q2_emperor:
 q2_feature_classifier:
 - 2022.4.0.dev0+1.g81836c5
 q2_feature_table:
-- 2022.4.0.dev0+1.g5128da6
+- 2022.4.0.dev0+3.gac6c794
 q2_fragment_insertion:
 - 2022.4.0.dev0+1.g90258f5
 q2_gneiss:
@@ -47,7 +47,7 @@ q2_quality_filter:
 q2_sample_classifier:
 - 2022.4.0.dev0+1.ge7fb6c6
 q2_taxa:
-- 2022.4.0.dev0+1.gaa0749a
+- 2022.4.0.dev0+2.g7a46d99
 q2_types:
 - 2022.4.0.dev0+3.g7933ef1
 q2_vsearch:
