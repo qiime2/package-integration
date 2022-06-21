@@ -9,9 +9,9 @@ python:
 q2_alignment:
 - 2022.4.0.dev0+1.g47021f3
 q2_composition:
-- 2022.4.0.dev0+1.g7843f0a
+- 2022.4.0.dev0+2.gc8b20a6
 q2_cutadapt:
-- 2022.4.0.dev0+1.g5e6a984
+- 2022.4.0.dev0+2.ga6c7b6a
 q2_dada2:
 - 2022.4.0.dev0+3.g2bf6939
 q2_deblur:
@@ -19,7 +19,7 @@ q2_deblur:
 q2_demux:
 - 2022.4.0.dev0+3.g200e91b
 q2_diversity:
-- 2022.4.0.dev0+3.g059ef2b
+- 2022.4.0.dev0+5.g454f9c1
 q2_diversity_lib:
 - 2022.4.0.dev0+3.g6347cff
 q2_emperor:
@@ -39,7 +39,7 @@ q2_metadata:
 q2_mystery_stew:
 - 2022.4.0.dev0
 q2_phylogeny:
-- 2022.4.0.dev0+2.g6d70e3d
+- 2022.4.0.dev0+3.gd33a013
 q2_quality_control:
 - 2022.4.0.dev0+4.gb348f08
 q2_quality_filter:
