@@ -25,7 +25,7 @@ q2_diversity:
 q2_diversity_lib:
 - 2022.4.0.dev0+3.g6347cff
 q2_emperor:
-- 2022.4.0.dev0+1.gfe04904
+- 2022.4.0.dev0+3.g5cefbf3
 q2_feature_classifier:
 - 2022.4.0.dev0+1.g81836c5
 q2_feature_table:
@@ -41,7 +41,7 @@ q2_gneiss:
 q2_longitudinal:
 - 2022.4.0.dev0+1.gdea62f5
 q2_metadata:
-- 2022.4.0.dev0+1.g43b32d0
+- 2022.4.0.dev0+3.gae18b55
 q2_moshpit:
 - 2022.4.0.dev0+3.ge2b8e67.dirty
 q2_mystery_stew:
