@@ -1,5 +1,3 @@
-ignore:
-- q2-moshpit
 meta:
   phone_home: true
 run:
@@ -36,4 +34,4 @@ run:
 - q2templates
 - qiime2
 - rescript
-version: 2022.06.22.19.23.00
+version: DO.NOT.MERGE.UNTIL.UPDATING.THIS.LINE
