@@ -2,6 +2,17 @@ ignore:
 - q2-moshpit
 meta:
   phone_home: false
-run: []
-# python -c "import datetime; print(datetime.datetime.utcnow().strftime('%Y.%m.%d.%H.%M.%S'))"
-version: 2022.08.05.18.50.10
+run:
+- q2-alignment
+- q2-composition
+- q2-cutadapt
+- q2-dada2
+- q2-deblur
+- q2-diversity-lib
+- q2-emperor
+- q2-fragment-insertion
+- q2-metadata
+- q2-mystery-stew
+- q2-quality-control
+- q2-sample-classifier
+version: 2022.08.05.22.23.00
