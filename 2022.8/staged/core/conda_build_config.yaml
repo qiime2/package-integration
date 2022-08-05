@@ -4,16 +4,34 @@ hdf5:
 - '*'
 pandas:
 - '>=1.2.5'
-scipy:
-- '>=1.7,<1.9'
 python:
 - '3.8'
+q2_diversity:
+- 2022.8.0.dev0
+q2_feature_classifier:
+- 2022.8.0.dev0
+q2_gneiss:
+- 2022.8.0.dev0
+q2_longitudinal:
+- 2022.8.0.dev0
+q2_phylogeny:
+- 2022.8.0.dev0
+q2_quality_filter:
+- 2022.8.0.dev0
+q2_vsearch:
+- 2022.8.0.dev0
+q2cli:
+- 2022.8.0.dev0
+q2galaxy:
+- 2022.8.0.dev0
 qiime2_epoch:
 - '2022.8'
 scikit_bio:
 - 0.5.7
 scikit_learn:
 - 0.24.1
+scipy:
+- '>=1.7,<1.9'
 unifrac:
 - 1.1.1
 unifrac_binaries:
