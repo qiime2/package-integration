@@ -1,5 +1,13 @@
 meta:
   phone_home: false
-run: []
-# python -c "import datetime; print(datetime.datetime.utcnow().strftime('%Y.%m.%d.%H.%M.%S'))"
-version: 2022.08.05.18.48.54
+run:
+- q2-diversity
+- q2-feature-classifier
+- q2-gneiss
+- q2-longitudinal
+- q2-phylogeny
+- q2-quality-filter
+- q2-vsearch
+- q2cli
+- q2galaxy
+version: 2022.08.05.23.23.00
