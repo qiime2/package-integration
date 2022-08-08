@@ -35,5 +35,4 @@ run:
 - q2galaxy
 - q2templates
 - qiime2
-- rescript
 version: 2022.07.29.08.23.00
