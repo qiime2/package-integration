@@ -76,6 +76,8 @@ qiime2:
 - 2022.8.0.dev0
 qiime2_epoch:
 - '2022.8'
+rescript:
+- 2021.11.0+6.g9006bf7
 scikit_bio:
 - 0.5.7
 scikit_learn:
