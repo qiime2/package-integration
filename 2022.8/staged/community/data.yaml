@@ -4,7 +4,6 @@ meta:
   phone_home: true
 run:
 - q2-alignment
-- q2-assembly
 - q2-composition
 - q2-cutadapt
 - q2-dada2
@@ -16,12 +15,10 @@ run:
 - q2-feature-classifier
 - q2-fmt
 - q2-feature-table
-- q2-fondue
 - q2-fragment-insertion
 - q2-gneiss
 - q2-longitudinal
 - q2-metadata
-- q2-moshpit
 - q2-mystery-stew
 - q2-phylogeny
 - q2-quality-control
@@ -30,12 +27,10 @@ run:
 - q2-stats
 - q2-taxa
 - q2-types
-- q2-types-genomics
 - q2-vsearch
 - q2cli
 - q2galaxy
 - q2templates
 - qiime2
-- rescript
 # python -c "import datetime; print(datetime.datetime.utcnow().strftime('%Y.%m.%d.%H.%M.%S'))"
 version: 2022.08.08.17.40.21
