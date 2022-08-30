@@ -14,8 +14,8 @@ on:
     # dev - every 8 hours, starting at the zeroth hour
     - cron: '37 0,8,16 * * *'
     {%- else -%}
-    # dev - every 8 hours, starting at the second hour
-    - cron: '37 2,10,18 * * *'
+    # dev - every 8 hours, starting at the fourth hour
+    - cron: '37 4,12,20 * * *'
     {% endif %}
     # rel - every other day
     # - cron: '37 3 */2 * *'
