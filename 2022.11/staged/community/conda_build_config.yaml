@@ -21,7 +21,7 @@ q2_deblur:
 q2_demux:
 - 2022.11.0.dev0+2.g80ee28f
 q2_diversity:
-- 2022.11.0.dev0+1.g2c6a78b
+- 2022.11.0.dev0+3.g383cda0
 q2_diversity_lib:
 - 2022.11.0.dev0+1.g0e92354
 q2_emperor:
@@ -37,7 +37,7 @@ q2_fondue:
 q2_fragment_insertion:
 - 2022.11.0.dev0+1.g6b7ab31
 q2_gneiss:
-- 2022.11.0.dev0+1.gb1a5138
+- 2022.11.0.dev0+3.geb94ca0
 q2_longitudinal:
 - 2022.11.0.dev0+1.g60dee69
 q2_metadata:
@@ -67,7 +67,7 @@ q2cli:
 q2galaxy:
 - 2022.11.0.dev0+1.g9e74731
 q2templates:
-- 2022.11.0.dev0+2.gd4c9219
+- 2022.11.0.dev0+4.g8990a9c
 qiime2:
 - 2022.11.0.dev0+10.g8df50f6
 qiime2_epoch:
