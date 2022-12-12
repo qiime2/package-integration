@@ -55,11 +55,11 @@ q2_quality_filter:
 q2_sample_classifier:
 - 2022.11.0.dev0+3.g27c3de1
 q2_stats:
-- 2022.11.0.dev0+7.ge4ae41d
+- 2022.11.0.dev0+9.g80320e5
 q2_taxa:
 - 2022.11.0.dev0+4.g498a994
 q2_types:
-- 2022.11.0.dev0+9.g9cff6bb
+- 2022.11.0.dev0+10.gaae4269
 q2_types_genomics:
 - 2022.11.0.dev0+1.gf9bc552
 q2_vsearch:
