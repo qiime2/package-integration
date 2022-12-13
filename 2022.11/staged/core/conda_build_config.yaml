@@ -17,7 +17,7 @@ q2_dada2:
 q2_deblur:
 - 2022.11.0.dev0+5.gb64b2a4
 q2_demux:
-- 2022.11.0.dev0+5.gefe87f8
+- 2022.11.0.dev0+7.g6f7dc6c
 q2_diversity:
 - 2022.11.0.dev0+8.gc59f58e
 q2_diversity_lib:
@@ -25,7 +25,7 @@ q2_diversity_lib:
 q2_emperor:
 - 2022.11.0.dev0+4.g5ec8e77
 q2_feature_classifier:
-- 2022.11.0.dev0+3.ga1396fe
+- 2022.11.0.dev0+5.gdf87e97
 q2_feature_table:
 - 2022.11.0.dev0+7.g4bb4b48
 q2_fragment_insertion:
@@ -33,7 +33,7 @@ q2_fragment_insertion:
 q2_gneiss:
 - 2022.11.0.dev0+3.geb94ca0
 q2_longitudinal:
-- 2022.11.0.dev0+3.g3bf9069
+- 2022.11.0.dev0+5.g475616f
 q2_metadata:
 - 2022.11.0.dev0+4.g9495ac1
 q2_mystery_stew:
@@ -51,7 +51,7 @@ q2_taxa:
 q2_types:
 - 2022.11.0.dev0+9.g9cff6bb
 q2_vsearch:
-- 2022.11.0.dev0+5.ge4885c4
+- 2022.11.0.dev0+7.gd44b9f9
 q2cli:
 - 2022.11.0.dev0+6.g70b9da8
 q2galaxy:
