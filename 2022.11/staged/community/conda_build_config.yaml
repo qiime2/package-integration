@@ -37,7 +37,7 @@ q2_fondue:
 q2_fragment_insertion:
 - 2022.11.0.dev0+4.g3384472
 q2_gneiss:
-- 2022.11.0.dev0+3.geb94ca0
+- 2022.11.0.dev0+5.g80b39d7
 q2_longitudinal:
 - 2022.11.0.dev0+3.g3bf9069
 q2_metadata:
@@ -65,7 +65,7 @@ q2_types_genomics:
 q2_vsearch:
 - 2022.11.0.dev0+5.ge4885c4
 q2cli:
-- 2022.11.0.dev0+8.g2c811a5
+- 2022.11.0.dev0+10.g99b9bed
 q2galaxy:
 - 2022.11.0.dev0+3.g4821f74
 q2templates:
