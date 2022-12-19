@@ -29,7 +29,7 @@ q2_emperor:
 q2_feature_classifier:
 - 2022.11.0.dev0+3.ga1396fe
 q2_feature_table:
-- 2022.11.0.dev0+7.g4bb4b48
+- 2022.11.0
 q2_fmt:
 - 2022.11.0.dev0+10.gc8ad59e
 q2_fondue:
@@ -57,9 +57,9 @@ q2_sample_classifier:
 q2_stats:
 - 2022.11.0.dev0+10.gffa68a6
 q2_taxa:
-- 2022.11.0.dev0+4.g498a994
+- 2022.11.0
 q2_types:
-- 2022.11.0.dev0+9.g9cff6bb
+- 2022.11.0
 q2_types_genomics:
 - 2022.11.0.dev0+1.gf9bc552
 q2_vsearch:
@@ -69,9 +69,9 @@ q2cli:
 q2galaxy:
 - 2022.11.0.dev0+3.g4821f74
 q2templates:
-- 2022.11.0.dev0+4.g8990a9c
+- 2022.11.0
 qiime2:
-- 2022.11.0.dev0+22.gb0c2df6
+- 2022.11.0
 qiime2_epoch:
 - '2022.11'
 r_base:
