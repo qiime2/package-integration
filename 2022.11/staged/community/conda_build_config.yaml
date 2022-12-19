@@ -7,7 +7,7 @@ pandas:
 python:
 - '3.8'
 q2_alignment:
-- 2022.11.0.dev0+3.g741d22f
+- 2022.11.0
 q2_assembly:
 - 2022.11.0.dev0+2.g0fda6d9
 q2_composition:
@@ -25,7 +25,7 @@ q2_diversity:
 q2_diversity_lib:
 - 2022.11.0.dev0+3.g143b937
 q2_emperor:
-- 2022.11.0.dev0+4.g5ec8e77
+- 2022.11.0
 q2_feature_classifier:
 - 2022.11.0.dev0+3.ga1396fe
 q2_feature_table:
@@ -41,15 +41,15 @@ q2_gneiss:
 q2_longitudinal:
 - 2022.11.0.dev0+3.g3bf9069
 q2_metadata:
-- 2022.11.0.dev0+4.g9495ac1
+- 2022.11.0
 q2_moshpit:
 - 2022.11.0.dev0+1.g24e2030
 q2_mystery_stew:
-- 2022.11.0.dev0+3.g041e9b4
+- 2022.11.0
 q2_phylogeny:
-- 2022.11.0.dev0+3.g982f5bc
+- 2022.11.0.dev0+6.g594e529
 q2_quality_control:
-- 2022.11.0.dev0+3.g5e8409e
+- 2022.11.0
 q2_quality_filter:
 - 2022.11.0.dev0+4.g85c16d8
 q2_sample_classifier:
