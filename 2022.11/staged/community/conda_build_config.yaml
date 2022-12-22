@@ -21,7 +21,7 @@ q2_deblur:
 q2_demux:
 - 2022.11.0.dev0+5.gefe87f8
 q2_diversity:
-- 2022.11.0.dev0+8.gc59f58e
+- 2022.11.1
 q2_diversity_lib:
 - 2022.11.0.dev0+3.g143b937
 q2_emperor:
@@ -39,7 +39,7 @@ q2_fragment_insertion:
 q2_gneiss:
 - 2022.11.0.dev0+3.geb94ca0
 q2_longitudinal:
-- 2022.11.0.dev0+3.g3bf9069
+- 2022.11.1
 q2_metadata:
 - 2022.11.0.dev0+4.g9495ac1
 q2_moshpit:
