@@ -19,13 +19,13 @@ q2_deblur:
 q2_demux:
 - 2023.2.0.dev0+1.g069b5af
 q2_diversity:
-- 2023.2.0.dev0+1.gbb6d045
+- 2023.2.0
 q2_diversity_lib:
 - 2023.2.0.dev0
 q2_emperor:
 - 2023.2.0.dev0+1.gc79b39a
 q2_feature_classifier:
-- 2023.2.0.dev0
+- 2023.2.0
 q2_feature_table:
 - 2023.2.0.dev0+2.g225e0d1
 q2_fmt:
@@ -37,13 +37,13 @@ q2_fragment_insertion:
 q2_gneiss:
 - 2023.2.0.dev0
 q2_longitudinal:
-- 2023.2.0.dev0
+- 2023.2.0
 q2_metadata:
-- 2023.2.0.dev0+2.g61fd0e9
+- 2023.2.0
 q2_mystery_stew:
 - 2023.2.0.dev0
 q2_phylogeny:
-- 2023.2.0.dev0
+- 2023.2.0
 q2_quality_control:
 - 2023.2.0.dev0
 q2_quality_filter:
