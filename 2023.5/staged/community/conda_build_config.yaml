@@ -6,6 +6,14 @@ pandas:
 - '>=1.2.5'
 python:
 - '3.8'
+q2_mystery_stew:
+- 2023.5.0.dev0
+q2_types:
+- 2023.5.0.dev0
+q2templates:
+- 2023.5.0.dev0
+qiime2:
+- 2023.5.0.dev0
 qiime2_epoch:
 - '2023.5'
 r_base:
