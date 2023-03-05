@@ -3,5 +3,13 @@ ignore:
 - q2-fondue
 meta:
   phone_home: false
-run: []
-version: 2023.03.04.16.33.57
+run:
+- q2-diversity-lib
+- q2-fragment-insertion
+- q2-quality-control
+- q2-sample-classifier
+- q2-taxa
+- q2-vsearch
+- q2cli
+- q2galaxy
+version: 2023.03.05.00.23.00
