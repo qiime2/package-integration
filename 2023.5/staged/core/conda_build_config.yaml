@@ -6,6 +6,22 @@ pandas:
 - '>=1.2.5'
 python:
 - '3.8'
+q2_diversity_lib:
+- 2023.5.0.dev0
+q2_fragment_insertion:
+- 2023.5.0.dev0
+q2_quality_control:
+- 2023.5.0.dev0
+q2_sample_classifier:
+- 2023.5.0.dev0
+q2_taxa:
+- 2023.5.0.dev0
+q2_vsearch:
+- 2023.5.0.dev0
+q2cli:
+- 2023.5.0.dev0
+q2galaxy:
+- 2023.5.0.dev0
 qiime2_epoch:
 - '2023.5'
 r_base:
