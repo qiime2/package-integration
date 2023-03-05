@@ -1,4 +1,31 @@
 meta:
-  phone_home: false
-run: []
-version: 2023.03.04.16.33.57
+  phone_home: true
+run:
+- q2_alignment
+- q2_composition
+- q2_cutadapt
+- q2_dada2
+- q2_deblur
+- q2_demux
+- q2_diversity
+- q2_diversity_lib
+- q2_emperor
+- q2_feature_classifier
+- q2_feature_table
+- q2_fragment_insertion
+- q2_gneiss
+- q2_longitudinal
+- q2_metadata
+- q2_mystery_stew
+- q2_phylogeny
+- q2_quality_control
+- q2_quality_filter
+- q2_sample_classifier
+- q2_taxa
+- q2_types
+- q2_vsearch
+- q2cli
+- q2galaxy
+- q2templates
+- qiime2
+version: 2023.03.05.01.00.10
