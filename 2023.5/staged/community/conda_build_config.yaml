@@ -6,6 +6,8 @@ pandas:
 - '>=1.2.5'
 python:
 - '3.8'
+q2_stats:
+- 2023.5.0.dev0+1.g01bbdc9
 qiime2_epoch:
 - '2023.5'
 r_base:
