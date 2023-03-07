@@ -6,6 +6,7 @@ meta:
   phone_home: true
 run:
 - q2-alignment
+- q2-assembly
 - q2-composition
 - q2-cutadapt
 - q2-dada2
@@ -22,6 +23,7 @@ run:
 - q2-gneiss
 - q2-longitudinal
 - q2-metadata
+- q2-moshpit
 - q2-mystery-stew
 - q2-phylogeny
 - q2-quality-control
@@ -37,4 +39,4 @@ run:
 - q2templates
 - qiime2
 - rescript
-version: 2023.03.06.22.39.17
+version: 2023.03.07.12.23.00
