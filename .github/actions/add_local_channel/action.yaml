@@ -1,0 +1,28 @@
+name: 'add local conda channel'
+inputs:
+  epoch:
+    description: 'The QIIME 2 epoch label'
+    required: true
+  platform:
+    description: 'The system type build/tests will be performed on'
+    required: true
+runs:
+  using: { input.platform }
+  run: |
+    # create space for local
+    mkdir local
+
+    # download remote channel to local register local channel to conda in conda
+    wget --recursive --no-parent --no-clobber --cut-dirs=1 --level=inf  --directory-prefix ./local https://packages.qiime2.org/qiime2/{ input.epoch }/tested/
+
+    mv ./local/packages.qiime2.org/qiime2/{ input.epoch }/tested/* ./local/
+    rm -rf ./local/packages.qiime2.org/
+
+    # create channel
+    conda index ./local/
+
+    conda info -a
+    conda config --show
+
+    # now let's wire it in
+    #

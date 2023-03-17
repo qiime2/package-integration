@@ -54,6 +54,12 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/configure-conda
 
+      - name: configure local qiime2 package channel
+        uses: ./.github/actions/add-local-channel
+        with: 
+          epoch: ${{ matrix.epoch }}
+          platform: ${{ matrix.platform }}
+
       - name: template recipe
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
