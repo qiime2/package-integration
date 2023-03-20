@@ -34,7 +34,10 @@ jobs:
           fetch-depth: '0'
 
       - name: get diff
-        run: git diff ci-v2 -- ${{ needs.conf.outputs.epoch }}/tested/conda_build_config.yaml > diff.txt
+        run: |
+          git fetch origin ci-v2
+          git diff ci-v2 -- ${{ needs.conf.outputs.epoch }}/tested/conda_build_config.yaml > diff.txt
+          cat diff.txt
 
       - name: set up python 3.8
         uses: actions/setup-python@v1
