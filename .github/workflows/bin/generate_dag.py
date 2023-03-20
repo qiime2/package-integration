@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import yaml
-import urllib
+import urllib.request
 import json
 import re
 import sys
