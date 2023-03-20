@@ -35,7 +35,7 @@ jobs:
 
       - name: get diff
         run: |
-          git fetch origin ci-v2
+          git fetch origin ci-v2:ci-v2
           git diff ci-v2 -- ${{ needs.conf.outputs.epoch }}/tested/conda_build_config.yaml > diff.txt
           cat diff.txt
 
