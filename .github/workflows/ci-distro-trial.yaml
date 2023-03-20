@@ -1,5 +1,4 @@
 name: ci-distro-trial
-description: Produce a new configuration for a distribution
 
 # Any env variables we need to run this workflow
 env:
