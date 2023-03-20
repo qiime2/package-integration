@@ -39,7 +39,7 @@ jobs:
           python-version: 3.8
 
       - name: set up dependencies
-        run: pip install networkx mermaid
+        run: pip install mermaid
 
       - name: get diff
         run: git diff ci-v2 -- ${{ needs.conf.outputs.epoch }}/tested/conda_build_config.yaml > diff.txt
