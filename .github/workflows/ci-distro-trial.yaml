@@ -30,6 +30,8 @@ jobs:
     steps:
       - name: checkout source
         uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
 
       - name: set up python 3.8
         uses: actions/setup-python@v1
