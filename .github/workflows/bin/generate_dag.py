@@ -309,8 +309,6 @@ if __name__ == '__main__':
                                          epoch=epoch,
                                          q2_pkg_dict=q2_pkg_dict)
 
-    filtered_items = sorted(filtered_dict.items(), key=lambda x: x[0])
-
     pkgs_to_test = \
         set.union(set(filtered_dict),
                   *(nx.descendants(core_dag, pkg) for pkg in filtered_dict))
@@ -325,5 +323,5 @@ if __name__ == '__main__':
     with open(gh_summary, 'w') as fh:
         fh.write(template.render(epoch=epoch,
                                  core_mermaid=core_mermaid,
-                                 filtered_items=filtered_items,
+                                 filtered_dict=filtered_dict,
                                  pkgs_to_test=pkgs_to_test))

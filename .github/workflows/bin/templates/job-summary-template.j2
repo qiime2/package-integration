@@ -3,12 +3,12 @@
 <h3>List of changed packages and their immediate reverse dependencies</h3>
 <table>
     <tr><th>Changed Package</th><th>Reverse Dependencies</th></tr>
-    {%- for pkg, deps in filtered_items -%}
+    {%- for pkg, deps in filtered_dict|dictsort -%}
     <tr>
         <td> {{ pkg }} </td>
         <td>
             <ul>
-            {%- for dep in sorted(deps) -%}
+            {%- for dep in deps|sort -%}
                 <li>{{ dep }}</li>
             {%- endfor -%}
             </ul>
@@ -19,7 +19,7 @@
 
 <h3>List of all packages that require a re-test due to the changes above</h3>
     <ul>
-    {%- for pkg in sorted(pkgs_to_test) -%}
+    {%- for pkg in pkgs_to_test|sort -%}
         <li>{{ pkg }}</li>
     {%- endfor -%}
     </ul>
