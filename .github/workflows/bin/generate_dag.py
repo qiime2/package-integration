@@ -315,7 +315,8 @@ if __name__ == '__main__':
     import os as OS
     print(OS.getcwd(), flush=True)
 
-    environment = jinja2.Environment(loader=FileSystemLoader("templates"))
+    environment = jinja2.Environment(
+        loader=FileSystemLoader(".github/workflows/bin/templates"))
     template = environment.get_template("job-summary-template.j2")
 
     with open(gh_summary, 'w') as fh:
