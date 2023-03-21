@@ -1,9 +1,3 @@
-<h3>DAG for __ distro for {{ epoch }} with changed packages and their reverse dependencies highlighted</h3>
-
-```mermaid
-{{ core_mermaid }}
-```
-
 <h3>List of changed packages and their immediate reverse dependencies</h3>
 <table>
     <tr><th>Changed Package</th><th>Reverse Dependencies</th></tr>
@@ -20,3 +14,9 @@
     </tr>
     {%- endfor -%}
 </table>
+
+<h3>DAG for __ distro for {{ epoch }} with changed packages and their reverse dependencies highlighted</h3>
+
+```mermaid
+{{ core_mermaid }}
+```
