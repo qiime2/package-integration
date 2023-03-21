@@ -5,4 +5,9 @@ DAG for __ distro for {{ epoch }} with changed packages and their reverse depend
 ```
 
 List of changed packages and their immediate reverse dependencies
-{{ filtered_dict }}
+{% for pkg, deps in filtered_dict.items() %}
+Package:
+    {{ pkg }}
+Reverse Dependencies:
+    {{ deps }}
+{% endfor %}

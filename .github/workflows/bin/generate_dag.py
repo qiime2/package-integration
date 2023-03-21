@@ -312,13 +312,11 @@ if __name__ == '__main__':
     # This gets written to mermaid_primary.txt for mermaid DAG in job summary
     core_mermaid = to_mermaid(core_sub, highlight_from=filtered_dict.keys())
 
-    import os as OS
-    print(OS.getcwd(), flush=True)
-
     environment = jinja2.Environment(
         loader=FileSystemLoader(".github/workflows/bin/templates"))
     template = environment.get_template("job-summary-template.j2")
 
     with open(gh_summary, 'w') as fh:
-        fh.write(template.render(core_mermaid=core_mermaid,
+        fh.write(template.render(epoch=epoch,
+                                 core_mermaid=core_mermaid,
                                  filtered_dict=filtered_dict))
