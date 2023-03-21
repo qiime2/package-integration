@@ -9,18 +9,16 @@
     <thead>
         <tr><th>Changed Package</th><th>Reverse Dependencies</th></tr>
     </thead>
-    <tbody>
-        {% for pkg, deps in filtered_dict.items() %}
-        <tr>
-            <td> {{ pkg }} </td>
-            <td>
-                <ul>
-                {% for dep in deps %}
-                    <li>{{ dep }}</li>
-                {% endfor %}
-                </ul>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+    {% for pkg, deps in filtered_dict.items() %}
+    <tr>
+        <td> {{ pkg }} </td>
+        <td>
+            <ul>
+            {% for dep in deps %}
+                <li>{{ dep }}</li>
+            {% endfor %}
+            </ul>
+        </td>
+    </tr>
+    {% endfor %}
 </table>
