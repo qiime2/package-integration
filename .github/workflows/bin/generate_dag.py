@@ -309,7 +309,11 @@ if __name__ == '__main__':
                                          epoch=epoch,
                                          q2_pkg_dict=q2_pkg_dict)
 
-    # This gets written to mermaid_primary.txt for mermaid DAG in job summary
+    pkgs_to_test = \
+        set.union(set(filtered_dict),
+                  *(nx.descendants(core_dag, pkg) for pkg in filtered_dict))
+
+    # This gets templated out using Jinja2 for mermaid DAG in job summary
     core_mermaid = to_mermaid(core_sub, highlight_from=filtered_dict.keys())
 
     environment = jinja2.Environment(
@@ -319,4 +323,5 @@ if __name__ == '__main__':
     with open(gh_summary, 'w') as fh:
         fh.write(template.render(epoch=epoch,
                                  core_mermaid=core_mermaid,
-                                 filtered_dict=filtered_dict))
+                                 filtered_dict=filtered_dict,
+                                 pkgs_to_test=pkgs_to_test))
