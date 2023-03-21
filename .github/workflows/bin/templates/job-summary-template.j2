@@ -5,9 +5,22 @@
 ```
 
 <h3>List of changed packages and their immediate reverse dependencies</h3>
-{% for pkg, deps in filtered_dict.items() %}
-<h6>Package:</h6>
-    {{ pkg }}
-<h6>Reverse Dependencies:</h6>
-    {% for dep in deps %} {{ dep }} {% endfor %}
-{% endfor %}
+<table>
+    <thead>
+        <tr><th>Changed Package</th><th>Reverse Dependencies</th></tr>
+    </thead>
+    <tbody>
+        {% for pkg, deps in filtered_dict.items() %}
+        <tr>
+            <td> {{ pkg }} </td>
+            <td>
+                <ul>
+                {% for dep in deps %}
+                    <li>{{ dep }}</li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
