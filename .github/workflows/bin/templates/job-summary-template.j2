@@ -9,5 +9,5 @@
 <h6>Package:</h6>
     {{ pkg }}
 <h6>Reverse Dependencies:</h6>
-    {{ deps }}
+    {% for dep in deps %} {{ dep }} {% endfor %}
 {% endfor %}
