@@ -283,7 +283,7 @@ def to_mermaid(G, highlight_from=None):
 
 
 def create_markdown_mermaid(mermaid_str):
-    return rf'```mermaid\n{mermaid_str}\n```'
+    return f'```mermaid\n{mermaid_str}\n```'
 
 
 if __name__ == '__main__':
