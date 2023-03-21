@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 import yaml
 import urllib.request
+import jinja2
 import json
 import re
 import sys
 import networkx as nx
 from yaml import SafeLoader
+from jinja2 import FileSystemLoader
 
 
 # Helper methods ##
@@ -282,14 +284,11 @@ def to_mermaid(G, highlight_from=None):
     return '\n'.join(lines)
 
 
-def create_markdown_mermaid(mermaid_str):
-    return f'```mermaid\n{mermaid_str}\n```'
-
-
 if __name__ == '__main__':
     diff = find_diff(sys.argv[1])
     epoch = sys.argv[2]
     os = sys.argv[3]
+    gh_summary = sys.argv[4]
 
     new_pkgs = diff['added_pkgs']
     changed_pkgs = diff['changed_pkgs']
@@ -304,16 +303,18 @@ if __name__ == '__main__':
     core_dag = make_dag(pkg_dict=q2_pkg_dict)
     core_sub = _get_subgraph(cbc_yaml=cbc_yaml, dag=core_dag)
 
+    # filtered_dict gets used
     filtered_dict, versioned_filtered_dict = \
         get_changed_pkgs_downstream_deps(changed_pkgs=changed_pkgs,
                                          epoch=epoch,
                                          q2_pkg_dict=q2_pkg_dict)
 
-    filtered_dag = make_dag(pkg_dict=filtered_dict)
-    filtered_sub = _get_subgraph(cbc_yaml=cbc_yaml, dag=filtered_dag)
+    # This gets written to mermaid_primary.txt for mermaid DAG in job summary
+    core_mermaid = to_mermaid(core_sub, highlight_from=[filtered_dict.keys()])
 
-    core_mermaid = to_mermaid(core_sub)
-    filtered_mermaid = to_mermaid(filtered_sub)
+    environment = jinja2.Environment(loader=FileSystemLoader("templates/"))
+    template = environment.get_template("job-summary-template.j2")
 
-    with open('mermaid_primary.txt', 'w') as fh:
-        fh.write(create_markdown_mermaid(core_mermaid))
+    with open(gh_summary, 'w') as fh:
+        fh.write(template.render(core_mermaid=core_mermaid,
+                                 filtered_dict=filtered_dict))
