@@ -33,7 +33,7 @@ q2_emperor:
 q2_feature_classifier:
 - 2023.2.0
 q2_feature_table:
-- 2023.2.0
+- 2023.2.0.dev0
 q2_fmt:
 - 2023.2.0.dev0+66.g08d5dcc
 q2_fondue:
@@ -57,7 +57,7 @@ q2_quality_filter:
 q2_sample_classifier:
 - 2023.2.0
 q2_stats:
-- 2023.2.0.dev0+8.ge9ab94e
+- 2023.2.0
 q2_taxa:
 - 2023.2.0
 q2_types:

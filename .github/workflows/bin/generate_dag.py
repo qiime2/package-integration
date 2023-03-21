@@ -310,7 +310,7 @@ if __name__ == '__main__':
                                          q2_pkg_dict=q2_pkg_dict)
 
     # This gets written to mermaid_primary.txt for mermaid DAG in job summary
-    core_mermaid = to_mermaid(core_sub, highlight_from=[filtered_dict.keys()])
+    core_mermaid = to_mermaid(core_sub, highlight_from=filtered_dict.keys())
 
     environment = jinja2.Environment(loader=FileSystemLoader("templates/"))
     template = environment.get_template("job-summary-template.j2")
