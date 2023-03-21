@@ -312,8 +312,8 @@ if __name__ == '__main__':
     # This gets written to mermaid_primary.txt for mermaid DAG in job summary
     core_mermaid = to_mermaid(core_sub, highlight_from=filtered_dict.keys())
 
-    import os
-    print(os.getcwd())
+    import os as OS
+    print(OS.getcwd(), flush=True)
 
     environment = jinja2.Environment(loader=FileSystemLoader("templates"))
     template = environment.get_template("job-summary-template.j2")
