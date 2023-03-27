@@ -306,7 +306,7 @@ if __name__ == '__main__':
     core_sub = _get_subgraph(cbc_yaml=cbc_yaml, dag=core_dag)
 
     # filtered_dict gets used
-    filtered_dict, versioned_tuple_filtered_dict, filtered_cbc_yaml = \
+    filtered_dict, versioned_filtered_dict, filtered_cbc_yaml = \
         get_changed_pkgs_downstream_deps(changed_pkgs=changed_pkgs,
                                          epoch=epoch,
                                          q2_pkg_dict=q2_pkg_dict)
@@ -328,8 +328,8 @@ if __name__ == '__main__':
                                  filtered_dict=filtered_dict,
                                  pkgs_to_test=pkgs_to_test))
 
-    with open('versioned_tuple_filtered_dict.json', 'w') as fh:
-        json.dump(versioned_tuple_filtered_dict, fh)
+    with open('versioned_filtered_dict.json', 'w') as fh:
+        json.dump(versioned_filtered_dict, fh)
 
     with open('cbc_yaml.json', 'w') as fh:
         json.dump(cbc_yaml, fh)
