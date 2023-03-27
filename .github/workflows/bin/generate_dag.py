@@ -197,13 +197,9 @@ def get_changed_pkgs_downstream_deps(changed_pkgs, epoch, q2_pkg_dict):
          for pkg, versioned_pkg in zip(filtered_downstream_dict.keys(),
                                        filtered_cbc_list)}
 
-    versioned_tuple_filtered_dict = {}
-    for pkg, version in filtered_cbc_yaml.items():
-        version = version[0]
-        versioned_tuple_filtered_dict[(pkg, version)] = \
-            versioned_downstream_dict[pkg + '-' + version]
-
-    return filtered_downstream_dict, versioned_tuple_filtered_dict
+    return (filtered_downstream_dict,
+            versioned_downstream_dict,
+            filtered_cbc_yaml)
 
 
 # Create new DiGraph object & add list of pkgs from a given pkg dict as nodes
@@ -310,7 +306,7 @@ if __name__ == '__main__':
     core_sub = _get_subgraph(cbc_yaml=cbc_yaml, dag=core_dag)
 
     # filtered_dict gets used
-    filtered_dict, versioned_tuple_filtered_dict = \
+    filtered_dict, versioned_tuple_filtered_dict, filtered_cbc_yaml = \
         get_changed_pkgs_downstream_deps(changed_pkgs=changed_pkgs,
                                          epoch=epoch,
                                          q2_pkg_dict=q2_pkg_dict)
@@ -337,3 +333,6 @@ if __name__ == '__main__':
 
     with open('cbc_yaml.json', 'w') as fh:
         json.dump(cbc_yaml, fh)
+
+    with open('filtered_cbc_yaml.json', 'w') as fh:
+        json.dump(filtered_cbc_yaml, fh)

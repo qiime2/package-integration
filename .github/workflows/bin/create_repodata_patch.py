@@ -65,7 +65,7 @@ def _patch_repodata(repodata, changes):
     return instructions
 
 
-def patch_channels(versioned_tuple_filtered_dict):
+def patch_channels(filtered_cbc_yaml, versioned_filtered_dict):
     patch_instructions = {}
 
     for subdir in SUBDIRS:
@@ -74,6 +74,12 @@ def patch_channels(versioned_tuple_filtered_dict):
         with open(os.path.join(LOCAL_CHANNEL,
                                subdir, 'repodata.json'), 'r') as fh:
             repodata = json.load(fh)
+
+        versioned_tuple_filtered_dict = {}
+        for pkg, version in filtered_cbc_yaml.items():
+            version = version[0]
+            versioned_tuple_filtered_dict[(pkg, version)] = \
+                versioned_filtered_dict[pkg + '-' + version]
 
         patch_instructions = _patch_repodata(repodata,
                                              versioned_tuple_filtered_dict)
@@ -87,12 +93,18 @@ def patch_channels(versioned_tuple_filtered_dict):
 
 
 if __name__ == '__main__':
-    conf_epoch, cbc_yaml_fp, versioned_tuple_filtered_dict_fp = sys.argv[1:]
+    (conf_epoch,
+     cbc_yaml_fp,
+     filtered_cbc_yaml_fp,
+     versioned_filtered_dict_fp) = sys.argv[1:]
 
     REMOTE_CHANNEL = f'https://packages.qiime2.org/qiime2/{conf_epoch}/tested'
 
     with open(cbc_yaml_fp, 'r') as fh:
         cbc_yaml = json.load(fh)
 
-    with open(versioned_tuple_filtered_dict_fp, 'r') as fh:
-        versioned_tuple_filtered_dict = json.load(fh)
+    with open(filtered_cbc_yaml_fp, 'r') as fh:
+        filtered_cbc_yaml = json.load(fh)
+
+    with open(versioned_filtered_dict_fp, 'r') as fh:
+        versioned_filtered_dict = json.load(fh)

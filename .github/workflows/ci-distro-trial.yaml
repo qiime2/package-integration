@@ -48,7 +48,17 @@ jobs:
         run: pip install pyyaml jinja2 networkx
 
       - name: parse diff and generate dag
-        run: python .github/workflows/bin/generate_dag.py diff.txt ${{ needs.conf.outputs.epoch }} 'linux-64' $GITHUB_STEP_SUMMARY
+        run: |
+          python .github/workflows/bin/generate_dag.py \
+          diff.txt \
+          ${{ needs.conf.outputs.epoch }} \
+          'linux-64' \
+          $GITHUB_STEP_SUMMARY
 
       - name: create repodata patch
-        run: python .github/workflows/bin/create_repodata_patch.py ${{ needs.conf.outputs.epoch }} cbc_yaml.json versioned_tuple_filtered_dict.json
+        run: |
+          python .github/workflows/bin/create_repodata_patch.py \
+          ${{ needs.conf.outputs.epoch }} \
+          cbc_yaml.json \
+          filtered_cbc_yaml.json \
+          versioned_filtered_dict.json
