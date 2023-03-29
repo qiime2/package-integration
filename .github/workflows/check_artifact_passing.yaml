@@ -1,0 +1,37 @@
+name: artifact-parent
+
+on:
+  pull_request:
+    branches: [ci-v2]
+  
+jobs:
+  parent:
+    runs-on: ubuntu-latest
+    steps:
+      # - uses: actions/download-artifact@v3
+      #   with:
+      #     name: ${{ inputs.artifact_name }}
+      #     path: ./downloaded_artifacts/
+      - run: mkdir foo
+      - run: echo "hello from foo" > foo/parent.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          name: foo
+          path: foo/
+
+  child_job:
+    needs: parent
+    uses: ./.github/workflows/check_artifact_child_passing.yaml
+    with:
+      artifact_name: foo
+  
+  check_child:
+    needs: child_job
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: foo
+          path: download/
+      - run: ls download/
+
+
