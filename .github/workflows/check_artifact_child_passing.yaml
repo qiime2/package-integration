@@ -24,7 +24,7 @@ jobs:
           path: ./downloaded_artifacts/
     
   configure_matrix:
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
