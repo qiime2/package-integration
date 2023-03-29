@@ -1,0 +1,22 @@
+name: artifact-child
+
+on:
+  workflow_call:
+    inputs:
+      artifact_name:
+        required: true
+        type: string
+
+jobs:
+  fetch_artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: ./downloaded_artifacts/
+      - run: ls ./downloaded_artifacts/
+      - run: echo "hello from child" > ./downloaded_artifacts/child.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ inputs.artifact_name }}
