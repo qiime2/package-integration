@@ -20,12 +20,14 @@ jobs:
           path: foo/
 
   child_job:
+    runs-on: ubuntu-latest
     needs: parent
     uses: ./.github/workflows/check_artifact_child_passing.yaml
     with:
       artifact_name: foo
   
   check_child:
+    runs-on: ubuntu-latest
     needs: child_job
     steps:
       - uses: actions/download-artifact@v3
