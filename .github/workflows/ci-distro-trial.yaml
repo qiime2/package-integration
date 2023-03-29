@@ -21,8 +21,8 @@ jobs:
     steps:
       - name: set-vars
         id: set-vars
-          run: |
-            echo "::set-output name=epoch::$CONF_EPOCH"
+        run: |
+          echo "::set-output name=epoch::$CONF_EPOCH"
 
   # this job will parse a diff from cbc, and use that to generate a DAG
   integrate:

@@ -16,7 +16,8 @@ jobs:
           name: ${{ inputs.artifact_name }}
           path: ./downloaded_artifacts/
       - run: ls ./downloaded_artifacts/
-      - run: echo "hello from child" > ./downloaded_artifacts/child.txt
+      - run: mkdir downloaded_artifacts/subdir/
+      - run: echo "hello from child" > ./downloaded_artifacts/subdir/child.txt
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.artifact_name }}
