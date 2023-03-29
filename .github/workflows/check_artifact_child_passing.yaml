@@ -34,7 +34,7 @@ jobs:
           path: ./downloaded_artifacts/
       - id: set-matrix
         run: |
-          echo "matrix=$(cat ./downloaded_atrifacts/matrix.json)" \
+          echo "matrix=$(cat ./downloaded_artifacts/matrix.json)" \
           >> $GITHUB_OUTPUT
 
   run_matrix:
