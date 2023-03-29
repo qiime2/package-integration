@@ -22,3 +22,26 @@ jobs:
         with:
           name: ${{ inputs.artifact_name }}
           path: ./downloaded_artifacts/
+    
+  configure_matrix:
+    runs_on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: ./downloaded_artifacts/
+      - id: set-matrix
+        run: |
+          echo "matrix=$(cat ./downloaded_atrifacts/matrix.json)" \
+          >> $GITHUB_OUTPUT
+
+  run_matrix:
+    needs: configure_matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        package: ${{ fromJSON(needs.configure_matrix.outputs.matrix) }}
+    steps:
+      - run: echo ${{ matrix.package }}

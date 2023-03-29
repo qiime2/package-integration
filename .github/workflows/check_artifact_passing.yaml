@@ -14,6 +14,7 @@ jobs:
       #     path: ./downloaded_artifacts/
       - run: mkdir foo
       - run: echo "hello from foo" > foo/parent.txt
+      - run: echo '["q2-foo", "q2-bar"]' > foo/matrix.json
       - uses: actions/upload-artifact@v3
         with:
           name: foo
@@ -36,5 +37,5 @@ jobs:
           path: download/
       - run: ls download/
       - run: ls download/subdir/
-
+  
 
