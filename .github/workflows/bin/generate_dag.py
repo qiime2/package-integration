@@ -216,23 +216,6 @@ def make_dag(pkg_dict):
     return dag
 
 
-def draw_dag(G, edge_alpha=0.3):
-    import matplotlib.pyplot as plt
-    for layer, nodes in enumerate(nx.topological_generations(G)):
-        # `multipartite_layout` expects the layer as a node attribute, so add
-        # the numeric layer value as a node attribute
-        for node in nodes:
-            G.nodes[node]["layer"] = layer
-
-    # Compute the multipartite_layout using the "layer" node attribute
-    pos = nx.multipartite_layout(G, subset_key="layer", scale=800)
-
-    fig, ax = plt.subplots(figsize=(18, 10))
-    nx.draw_networkx_labels(G, pos=pos, font_weight='bold', ax=ax)
-    nx.draw_networkx_edges(G, pos=pos, alpha=edge_alpha, ax=ax)
-    fig.tight_layout()
-
-
 # Convert DAG subplot to mermaid diagram for use in job summary
 def to_mermaid(G, highlight_from=None):
     lookup = {n: f'{i:x}' for i, n in enumerate(sorted(G.nodes, reverse=True))}
@@ -311,9 +294,9 @@ if __name__ == '__main__':
                                          epoch=epoch,
                                          q2_pkg_dict=q2_pkg_dict)
 
-    pkgs_to_test = \
-        set.union(set(filtered_dict),
-                  *(nx.descendants(core_dag, pkg) for pkg in filtered_dict))
+    pkgs_to_test = list(set.union(set(filtered_dict),
+                                  *(nx.descendants(core_dag, pkg)
+                                    for pkg in filtered_dict)))
 
     # This gets templated out using Jinja2 for mermaid DAG in job summary
     core_mermaid = to_mermaid(core_sub, highlight_from=filtered_dict.keys())
@@ -336,3 +319,6 @@ if __name__ == '__main__':
 
     with open('filtered_cbc_yaml.json', 'w') as fh:
         json.dump(filtered_cbc_yaml, fh)
+
+    with open('retest_matrix.json', 'w') as fh:
+        json.dump(pkgs_to_test, fh)

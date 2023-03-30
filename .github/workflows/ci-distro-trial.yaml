@@ -62,3 +62,9 @@ jobs:
           cbc_yaml.json \
           filtered_cbc_yaml.json \
           versioned_filtered_dict.json
+
+      - name: store matrices
+        uses: actions/upload-artifact@v3
+        with:
+          name: matrix
+          path: ./retest_matrix.json
