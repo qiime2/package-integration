@@ -126,11 +126,11 @@ def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
     # this is what's pulled from our tested channel on packages.qiime2.org
     q2_dep_dict = {}
 
-    for name, info in q2_json['packages'].items():
-        if (info['name'] not in relevant_pkgs
+    for info in q2_json['packages'].values():
+        name = info['name']
+        if (name not in relevant_pkgs
                 or relevant_pkgs[name] != info['version']):
             continue
-        name = info['name']
         q2_dep_dict[name] = [dep.split(' ')[0] for dep in info['depends']]
 
     return q2_dep_dict
