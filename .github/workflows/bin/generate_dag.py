@@ -121,12 +121,12 @@ def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
     q2_pkg_channel_url = (f'https://packages.qiime2.org/qiime2/{epoch}/'
                           f'tested/{conda_subdir}/repodata.json')
     response = _fetch_url(q2_pkg_channel_url)
-    q2_json = json.loads(response)
+    repodata = json.loads(response)
 
     # this is what's pulled from our tested channel on packages.qiime2.org
     q2_dep_dict = {}
 
-    for info in q2_json['packages'].values():
+    for info in repodata['packages'].values():
         name = info['name']
         if (name not in relevant_pkgs
                 or relevant_pkgs[name] != info['version']):
