@@ -13,29 +13,21 @@ from jinja2 import FileSystemLoader
 # Helper methods ##
 
 # Helper for parsing CBC and tested channel URLs
-def _parse_url(url):
+def _fetch_url(url):
     http_response = urllib.request.urlopen(url)
     obj = http_response.read().decode('utf-8')
 
     return obj
 
+def _pkg_name_fixer(conda_build_var):
+    return conda_build_var.replace('_', '-')
 
 # Helper method to deal with pkg version formats
-def _pkg_ver_helper(pkg, ver):
-    ver_str = ""
-    pkg_ver = pkg.replace('_', '-') + '-' + ver_str.join(ver)
+def _pkg_ver_helper(pkg, ver_list):
+    pkg_name = _pkg_name_fixer(pkg)
+    pkg_ver = ''.join(ver_list)
 
-    return pkg_ver
-
-
-# Helper method to simplify DAG to only first order deps
-def _get_subgraph(cbc_yaml, dag):
-    pkg_list = list(cbc_yaml.keys())
-    pkgs = [x.replace('_', '-') for x in pkg_list]
-    sub = nx.subgraph(dag, pkgs)
-
-    return sub
-
+    return pkg_name, pkg_ver
 
 # DAG generation methods ##
 
@@ -73,11 +65,11 @@ def find_diff(diff):
         removed_dependency_matches = re.findall(removed_dependency_pattern,
                                                 contents)
 
-    changed_pkgs = [match.split(':')[0].strip()
+    changed_pkgs = [_pkg_name_fixer(match.split(':')[0].strip())
                     for match in version_change_matches]
-    added_pkgs = [match.split(':')[0].strip().strip('+')
+    added_pkgs = [_pkg_name_fixer(match.split(':')[0].strip().strip('+'))
                   for match in added_dependency_matches]
-    removed_pkgs = [match.split(':')[0].strip().strip('-')
+    removed_pkgs = [_pkg_name_fixer(match.split(':')[0].strip().strip('-'))
                     for match in removed_dependency_matches]
 
     pkgs = {
@@ -94,19 +86,14 @@ def get_cbc_info(epoch):
     cbc_url = ('https://raw.githubusercontent.com/qiime2/package-integration'
                f'/main/{epoch}/tested/conda_build_config.yaml')
 
-    # Convert HTTP response to a YAML-friendly format
-    cbc_obj = _parse_url(cbc_url)
+    response = _fetch_url(cbc_url)
+    cbc_yaml = yaml.load(response, Loader=SafeLoader)
 
-    # Convert to YAML object
-    cbc_yaml = yaml.load(cbc_obj, Loader=SafeLoader)
+    relevant_pkgs = dict([
+        _pkg_ver_helper(*args) for args in cbc_yaml.items()
+    ])
 
-    # Create pkg list that includes pkg versions from CBC dict
-    pkg_ver_list = []
-    for pkg, ver in cbc_yaml.items():
-        pkg_ver = _pkg_ver_helper(pkg, ver)
-        pkg_ver_list.append(pkg_ver)
-
-    return cbc_yaml, pkg_ver_list
+    return cbc_yaml, relevant_pkgs
 
 
 # Filter down CBC list of pkgs based on diff results with only changed pkgs
@@ -130,84 +117,38 @@ def filter_cbc_from_diff(changed_pkgs, epoch):
 
 
 # Get current distro dep structure from repodata.json under tested channel
-def get_distro_deps(epoch, os):
+def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
     q2_pkg_channel_url = (f'https://packages.qiime2.org/qiime2/{epoch}/'
-                          f'tested/{os}/repodata.json')
-    q2_obj = _parse_url(q2_pkg_channel_url)
-    q2_json = json.loads(q2_obj)
+                          f'tested/{conda_subdir}/repodata.json')
+    response = _fetch_url(q2_pkg_channel_url)
+    q2_json = json.loads(response)
 
     # this is what's pulled from our tested channel on packages.qiime2.org
     q2_dep_dict = {}
 
     for name, info in q2_json['packages'].items():
-        # stripping this segment for exact matching with the pkg list from CBC
-        name = name.replace('-py38_0.tar.bz2', '')
-        q2_dep_dict[name] = info['depends']
-
-    dep_list = []
-    for pkg, deps in q2_dep_dict.items():
-        for dep in deps:
-            if dep not in dep_list:
-                dep = dep.split(' ')[0]
-                dep_list.append(dep)
-        q2_dep_dict[pkg] = dep_list
-        dep_list = []
+        if (name not in relevant_pkgs
+                or relevant_pkgs[name] != info['version']):
+            continue
+        name = info['name']
+        q2_dep_dict[name] = [dep.split(' ')[0] for dep in info['depends']]
 
     return q2_dep_dict
 
 
-# Get pkg dict with deps for pkgs on our tested channel
-# that match the exact version from CBC.yml
-# When used with a filtered pkg version list
-# this will be the output that's used to generate repodata.patch
-def get_pkg_dict(q2_dep_dict, pkg_ver_list):
-
-    q2_pkg_dict = {}
-
-    for q2_pkg, q2_deps in q2_dep_dict.items():
-        for pkg in pkg_ver_list:
-            # only selecting pkgs that match the exact ver from CBC vers
-            if pkg == q2_pkg and q2_pkg not in q2_pkg_dict:
-                q2_pkg_dict[q2_pkg] = q2_deps
-
-    q2_pkg_dict = \
-        {pkg.split('-2')[0]: deps for pkg, deps in q2_pkg_dict.items()}
-
-    return q2_pkg_dict
-
-
-# Generates both required outputs for the DAG:
-# versioned downstream dep dict for patching purposes
-# and a non-versioned downstream dep dict for DAG visualization
-def get_changed_pkgs_downstream_deps(changed_pkgs, epoch, q2_pkg_dict):
-    filtered_cbc_yaml, filtered_cbc_list = filter_cbc_from_diff(
-        changed_pkgs=changed_pkgs, epoch=epoch)
-    filtered_downstream_dict = {}
-
-    for pkg in filtered_cbc_yaml.keys():
-        dep_list = []
-        for q2_pkg, deps in q2_pkg_dict.items():
-            if pkg in deps:
-                dep_list.append(q2_pkg)
-
-        filtered_downstream_dict[pkg] = dep_list
-
-    versioned_downstream_dict = \
-        {versioned_pkg: filtered_downstream_dict[pkg]
-         for pkg, versioned_pkg in zip(filtered_downstream_dict.keys(),
-                                       filtered_cbc_list)}
-
-    return (filtered_downstream_dict,
-            versioned_downstream_dict,
-            filtered_cbc_yaml)
+def get_source_deps(distro_dep_dict, diff):
+    all_changes = [
+        *diff['changed_pkgs'],
+        *diff['added_pkgs'],
+        *diff['removed_pkgs']
+    ]
+    return {pkg: distro_dep_dict[pkg] for pkg in all_changes}
 
 
 # Create new DiGraph object & add list of pkgs from a given pkg dict as nodes
 def make_dag(pkg_dict):
 
     dag = nx.DiGraph()
-    dag.add_nodes_from(list(pkg_dict.keys()))
-
     # Add edges connecting each pkg to their list of deps
     for pkg, deps in pkg_dict.items():
         for dep in deps:
@@ -269,56 +210,45 @@ def to_mermaid(G, highlight_from=None):
     return '\n'.join(lines)
 
 
-if __name__ == '__main__':
-    diff = find_diff(sys.argv[1])
-    epoch = sys.argv[2]
-    os = sys.argv[3]
-    gh_summary = sys.argv[4]
+def main(epoch, conda_subdir, diff_path, gh_summary_path):
+    diff = find_diff(diff_path)
 
     new_pkgs = diff['added_pkgs']
     changed_pkgs = diff['changed_pkgs']
     removed_pkgs = diff['removed_pkgs']
+    # TODO: don't test a source which was removed, since it isn't there.
+    # TODO: if the removed is a terminal node in the dag, we need to change the
+    # test plan/skip doing anything interesting at all
 
-    cbc_yaml, pkg_ver_list = get_cbc_info(epoch=epoch)
-    q2_dep_dict = get_distro_deps(epoch=epoch, os=os)
+    cbc_yaml, relevant_pkgs = get_cbc_info(epoch=epoch)
+    distro_dep_dict = get_distro_deps(epoch, conda_subdir, relevant_pkgs)
+    src_dep_dict = get_source_deps(distro_dep_dict, diff)
+    core_dag = make_dag(pkg_dict=distro_dep_dict)
 
-    q2_pkg_dict = get_pkg_dict(q2_dep_dict=q2_dep_dict,
-                               pkg_ver_list=pkg_ver_list)
-
-    core_dag = make_dag(pkg_dict=q2_pkg_dict)
-    core_sub = _get_subgraph(cbc_yaml=cbc_yaml, dag=core_dag)
-
-    # filtered_dict gets used
-    filtered_dict, versioned_filtered_dict, filtered_cbc_yaml = \
-        get_changed_pkgs_downstream_deps(changed_pkgs=changed_pkgs,
-                                         epoch=epoch,
-                                         q2_pkg_dict=q2_pkg_dict)
-
-    pkgs_to_test = list(set.union(set(filtered_dict),
+    pkgs_to_test = list(set.union(set(src_dep_dict),
                                   *(nx.descendants(core_dag, pkg)
-                                    for pkg in filtered_dict)))
+                                    for pkg in src_dep_dict)))
 
-    # This gets templated out using Jinja2 for mermaid DAG in job summary
-    core_mermaid = to_mermaid(core_sub, highlight_from=filtered_dict.keys())
+    core_mermaid = to_mermaid(core_dag, highlight_from=src_dep_dict)
 
     environment = jinja2.Environment(
         loader=FileSystemLoader(".github/workflows/bin/templates"))
     template = environment.get_template("job-summary-template.j2")
 
-    with open(gh_summary, 'w') as fh:
+    with open(gh_summary_path, 'w') as fh:
         fh.write(template.render(epoch=epoch,
                                  core_mermaid=core_mermaid,
-                                 filtered_dict=filtered_dict,
+                                 source_dep_dict=src_dep_dict,
                                  pkgs_to_test=pkgs_to_test))
-
-    with open('versioned_filtered_dict.json', 'w') as fh:
-        json.dump(versioned_filtered_dict, fh)
-
-    with open('cbc_yaml.json', 'w') as fh:
-        json.dump(cbc_yaml, fh)
-
-    with open('filtered_cbc_yaml.json', 'w') as fh:
-        json.dump(filtered_cbc_yaml, fh)
 
     with open('retest_matrix.json', 'w') as fh:
         json.dump(pkgs_to_test, fh)
+
+
+if __name__ == '__main__':
+    diff_path = sys.argv[1]
+    epoch = sys.argv[2]
+    conda_subdir = sys.argv[3]
+    gh_summary_path = sys.argv[4]
+
+    main(epoch, conda_subdir, diff_path, gh_summary_path)

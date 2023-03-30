@@ -3,7 +3,7 @@
 <h3>List of changed packages and their immediate reverse dependencies</h3>
 <table>
     <tr><th>Changed Package</th><th>Reverse Dependencies</th></tr>
-    {%- for pkg, deps in filtered_dict|dictsort -%}
+    {%- for pkg, deps in source_dep_dict|dictsort -%}
     <tr>
         <td> {{ pkg }} </td>
         <td>
