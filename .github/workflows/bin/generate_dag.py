@@ -222,6 +222,7 @@ def main(epoch, conda_subdir, diff_path, gh_summary_path):
 
     cbc_yaml, relevant_pkgs = get_cbc_info(epoch=epoch)
     distro_dep_dict = get_distro_deps(epoch, conda_subdir, relevant_pkgs)
+    print(distro_dep_dict)
     src_dep_dict = get_source_deps(distro_dep_dict, diff)
     core_dag = make_dag(pkg_dict=distro_dep_dict)
 
