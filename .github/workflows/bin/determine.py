@@ -30,7 +30,7 @@ def identify_epoch(changed_files):
     if not epochs:
         raise Exception('No epochs modified')
 
-    return epochs
+    return list(epochs)[0]
 
 
 def identify_distro(changed_files):
@@ -50,7 +50,7 @@ def identify_distro(changed_files):
     if not distros:
         raise Exception('No distros modified')
 
-    return distros
+    return list(distros)[0]
 
 
 if __name__ == '__main__':
