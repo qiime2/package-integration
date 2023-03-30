@@ -230,13 +230,14 @@ def main(epoch, conda_subdir, diff_path, gh_summary_path):
     distro_dep_dict = get_distro_deps(epoch, conda_subdir, relevant_pkgs)
 
     core_dag = make_dag(pkg_dict=distro_dep_dict)
+    core_sub = nx.subgraph(core_dag, relevant_pkgs)
     src_dep_dict = get_source_revdeps(core_dag, distro_dep_dict, diff)
 
     pkgs_to_test = list(set.union(set(src_dep_dict),
                                   *(nx.descendants(core_dag, pkg)
                                     for pkg in src_dep_dict)))
 
-    core_mermaid = to_mermaid(core_dag, highlight_from=src_dep_dict)
+    core_mermaid = to_mermaid(core_sub, highlight_from=src_dep_dict)
 
     environment = jinja2.Environment(
         loader=FileSystemLoader(".github/workflows/bin/templates"))
