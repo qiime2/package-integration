@@ -118,6 +118,7 @@ def filter_cbc_from_diff(changed_pkgs, epoch):
 
 # Get current distro dep structure from repodata.json under tested channel
 def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
+    print(relevant_pkgs)
     q2_pkg_channel_url = (f'https://packages.qiime2.org/qiime2/{epoch}/'
                           f'tested/{conda_subdir}/repodata.json')
     response = _fetch_url(q2_pkg_channel_url)
