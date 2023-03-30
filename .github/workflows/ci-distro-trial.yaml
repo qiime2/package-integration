@@ -5,23 +5,37 @@ env:
   CONF_EPOCH: '2023.2'
 
 on:
-  push:
-    # change me to main when done testing!
-    branches: [ci-v2]
   pull_request:
+    branches: [ci-v2]
+    # TODO: rename tested -> staged and staged -> passed
     paths:
-      - 20*.*/tested/conda_build_config.yaml
+      - 20*.*/staged/*/conda_build_config.yaml
 
 jobs:
+
   conf:
-    runs-on: ubuntu-latest # this job is always run on linux
+    runs-on: ubuntu-latest  # this job is always run on linux
     outputs:
       epoch: ${{ steps.set-vars.outputs.epoch }}
+      distro: ${{ steps.set-vars.outputs.distro }}
+      cbc_yml: ${{ steps.set-vars.outputs.cbc_yml }}
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - uses: tj-actions/changed-files@v19
+        id: changed
+
       - name: set-vars
         id: set-vars
         run: |
-          echo "::set-output name=epoch::$CONF_EPOCH"
+          # Parse the git changes to figure out which epoch triggered this workflow.
+          CHANGED="${{ steps.changed.outputs.all_changed_files }}"
+          EPOCH=$(python .github/workflows/bin/determine.py --epoch "$CHANGED")
+          echo "epoch=$EPOCH" >> $GITHUB_OUTPUT
+          DISTRO=$(python .github/workflows/bin/determine.py --distro "$CHANGED")
+          echo "distro=$DISTRO" >> $GITHUB_OUTPUT
+          echo "cbc_yml=$EPOCH/staged/$DISTRO/conda_build_config.yaml"
 
   # this job will parse a diff from cbc, and use that to generate a DAG
   prepare:
@@ -36,7 +50,7 @@ jobs:
       - name: get diff
         run: |
           git fetch origin ci-v2:ci-v2
-          git diff ci-v2 -- ${{ needs.conf.outputs.epoch }}/tested/conda_build_config.yaml > diff.txt
+          git diff ci-v2 -- ${{ needs.conf.outputs.cbc_yml }} > diff.txt
           cat diff.txt
 
       - name: set up python 3.8
@@ -50,21 +64,33 @@ jobs:
       - name: parse diff and generate dag
         run: |
           python .github/workflows/bin/generate_dag.py \
+          ${{ needs.conf.outputs.epoch }} \
+          ${{ needs.conf.outputs.distro }} \
+          ${{ needs.conf.outputs.cbc_yml }} \
           diff.txt \
-          ${{ needs.conf.outputs.epoch }} \
           'linux-64' \
-          $GITHUB_STEP_SUMMARY
+          $GITHUB_STEP_SUMMARY \
+          'retest_matrix.json' \
+          'packages_in_distro.json' \
+          'revdeps_of_sources.json'
 
-      - name: create repodata patch
+      - name: create patched channel
         run: |
-          python .github/workflows/bin/create_repodata_patch.py \
+          python .github/workflows/bin/create_patched_channel.py \
           ${{ needs.conf.outputs.epoch }} \
-          cbc_yaml.json \
-          filtered_cbc_yaml.json \
-          versioned_filtered_dict.json
+          ${{ needs.conf.outputs.distro }} \
+          'packages_in_distro.json' \
+          'revdeps_of_sources.json' \
+          './patched-base/'
 
       - name: store matrices
         uses: actions/upload-artifact@v3
         with:
           name: matrix
           path: ./retest_matrix.json
+
+      - name: store patched-base channel
+        uses: actions/upload-artifact@v3
+        with:
+          name: patched-base-channel
+          path: ./patched-base/

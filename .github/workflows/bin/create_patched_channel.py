@@ -7,34 +7,28 @@ import subprocess
 import copy
 from collections import defaultdict
 
-
-LOCAL_CHANNEL = './patched_base/'
-CONFIG_FP = f'{LOCAL_CHANNEL}/config.yaml'
 SUBDIRS = ['linux-64', 'noarch', 'osx-64']
-CMD_TEMPLATE = ('conda-mirror --upstream-channel %s --target-directory %s '
-                '--platform %s --config %s')
 
-
-def write_config(cbc_yaml):
+def write_config(pkgs_in_distro, dest):
     config_yaml = {'blacklist': [{'name': '*'}]}
     whitelist = []
 
-    for pkg, version in cbc_yaml.items():
-        version = version[0]
-        if pkg.startswith('q2') or pkg == 'qiime2':
-            pkg = pkg.replace('_', '-')
-            whitelist.append({'name': pkg, 'version': f'{version}'})
+    for pkg, version in pkgs_in_distro.items():
+        whitelist.append({'name': pkg, 'version': version})
 
     config_yaml['whitelist'] = whitelist
-    with open(CONFIG_FP, 'w') as fh:
+    with open(dest, 'w') as fh:
         yaml.safe_dump(config_yaml, fh)
 
 
-def create_channel():
+def create_channel(epoch, distro, channel_dir, config):
+    REMOTE_CHANNEL = \
+        f'https://packages.qiime2.org/qiime2/{epoch}/staged/{distro}'
+    CMD_TEMPLATE = ('conda-mirror --upstream-channel %s --target-directory %s '
+                    '--platform %s --config %s')
     for subdir in SUBDIRS:
-        cmd = CMD_TEMPLATE % (REMOTE_CHANNEL, LOCAL_CHANNEL, subdir, CONFIG_FP)
-        process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate()
+        cmd = CMD_TEMPLATE % (REMOTE_CHANNEL, channel_dir, subdir, config)
+        process = subprocess.run(cmd.split(), check=True)
 
 
 def _patch_repodata(repodata, changes):
@@ -65,46 +59,45 @@ def _patch_repodata(repodata, changes):
     return instructions
 
 
-def patch_channels(filtered_cbc_yaml, versioned_filtered_dict):
+def patch_channels(channel_dir, source_revdeps, pkgs_in_distro):
     patch_instructions = {}
+
+    versioned_revdeps = {(pkg, pkgs_in_distro[pkgs]): revs
+                         for pkg, revs in source_revdeps.items()}
 
     for subdir in SUBDIRS:
         # The channel name might not end up just being a filepath but we will
         # see, depends on what happens with the github workers and whatever
-        with open(os.path.join(LOCAL_CHANNEL,
+        with open(os.path.join(channel_dir,
                                subdir, 'repodata.json'), 'r') as fh:
             repodata = json.load(fh)
-
-        versioned_tuple_filtered_dict = {}
-        for pkg, version in filtered_cbc_yaml.items():
-            version = version[0]
-            versioned_tuple_filtered_dict[(pkg, version)] = \
-                versioned_filtered_dict[pkg + '-' + version]
-
         patch_instructions = _patch_repodata(repodata,
-                                             versioned_tuple_filtered_dict)
-
+                                             versioned_revdeps)
         # Similar to the above this filepath
         # probably won't look quite like this in the end
-        with open(os.path.join(LOCAL_CHANNEL,
+        with open(os.path.join(channel_dir,
                                subdir, 'patch_instructions.json'), 'w') as fh:
             json.dump(patch_instructions, fh, indent=2,
                       sort_keys=True, separators=(",", ": "))
 
 
 if __name__ == '__main__':
-    (conf_epoch,
-     cbc_yaml_fp,
-     filtered_cbc_yaml_fp,
-     versioned_filtered_dict_fp) = sys.argv[1:]
+    (epoch,
+     distro,
+     packages_in_distro_path,
+     revdeps_of_sources_path,
+     local_channel) = sys.argv[1:]
 
-    REMOTE_CHANNEL = f'https://packages.qiime2.org/qiime2/{conf_epoch}/tested'
 
-    with open(cbc_yaml_fp, 'r') as fh:
-        cbc_yaml = json.load(fh)
+    with open(packages_in_distro_path, 'r') as fh:
+        pkgs_in_distro = json.load(fh)
 
-    with open(filtered_cbc_yaml_fp, 'r') as fh:
-        filtered_cbc_yaml = json.load(fh)
+    with open(revdeps_of_sources_path, 'r') as fh:
+        source_revdeps = json.load(fh)
 
-    with open(versioned_filtered_dict_fp, 'r') as fh:
-        versioned_filtered_dict = json.load(fh)
+    os.mkdir(local_channel)
+
+    config = os.path.join(local_channel, 'config.yaml'
+    write_config(pkgs_in_distro, config)
+    create_channel(epoch, distro, local_channel, config)
+    patch_channels(local_channel, source_revdeps, pkgs_in_distro)

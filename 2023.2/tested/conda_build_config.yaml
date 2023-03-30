@@ -4,8 +4,10 @@ h5py:
 - '>=2.10.0,<3.0a0'
 hdf5:
 - 1.10.6
+foo:
+- 1.2.3
 numpy:
-- 1.24.0
+- 1.23.5
 pandas:
 - '>=1.2.5'
 python:
@@ -55,11 +57,11 @@ q2_quality_filter:
 q2_sample_classifier:
 - 2023.2.0
 q2_stats:
-- 2023.2.0
+- 2023.2.0.dev0+8.ge9ab94e
 q2_taxa:
 - 2023.2.0
 q2_types:
-- 2023.2.0.dev0
+- 2023.2.0
 q2_types_genomics:
 - 2023.2.0.dev0
 q2_vsearch:

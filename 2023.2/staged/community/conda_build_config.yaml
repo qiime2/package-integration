@@ -51,17 +51,17 @@ q2_quality_filter:
 q2_sample_classifier:
 - 2023.2.0
 q2_stats:
-- 2023.2.0.dev0+8.ge9ab94e
+- 2023.2.0
 q2_taxa:
 - 2023.2.0
 q2_types:
-- 2023.2.0
+- 2023.2.0.dev0
 q2_types_genomics:
 - 2023.2.0.dev0
 q2_vsearch:
 - 2023.2.0
 q2cli:
-- 2023.2.0
+- 2023.2.0.dev0
 q2galaxy:
 - 2023.2.0
 q2templates:

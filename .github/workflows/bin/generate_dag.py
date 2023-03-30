@@ -29,7 +29,12 @@ def _pkg_ver_helper(pkg, ver_list):
 
     return pkg_name, pkg_ver
 
-# DAG generation methods ##
+
+def get_library_packages():
+    response = urllib.request.urlopen(
+        'https://library.qiime2.org/api/v2/packages')
+    return json.load(response)['packages']
+
 
 # Parses the cmd line diff into a dict with pkgs added, changed, and removed
 def find_diff(diff):
@@ -82,12 +87,9 @@ def find_diff(diff):
 
 
 # Pull CBC structure and pkg list from our tested CBC.yml for a given epoch
-def get_cbc_info(epoch):
-    cbc_url = ('https://raw.githubusercontent.com/qiime2/package-integration'
-               f'/main/{epoch}/tested/conda_build_config.yaml')
-
-    response = _fetch_url(cbc_url)
-    cbc_yaml = yaml.load(response, Loader=SafeLoader)
+def get_cbc_info(cbc_yaml_path):
+    with open(cbc_yaml_path) as fh:
+        cbc_yaml = yaml.load(fh, Loader=SafeLoader)
 
     relevant_pkgs = dict([
         _pkg_ver_helper(*args) for args in cbc_yaml.items()
@@ -216,7 +218,12 @@ def to_mermaid(G, highlight_from=None):
     return '\n'.join(lines)
 
 
-def main(epoch, conda_subdir, diff_path, gh_summary_path):
+def main(epoch, distro, cbc_yaml_path, diff_path, conda_subdir,
+         gh_summary_path, retest_matrix_path, packages_in_distro_path,
+         revdeps_of_sources_path):
+
+    library_pkgs = get_library_packages()
+
     diff = find_diff(diff_path)
 
     new_pkgs = diff['added_pkgs']
@@ -226,18 +233,18 @@ def main(epoch, conda_subdir, diff_path, gh_summary_path):
     # TODO: if the removed is a terminal node in the dag, we need to change the
     # test plan/skip doing anything interesting at all
 
-    cbc_yaml, relevant_pkgs = get_cbc_info(epoch=epoch)
-    distro_dep_dict = get_distro_deps(epoch, conda_subdir, relevant_pkgs)
+    cbc_yaml, relevant_pkgs = get_cbc_info(cbc_yaml_path)
+    distro_deps = get_distro_deps(epoch, conda_subdir, relevant_pkgs)
 
-    core_dag = make_dag(pkg_dict=distro_dep_dict)
+    core_dag = make_dag(pkg_dict=distro_deps)
     core_sub = nx.subgraph(core_dag, relevant_pkgs)
-    src_dep_dict = get_source_revdeps(core_dag, distro_dep_dict, diff)
+    src_revdeps = get_source_revdeps(core_dag, distro_deps, diff)
 
-    pkgs_to_test = list(set.union(set(src_dep_dict),
+    pkgs_to_test = list(set.union(set(src_revdeps),
                                   *(nx.descendants(core_dag, pkg)
-                                    for pkg in src_dep_dict)))
+                                    for pkg in src_revdeps)))
 
-    core_mermaid = to_mermaid(core_sub, highlight_from=src_dep_dict)
+    core_mermaid = to_mermaid(core_sub, highlight_from=src_revdeps)
 
     environment = jinja2.Environment(
         loader=FileSystemLoader(".github/workflows/bin/templates"))
@@ -245,18 +252,36 @@ def main(epoch, conda_subdir, diff_path, gh_summary_path):
 
     with open(gh_summary_path, 'w') as fh:
         fh.write(template.render(epoch=epoch,
+                                 distro=distro,
                                  core_mermaid=core_mermaid,
-                                 source_dep_dict=src_dep_dict,
+                                 source_dep_dict=src_revdeps,
                                  pkgs_to_test=pkgs_to_test))
 
-    with open('retest_matrix.json', 'w') as fh:
+    with open(retest_matrix_path, 'w') as fh:
         json.dump(pkgs_to_test, fh)
+
+    with open(packages_in_distro_path, 'w') as fh:
+        pkgs_in_distro = {
+            k:v for k, v in relevant_pkgs.items()
+            if k in library_pkgs
+        }
+        json.dump(pkgs_in_distro, fh)
+
+    with open(revdeps_of_sources_path, 'w') as fh:
+        json.dump(src_revdeps, fh)
 
 
 if __name__ == '__main__':
-    diff_path = sys.argv[1]
-    epoch = sys.argv[2]
-    conda_subdir = sys.argv[3]
-    gh_summary_path = sys.argv[4]
+    epoch = sys.argv[1]
+    distro = sys.argv[2]
+    cbc_yaml_path = sys.argv[3]
+    diff_path = sys.argv[4]
+    conda_subdir = sys.argv[5]
+    gh_summary_path = sys.argv[6]
+    retest_matrix_path = sys.argv[7]
+    packages_in_distro_path = sys.argv[8]
+    revdeps_of_sources_path = sys.argv[9]
 
-    main(epoch, conda_subdir, diff_path, gh_summary_path)
+    main(epoch, distro, cbc_yaml_path, diff_path, conda_subdir,
+         gh_summary_path, retest_matrix_path, packages_in_distro_path,
+         revdeps_of_sources_path)
