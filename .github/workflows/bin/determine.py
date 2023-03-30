@@ -12,7 +12,7 @@ def main(changed_files, epoch, distro):
     if distro:
         seen = identify_distro(changed_files)
 
-    seen = json.dumps(list(seen))
+    seen = json.dumps(list(seen)[0])
     print(seen, end='')
 
 
@@ -30,7 +30,7 @@ def identify_epoch(changed_files):
     if not epochs:
         raise Exception('No epochs modified')
 
-    return list(epochs)[0]
+    return epochs
 
 
 def identify_distro(changed_files):
@@ -50,7 +50,7 @@ def identify_distro(changed_files):
     if not distros:
         raise Exception('No distros modified')
 
-    return list(distros)[0]
+    return distros
 
 
 if __name__ == '__main__':
