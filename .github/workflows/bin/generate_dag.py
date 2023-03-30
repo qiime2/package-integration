@@ -130,6 +130,7 @@ def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
     for name, info in q2_json['packages'].items():
         if (name not in relevant_pkgs
                 or relevant_pkgs[name] != info['version']):
+            print(name, info['version'])
             continue
         name = info['name']
         q2_dep_dict[name] = [dep.split(' ')[0] for dep in info['depends']]
