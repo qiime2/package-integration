@@ -136,13 +136,19 @@ def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
     return q2_dep_dict
 
 
-def get_source_deps(distro_dep_dict, diff):
+def get_source_revdeps(dag, distro_dep_dict, diff):
     all_changes = [
         *diff['changed_pkgs'],
         *diff['added_pkgs'],
         *diff['removed_pkgs']
     ]
-    return {pkg: distro_dep_dict[pkg] for pkg in all_changes}
+
+    src_revdeps = {}
+    for pkg in all_changes:
+        revdeps = [edge[1] for edge in dag.out_edges(pkg)]
+        src_revdeps[pkg] = revdeps
+
+    return src_revdeps
 
 
 # Create new DiGraph object & add list of pkgs from a given pkg dict as nodes
@@ -222,9 +228,9 @@ def main(epoch, conda_subdir, diff_path, gh_summary_path):
 
     cbc_yaml, relevant_pkgs = get_cbc_info(epoch=epoch)
     distro_dep_dict = get_distro_deps(epoch, conda_subdir, relevant_pkgs)
-    print(distro_dep_dict)
-    src_dep_dict = get_source_deps(distro_dep_dict, diff)
+
     core_dag = make_dag(pkg_dict=distro_dep_dict)
+    src_dep_dict = get_source_revdeps(core_dag, distro_dep_dict, diff)
 
     pkgs_to_test = list(set.union(set(src_dep_dict),
                                   *(nx.descendants(core_dag, pkg)
