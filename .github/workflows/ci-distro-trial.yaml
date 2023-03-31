@@ -67,6 +67,8 @@ jobs:
         run: mkdir matrix
 
       - name: parse diff and generate dag
+        env:
+          GITHUB_TOKEN: ${{ secrets.Q2D2_TOKEN }}
         run: |
           python .github/workflows/bin/generate_dag.py \
           '${{ needs.conf.outputs.epoch }}' \
