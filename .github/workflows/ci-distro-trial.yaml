@@ -60,8 +60,11 @@ jobs:
 
       - name: install dependencies
         run: |
-          pip install pyyaml jinja2 networkx conda-mirror
+          pip install pyyaml jinja2 networkx conda-mirror ghapi
           conda install conda-build
+
+      - name: make matrix dir
+        run: mkdir matrix
 
       - name: parse diff and generate dag
         run: |
@@ -72,7 +75,8 @@ jobs:
           diff.txt \
           'linux-64' \
           $GITHUB_STEP_SUMMARY \
-          'retest_matrix.json' \
+          'matrix/rebuild_matrix.json' \
+          'matrix/retest_matrix.json' \
           'packages_in_distro.json' \
           'full_distro.json' \
           'revdeps_of_sources.json'
@@ -96,6 +100,7 @@ jobs:
 
       - uses: actions/cache/save@v3
         id: patched-base-save
+        if: steps.patched-base-restore.outputs.cache-hit != 'true'
         with:
           path: ./patched-base/
           key: ${{ steps.patched-base-restore.outputs.cache-primary-key }}
@@ -104,7 +109,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: matrix
-          path: ./retest_matrix.json
+          path: ./matrix
 
       - name: copy repodata patches
         run: |

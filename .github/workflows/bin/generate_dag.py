@@ -1,14 +1,15 @@
 #!/usr/bin/env python
-import yaml
 import urllib.request
-import jinja2
 import json
 import re
 import sys
+
+import yaml
+import jinja2
 import networkx as nx
 from yaml import SafeLoader
 from jinja2 import FileSystemLoader
-
+from ghapi.all import GhApi, paged
 
 # Helper methods ##
 
@@ -141,13 +142,38 @@ def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
     return q2_dep_dict
 
 
-def get_source_revdeps(dag, distro_dep_dict, diff):
-    all_changes = [
-        *diff['changed_pkgs'],
-        *diff['added_pkgs'],
-        *diff['removed_pkgs']
-    ]
+def get_packages_to_rebuild(relevant_pkgs, library_pkgs):
+    api = GhApi()
+    repos = lookup_repos(relevant_pkgs, library_pkgs)
+    return find_packages_to_build(api, repos, 'test-pr')
 
+
+def lookup_repos(packages, repo_map):
+    packages_to_check = {
+        pkg: tuple(repo_map[pkg].split('/'))
+        for pkg in repo_map.keys() & set(packages)
+    }
+    return packages_to_check
+
+
+def is_branch_in_pager(pager, branch):
+    for page in pager:
+        for page_branch in page:
+            if branch == page_branch['name']:
+                return True
+    return False
+
+
+def find_packages_to_build(api, repos, branch):
+    to_build = {}
+    for name, repo in repos.items():
+        pager = paged(api.repos.list_branches, *repo)
+        if is_branch_in_pager(pager, branch):
+            to_build[name] = repo
+    return to_build
+
+
+def get_source_revdeps(dag, distro_dep_dict, all_changes):
     src_revdeps = {}
     for pkg in all_changes:
         revdeps = [edge[1] for edge in dag.out_edges(pkg)]
@@ -222,8 +248,8 @@ def to_mermaid(G, highlight_from=None):
 
 
 def main(epoch, distro, cbc_yaml_path, diff_path, conda_subdir,
-         gh_summary_path, retest_matrix_path, packages_in_distro_path,
-         full_distro_path, revdeps_of_sources_path):
+         gh_summary_path, rebuild_matrix_path, retest_matrix_path,
+         packages_in_distro_path, full_distro_path, revdeps_of_sources_path):
 
     library_pkgs = get_library_packages()
 
@@ -232,6 +258,7 @@ def main(epoch, distro, cbc_yaml_path, diff_path, conda_subdir,
     new_pkgs = diff['added_pkgs']
     changed_pkgs = diff['changed_pkgs']
     removed_pkgs = diff['removed_pkgs']
+    all_changes = [*new_pkgs, *changed_pkgs, *removed_pkgs]
     # TODO: don't test a source which was removed, since it isn't there.
     # TODO: if the removed is a terminal node in the dag, we need to change the
     # test plan/skip doing anything interesting at all
@@ -241,7 +268,18 @@ def main(epoch, distro, cbc_yaml_path, diff_path, conda_subdir,
 
     core_dag = make_dag(pkg_dict=distro_deps)
     core_sub = nx.subgraph(core_dag, relevant_pkgs)
-    src_revdeps = get_source_revdeps(core_dag, distro_deps, diff)
+
+    pkgs_to_rebuild = get_packages_to_rebuild(relevant_pkgs, library_pkgs)
+    all_changes.extend(list(pkgs_to_rebuild))
+
+    rebuild_generations = list(nx.topological_generations(
+        nx.induced_subgraph(core_sub, pkgs_to_rebuild)
+    ))
+
+    if len(rebuild_generations) > 6:
+        raise Exception(f"Too many generations: {rebuild_generations}")
+
+    src_revdeps = get_source_revdeps(core_dag, distro_deps, all_changes)
 
     pkgs_to_test = list(set.union(set(src_revdeps),
                                   *(nx.descendants(core_dag, pkg)
@@ -259,6 +297,9 @@ def main(epoch, distro, cbc_yaml_path, diff_path, conda_subdir,
                                  core_mermaid=core_mermaid,
                                  source_dep_dict=src_revdeps,
                                  pkgs_to_test=pkgs_to_test))
+
+    with open(rebuild_matrix_path, 'w') as fh:
+        json.dump(rebuild_generations, fh)
 
     with open(retest_matrix_path, 'w') as fh:
         json.dump(pkgs_to_test, fh)
@@ -284,11 +325,12 @@ if __name__ == '__main__':
     diff_path = sys.argv[4]
     conda_subdir = sys.argv[5]
     gh_summary_path = sys.argv[6]
-    retest_matrix_path = sys.argv[7]
-    packages_in_distro_path = sys.argv[8]
-    full_distro_path = sys.argv[9]
-    revdeps_of_sources_path = sys.argv[10]
+    rebuild_matrix_path = sys.argv[7]
+    retest_matrix_path = sys.argv[8]
+    packages_in_distro_path = sys.argv[9]
+    full_distro_path = sys.argv[10]
+    revdeps_of_sources_path = sys.argv[11]
 
     main(epoch, distro, cbc_yaml_path, diff_path, conda_subdir,
-         gh_summary_path, retest_matrix_path, packages_in_distro_path,
-         full_distro_path, revdeps_of_sources_path)
+         gh_summary_path, rebuild_matrix_path, retest_matrix_path,
+         packages_in_distro_path, full_distro_path, revdeps_of_sources_path)
