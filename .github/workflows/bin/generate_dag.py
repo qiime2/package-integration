@@ -155,7 +155,7 @@ def get_source_revdeps(dag, distro_dep_dict, diff):
 
 # Create new DiGraph object & add list of pkgs from a given pkg dict as nodes
 def make_dag(pkg_dict):
-
+    print(pkg_dict)
     dag = nx.DiGraph()
     # Add edges connecting each pkg to their list of deps
     for pkg, deps in pkg_dict.items():
