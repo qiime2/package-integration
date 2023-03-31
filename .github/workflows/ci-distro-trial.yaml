@@ -81,7 +81,7 @@ jobs:
         id: patched-base-restore
         with:
           path: ./patched-base/
-          key: "patched-base-${{ hashFiles(full_distro.json) }}"
+          key: "patched-base-${{ hashFiles('full_distro.json') }}"
 
       - name: create base channel
         if: steps.patched-base-restore.outputs.cache-hit != 'true'
