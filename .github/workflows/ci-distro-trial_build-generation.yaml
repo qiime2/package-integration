@@ -15,7 +15,7 @@ jobs:
   configure_matrix:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ fromJSON(steps.set-matrix.outputs.matrix)[inputs.matrix_index] }}
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/download-artifact@v3
         with:
@@ -30,6 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: ${{ needs.configure_matrix.outputs.matrix }}
+        package: ${{ fromJSON(needs.configure_matrix.outputs.matrix)[inputs.matrix_key] }}
     steps:
       - run: echo ${{ matrix.package }}
