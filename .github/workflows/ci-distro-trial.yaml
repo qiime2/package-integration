@@ -106,11 +106,15 @@ jobs:
           name: matrix
           path: ./retest_matrix.json
 
+      - name: copy repodata patches
+        run: |
+          mkdir ./repodata_patches
+          cp ./patched-base/linux-64/patch_instructions.json ./repodata_patches/linux-64/patch_instructions.json
+          cp ./patched-base/osx-64/patch_instructions.json ./repodata_patches/osx-64/patch_instructions.json
+          cp ./patched-base/noarch/patch_instructions.json ./repodata_patches/noarch/patch_instructions.json
+
       - name: store repodata patches
         uses: actions/upload-artifact@v3
         with:
           name: repodata-patches
-          path:
-           - ./patched-base/linux-64/patch_instructions.json
-           - ./patched-base/osx-64/patch_instructions.json
-           - ./patched-base/noarch/patch_instructions.json
+          path: ./repodata_patches
