@@ -133,7 +133,7 @@ jobs:
 
   build_generation_0:
     needs: prepare
-    use: ./.github/workflows/ci-distro-trial_build-generation.yaml
+    uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
       matrix_key: "matrix"
@@ -141,7 +141,7 @@ jobs:
 
   build_generation_1:
     needs: [prepare, build_generation_0]
-    use: ./.github/workflows/ci-distro-trial_build-generation.yaml
+    uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
       matrix_key: "matrix"
