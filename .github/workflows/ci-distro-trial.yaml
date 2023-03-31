@@ -133,7 +133,6 @@ jobs:
 
   build_generation_0:
     needs: prepare
-    runs-on: ubuntu-latest
     use: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -142,7 +141,6 @@ jobs:
 
   build_generation_1:
     needs: [prepare, build_generation_0]
-    runs-on: ubuntu-latest
     use: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
