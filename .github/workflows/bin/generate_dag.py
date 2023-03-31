@@ -132,6 +132,9 @@ def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
         name = info['name']
         if (name not in relevant_pkgs
                 or relevant_pkgs[name] != info['version']):
+            if name == 'q2-stats':
+                print(info)
+                print(relevant_pkgs[name])
             continue
         q2_dep_dict[name] = [dep.split(' ')[0] for dep in info['depends']]
 
