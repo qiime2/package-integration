@@ -24,12 +24,13 @@ jobs:
       - id: set-matrix
         run: |
           echo "matrix=$(cat ./matrix/rebuild_matrix.json)" >> $GITHUB_OUTPUT
+          echo ${{ toJSON(inputs) }}
 
   run_matrix:
     needs: configure_matrix
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: ${{ fromJSON(needs.configure_matrix.outputs.matrix) }}
+        package: ${{ fromJSON(needs.configure_matrix.outputs.matrix)[inputs.matrix_index] }}
     steps:
       - run: echo ${{ matrix.package }}
