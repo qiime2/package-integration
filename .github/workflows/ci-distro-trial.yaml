@@ -60,8 +60,8 @@ jobs:
 
       - name: install dependencies
         run: |
-          pip install pyyaml jinja2 networkx
-          conda install conda-build conda-mirror
+          pip install pyyaml jinja2 networkx conda-mirror
+          conda install conda-build
 
       - name: parse diff and generate dag
         run: |
