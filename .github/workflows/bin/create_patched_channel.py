@@ -97,7 +97,7 @@ if __name__ == '__main__':
 
     os.mkdir(local_channel)
 
-    config = os.path.join(local_channel, 'config.yaml'
+    config = os.path.join(local_channel, 'config.yaml')
     write_config(pkgs_in_distro, config)
     create_channel(epoch, distro, local_channel, config)
     patch_channels(local_channel, source_revdeps, pkgs_in_distro)
