@@ -24,7 +24,6 @@ jobs:
       - id: set-matrix
         run: |
           echo "matrix=$(cat ./matrix/rebuild_matrix.json)" >> $GITHUB_OUTPUT
-          echo ${{ toJSON(inputs) }}
 
   run_matrix:
     needs: configure_matrix
