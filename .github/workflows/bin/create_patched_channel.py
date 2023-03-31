@@ -62,7 +62,7 @@ def _patch_repodata(repodata, changes):
 def patch_channels(channel_dir, source_revdeps, pkgs_in_distro):
     patch_instructions = {}
 
-    versioned_revdeps = {(pkg, pkgs_in_distro[pkgs]): revs
+    versioned_revdeps = {(pkg, pkgs_in_distro[pkg]): revs
                          for pkg, revs in source_revdeps.items()}
 
     for subdir in SUBDIRS:
