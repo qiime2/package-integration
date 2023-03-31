@@ -87,12 +87,16 @@ if __name__ == '__main__':
     (epoch,
      distro,
      packages_in_distro_path,
+     full_distro_path,
      revdeps_of_sources_path,
      local_channel) = sys.argv[1:]
 
 
     with open(packages_in_distro_path, 'r') as fh:
         pkgs_in_distro = json.load(fh)
+
+    with open(full_distro_path, 'r') as fh:
+        full_distro = json.load(fh)
 
     with open(revdeps_of_sources_path, 'r') as fh:
         source_revdeps = json.load(fh)
@@ -102,4 +106,4 @@ if __name__ == '__main__':
     config = os.path.join(local_channel, 'config.yaml')
     write_config(pkgs_in_distro, config)
     create_channel(epoch, distro, local_channel, config)
-    patch_channels(local_channel, source_revdeps, pkgs_in_distro)
+    patch_channels(local_channel, source_revdeps, full_distro)

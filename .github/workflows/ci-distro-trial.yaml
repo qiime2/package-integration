@@ -74,16 +74,31 @@ jobs:
           $GITHUB_STEP_SUMMARY \
           'retest_matrix.json' \
           'packages_in_distro.json' \
+          'full_distro.json' \
           'revdeps_of_sources.json'
 
-      - name: create patched channel
+      - uses: actions/cache/restore@v3
+        id: patched-base-restore
+        with:
+          path: ./patched-base/
+          key: "patched-base-${{ hashFiles(full_distro.json) }}"
+
+      - name: create base channel
+        if: steps.patched-base-restore.outputs.cache-hit != 'true'
         run: |
           python .github/workflows/bin/create_patched_channel.py \
           '${{ needs.conf.outputs.epoch }}' \
           '${{ needs.conf.outputs.distro }}' \
           'packages_in_distro.json' \
+          'full_distro.json' \
           'revdeps_of_sources.json' \
           './patched-base/'
+
+      - uses: actions/cache/save@v3
+        id: patched-base-save
+        with:
+          path: ./patched-base/
+          key: ${{ steps.patched-base-restore.outputs.cache-primary-key }}
 
       - name: store matrices
         uses: actions/upload-artifact@v3
@@ -91,8 +106,11 @@ jobs:
           name: matrix
           path: ./retest_matrix.json
 
-      - name: store patched-base channel
+      - name: store repodata patches
         uses: actions/upload-artifact@v3
         with:
-          name: patched-base-channel
-          path: ./patched-base/
+          name: repodata-patches
+          path:
+           - ./patched-base/linux-64/patch_instructions.json
+           - ./patched-base/osx-64/patch_instructions.json
+           - ./patched-base/noarch/patch_instructions.json

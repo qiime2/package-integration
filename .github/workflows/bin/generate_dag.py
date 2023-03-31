@@ -223,7 +223,7 @@ def to_mermaid(G, highlight_from=None):
 
 def main(epoch, distro, cbc_yaml_path, diff_path, conda_subdir,
          gh_summary_path, retest_matrix_path, packages_in_distro_path,
-         revdeps_of_sources_path):
+         full_distro_path, revdeps_of_sources_path):
 
     library_pkgs = get_library_packages()
 
@@ -270,6 +270,9 @@ def main(epoch, distro, cbc_yaml_path, diff_path, conda_subdir,
         }
         json.dump(pkgs_in_distro, fh)
 
+    with open(full_distro_path, 'w') as fh:
+        json.dump(relevant_pkgs, fh)
+
     with open(revdeps_of_sources_path, 'w') as fh:
         json.dump(src_revdeps, fh)
 
@@ -283,8 +286,9 @@ if __name__ == '__main__':
     gh_summary_path = sys.argv[6]
     retest_matrix_path = sys.argv[7]
     packages_in_distro_path = sys.argv[8]
-    revdeps_of_sources_path = sys.argv[9]
+    full_distro_path = sys.argv[9]
+    revdeps_of_sources_path = sys.argv[10]
 
     main(epoch, distro, cbc_yaml_path, diff_path, conda_subdir,
          gh_summary_path, retest_matrix_path, packages_in_distro_path,
-         revdeps_of_sources_path)
+         full_distro_path, revdeps_of_sources_path)
