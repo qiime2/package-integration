@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: '0'
 
@@ -59,7 +59,7 @@ jobs:
           python-version: 3.8
 
       - name: install dependencies
-        run: pip install pyyaml jinja2 networkx
+        run: pip install pyyaml jinja2 networkx conda-mirror
 
       - name: parse diff and generate dag
         run: |

@@ -272,7 +272,6 @@ def main(epoch, distro, cbc_yaml_path, diff_path, conda_subdir,
 
 
 if __name__ == '__main__':
-    print(sys.argv)
     epoch = sys.argv[1]
     distro = sys.argv[2]
     cbc_yaml_path = sys.argv[3]
