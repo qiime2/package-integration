@@ -30,6 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: ${{ fromJSON(needs.configure_matrix.outputs.matrix)[inputs.matrix_key] }}
+        package: ${{ fromJSON(needs.configure_matrix.outputs.matrix) }}
     steps:
       - run: echo ${{ matrix.package }}
