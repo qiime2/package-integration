@@ -80,6 +80,8 @@ def patch_channels(channel_dir, source_revdeps, pkgs_in_distro):
             json.dump(patch_instructions, fh, indent=2,
                       sort_keys=True, separators=(",", ": "))
 
+    subprocess.run(['conda', 'index', channel_dir], check=True)
+
 
 if __name__ == '__main__':
     (epoch,
