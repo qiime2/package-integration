@@ -54,9 +54,10 @@ jobs:
           cat diff.txt
 
       - name: set up python 3.8
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
           python-version: 3.8
+          cache: pip
 
       - name: install dependencies
         run: pip install pyyaml jinja2 networkx conda-mirror
