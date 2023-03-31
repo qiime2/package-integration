@@ -35,7 +35,7 @@ jobs:
           echo "epoch=$EPOCH" >> $GITHUB_OUTPUT
           DISTRO=$(python .github/workflows/bin/determine.py --distro "$CHANGED")
           echo "distro=$DISTRO" >> $GITHUB_OUTPUT
-          echo "cbc_yml=$EPOCH/staged/$DISTRO/conda_build_config.yaml"
+          echo "cbc_yml=$EPOCH/staged/$DISTRO/conda_build_config.yaml" >> $GITHUB_OUTPUT
 
   # this job will parse a diff from cbc, and use that to generate a DAG
   prepare:
