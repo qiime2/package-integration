@@ -143,7 +143,7 @@ jobs:
 
 
   build_generation_0:
-    needs: prepare
+    needs: [prepare]
     if: ${{ prepare.outputs.generation_counts > 0 }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
