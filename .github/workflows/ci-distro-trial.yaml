@@ -117,10 +117,15 @@ jobs:
           name: matrix
           path: ./matrix
 
+      - name: store generations
+        id: store-generations
+        run: |
+          echo "generation_matrix=$(cat matrix/rebuild_matrix.json)" >> $GITHUB_OUTPUT
+
       - name: count generations
         id: count-generations
         run: |
-          echo "generation_counts=${{ fromJSON('matrix/rebuild_matrix.json').length }}" >> $GITHUB_OUTPUT
+          echo "generation_counts=${{ fromJSON(steps.store-generations.outputs.generation_matrix).length }}" >> $GITHUB_OUTPUT
 
       - name: report generations
         run: echo ${{ steps.count-generations.outputs.generation_counts }}
