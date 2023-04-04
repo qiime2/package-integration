@@ -191,3 +191,12 @@ jobs:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
       matrix_key: "matrix"
       matrix_index: 5
+
+  build_generation_6:
+    needs: [prepare, build_generation_5]
+    if: ${{ fromJSON(needs.prepare.outputs.generation_matrix)[6] != null }}
+    uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
+    with:
+      cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
+      matrix_key: "matrix"
+      matrix_index: 6
