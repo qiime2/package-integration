@@ -43,6 +43,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       patched_channel_key: ${{ steps.patched-base-restore.outputs.cache-primary-key }}
+      generation_counts: ${{ steps.count-generations.outputs.generation_counts }}
+
     steps:
       - name: checkout source
         uses: actions/checkout@v3
@@ -115,6 +117,15 @@ jobs:
           name: matrix
           path: ./matrix
 
+      - name: count generations
+        id: count-generations
+        run: |
+          echo "generation_counts=${{ fromJSON('matrix/rebuild_matrix.json').length }}" >> $GITHUB_OUTPUT
+
+      - name: report generations
+        needs: [count-generations]
+        run: echo ${{ needs.count-generations.outputs.generation_counts }}
+
       - name: copy repodata patches
         run: |
           mkdir -p ./repodata_patches/linux-64
@@ -133,6 +144,7 @@ jobs:
 
   build_generation_0:
     needs: prepare
+    if: ${{ prepare.outputs.generation_counts > 0 }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -141,6 +153,7 @@ jobs:
 
   build_generation_1:
     needs: [prepare, build_generation_0]
+    if: ${{ prepare.outputs.generation_counts > 1 }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -149,6 +162,7 @@ jobs:
 
   build_generation_2:
     needs: [prepare, build_generation_1]
+    if: ${{ prepare.outputs.generation_counts > 2 }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -157,6 +171,7 @@ jobs:
 
   build_generation_3:
     needs: [prepare, build_generation_2]
+    if: ${{ prepare.outputs.generation_counts > 3 }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -165,6 +180,7 @@ jobs:
 
   build_generation_4:
     needs: [prepare, build_generation_3]
+    if: ${{ prepare.outputs.generation_counts > 4 }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -173,6 +189,7 @@ jobs:
 
   build_generation_5:
     needs: [prepare, build_generation_4]
+    if: ${{ prepare.outputs.generation_counts > 5 }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
