@@ -125,7 +125,7 @@ jobs:
       - name: count generations
         id: count-generations
         run: |
-          echo "generation_counts=${{ fromJSON(steps.store-generations.outputs.generation_matrix).length }}" >> $GITHUB_OUTPUT
+          echo "generation_counts=${{ fromJSON(steps.store-generations.outputs.generation_matrix) }}" >> $GITHUB_OUTPUT
 
       - name: report generations
         run: echo ${{ steps.count-generations.outputs.generation_counts }}
