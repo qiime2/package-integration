@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       patched_channel_key: ${{ steps.patched-base-restore.outputs.cache-primary-key }}
-      generation_counts: ${{ steps.count-generations.outputs.generation_counts }}
+      generation_matrix: ${{ steps.store-generations.outputs.generation_matrix }}
 
     steps:
       - name: checkout source
@@ -122,14 +122,6 @@ jobs:
         run: |
           echo "generation_matrix=$(cat matrix/rebuild_matrix.json)" >> $GITHUB_OUTPUT
 
-      - name: count generations
-        id: count-generations
-        run: |
-          echo "generation_counts=${{ fromJSON(steps.store-generations.outputs.generation_matrix) }}" >> $GITHUB_OUTPUT
-
-      - name: report generations
-        run: echo ${{ steps.count-generations.outputs.generation_counts }}
-
       - name: copy repodata patches
         run: |
           mkdir -p ./repodata_patches/linux-64
@@ -148,7 +140,7 @@ jobs:
 
   build_generation_0:
     needs: [prepare]
-    if: ${{ needs.prepare.outputs.generation_counts > 0 }}
+    if: ${{ needs.prepare.outputs.generation_matrix[0] != null }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -157,7 +149,7 @@ jobs:
 
   build_generation_1:
     needs: [prepare, build_generation_0]
-    if: ${{ needs.prepare.outputs.generation_counts > 1 }}
+    if: ${{ needs.prepare.outputs.generation_matrix[1] != null }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -166,7 +158,7 @@ jobs:
 
   build_generation_2:
     needs: [prepare, build_generation_1]
-    if: ${{ needs.prepare.outputs.generation_counts > 2 }}
+    if: ${{ needs.prepare.outputs.generation_matrix[2] != null }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -175,7 +167,7 @@ jobs:
 
   build_generation_3:
     needs: [prepare, build_generation_2]
-    if: ${{ needs.prepare.outputs.generation_counts > 3 }}
+    if: ${{ needs.prepare.outputs.generation_matrix[3] != null }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -184,7 +176,7 @@ jobs:
 
   build_generation_4:
     needs: [prepare, build_generation_3]
-    if: ${{ needs.prepare.outputs.generation_counts > 4 }}
+    if: ${{ needs.prepare.outputs.generation_matrix[4] != null }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -193,7 +185,7 @@ jobs:
 
   build_generation_5:
     needs: [prepare, build_generation_4]
-    if: ${{ needs.prepare.outputs.generation_counts > 5 }}
+    if: ${{ needs.prepare.outputs.generation_matrix[5] != null }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
