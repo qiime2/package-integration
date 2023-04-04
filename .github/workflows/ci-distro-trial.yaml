@@ -140,7 +140,7 @@ jobs:
 
   build_generation_0:
     needs: [prepare]
-    if: ${{ needs.prepare.outputs.generation_matrix[0] != null }}
+    if: ${{ fromJSON(needs.prepare.outputs.generation_matrix)[0] != null }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -149,7 +149,7 @@ jobs:
 
   build_generation_1:
     needs: [prepare, build_generation_0]
-    if: ${{ needs.prepare.outputs.generation_matrix[1] != null }}
+    if: ${{ fromJSON(needs.prepare.outputs.generation_matrix)[1] != null }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -158,7 +158,7 @@ jobs:
 
   build_generation_2:
     needs: [prepare, build_generation_1]
-    if: ${{ needs.prepare.outputs.generation_matrix[2] != null }}
+    if: ${{ fromJSON(needs.prepare.outputs.generation_matrix)[2] != null }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -167,7 +167,7 @@ jobs:
 
   build_generation_3:
     needs: [prepare, build_generation_2]
-    if: ${{ needs.prepare.outputs.generation_matrix[3] != null }}
+    if: ${{ fromJSON(needs.prepare.outputs.generation_matrix)[3] != null }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -176,7 +176,7 @@ jobs:
 
   build_generation_4:
     needs: [prepare, build_generation_3]
-    if: ${{ needs.prepare.outputs.generation_matrix[4] != null }}
+    if: ${{ fromJSON(needs.prepare.outputs.generation_matrix)[4] != null }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
@@ -185,7 +185,7 @@ jobs:
 
   build_generation_5:
     needs: [prepare, build_generation_4]
-    if: ${{ needs.prepare.outputs.generation_matrix[5] != null }}
+    if: ${{ fromJSON(needs.prepare.outputs.generation_matrix)[5] != null }}
     uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
     with:
       cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
