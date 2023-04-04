@@ -123,7 +123,7 @@ jobs:
           echo "generation_counts=${{ fromJSON('matrix/rebuild_matrix.json').length }}" >> $GITHUB_OUTPUT
 
       - name: report generations
-        needs: [count-generations]
+        needs: [steps.count-generations]
         run: echo ${{ needs.count-generations.outputs.generation_counts }}
 
       - name: copy repodata patches
