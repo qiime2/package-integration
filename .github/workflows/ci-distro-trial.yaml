@@ -147,3 +147,34 @@ jobs:
       matrix_key: "matrix"
       matrix_index: 1
 
+  build_generation_2:
+    needs: [prepare, build_generation_1]
+    uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
+    with:
+      cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
+      matrix_key: "matrix"
+      matrix_index: 2
+
+  build_generation_3:
+    needs: [prepare, build_generation_2]
+    uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
+    with:
+      cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
+      matrix_key: "matrix"
+      matrix_index: 3
+
+  build_generation_4:
+    needs: [prepare, build_generation_3]
+    uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
+    with:
+      cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
+      matrix_key: "matrix"
+      matrix_index: 4
+
+  build_generation_5:
+    needs: [prepare, build_generation_4]
+    uses: ./.github/workflows/ci-distro-trial_build-generation.yaml
+    with:
+      cache_key: ${{ needs.prepare.outputs.patched_channel_key }}
+      matrix_key: "matrix"
+      matrix_index: 5
