@@ -86,6 +86,7 @@ def get_minimal_env(seed_env_path):
 
 # Get current distro dep structure from repodata.json under tested channel
 def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
+    # TODO: update tested/ to staged/ once library does that also
     q2_pkg_channel_url = (f'https://packages.qiime2.org/qiime2/{epoch}/'
                           f'tested/{conda_subdir}/repodata.json')
     response = _fetch_url(q2_pkg_channel_url)
@@ -98,9 +99,6 @@ def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
         name = info['name']
         if (name not in relevant_pkgs
                 or relevant_pkgs[name] != info['version']):
-            if name == 'q2-stats':
-                print(info)
-                print(relevant_pkgs[name])
             continue
         q2_dep_dict[name] = [dep.split(' ')[0] for dep in info['depends']]
 
