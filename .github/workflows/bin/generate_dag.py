@@ -105,8 +105,8 @@ def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
         q2_dep_dict[name] = [dep.split(' ')[0] for dep in info['depends']]
 
     if missing_pkgs:
-        raise Exception(f'Missing the following packages in the channel:'
-                        f'{missing_pkgs}')
+        raise Exception(f'Missing the following packages in the channel'
+                        f' ({q2_pkg_channel_url}): {missing_pkgs}')
 
     return q2_dep_dict
 
