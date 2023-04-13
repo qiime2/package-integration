@@ -86,7 +86,7 @@ def get_minimal_env(seed_env_path):
 
 # Get current distro dep structure from repodata.json under tested channel
 def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
-    print('RLVTPKGS', relevant_pkgs)
+    missing_pkgs = relevant_pkgs.copy()
     # TODO: update tested/ to staged/ once library does that also
     q2_pkg_channel_url = (f'https://packages.qiime2.org/qiime2/{epoch}/'
                           f'tested/{conda_subdir}/repodata.json')
@@ -98,12 +98,15 @@ def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
 
     for info in repodata['packages'].values():
         name = info['name']
-        if (name not in relevant_pkgs
-                or relevant_pkgs[name] != info['version']):
+        if (name not in missing_pkgs
+                or missing_pkgs[name] != info['version']):
             continue
+        del missing_pkgs[name]
         q2_dep_dict[name] = [dep.split(' ')[0] for dep in info['depends']]
 
-    print('DEPENDENCIES', q2_dep_dict)
+    if missing_pkgs:
+        raise Exception(f'Missing the following packages in the channel:'
+                        f'{missing_pkgs}')
 
     return q2_dep_dict
 
@@ -231,7 +234,8 @@ def main(epoch, distro, seed_env_path, diff_path, conda_subdir,
     # test plan/skip doing anything interesting at all
 
     relevant_pkgs = get_minimal_env(seed_env_path)
-    distro_deps = get_distro_deps(epoch, conda_subdir, relevant_pkgs)
+    plugin_pkgs = {k, v for k, v in relevant_pkgs.items() if k in library_pkgs}
+    distro_deps = get_distro_deps(epoch, conda_subdir, plugin_pkgs)
 
     core_dag = make_dag(pkg_dict=distro_deps)
     core_sub = nx.subgraph(core_dag, relevant_pkgs)
