@@ -234,7 +234,7 @@ def main(epoch, distro, seed_env_path, diff_path, conda_subdir,
     # test plan/skip doing anything interesting at all
 
     relevant_pkgs = get_minimal_env(seed_env_path)
-    plugin_pkgs = {k, v for k, v in relevant_pkgs.items() if k in library_pkgs}
+    plugin_pkgs = {k: v for k, v in relevant_pkgs.items() if k in library_pkgs}
     distro_deps = get_distro_deps(epoch, conda_subdir, plugin_pkgs)
 
     core_dag = make_dag(pkg_dict=distro_deps)
