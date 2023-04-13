@@ -86,6 +86,7 @@ def get_minimal_env(seed_env_path):
 
 # Get current distro dep structure from repodata.json under tested channel
 def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
+    print('RLVTPKGS', relevant_pkgs)
     # TODO: update tested/ to staged/ once library does that also
     q2_pkg_channel_url = (f'https://packages.qiime2.org/qiime2/{epoch}/'
                           f'tested/{conda_subdir}/repodata.json')
@@ -101,6 +102,8 @@ def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
                 or relevant_pkgs[name] != info['version']):
             continue
         q2_dep_dict[name] = [dep.split(' ')[0] for dep in info['depends']]
+
+    print('DEPENDENCIES', q2_dep_dict)
 
     return q2_dep_dict
 
@@ -285,7 +288,7 @@ def main(epoch, distro, seed_env_path, diff_path, conda_subdir,
 if __name__ == '__main__':
     epoch = sys.argv[1]
     distro = sys.argv[2]
-    cbc_yaml_path = sys.argv[3]
+    seed_env_path = sys.argv[3]
     diff_path = sys.argv[4]
     conda_subdir = sys.argv[5]
     gh_summary_path = sys.argv[6]
@@ -295,6 +298,6 @@ if __name__ == '__main__':
     full_distro_path = sys.argv[10]
     revdeps_of_sources_path = sys.argv[11]
 
-    main(epoch, distro, cbc_yaml_path, diff_path, conda_subdir,
+    main(epoch, distro, seed_env_path, diff_path, conda_subdir,
          gh_summary_path, rebuild_matrix_path, retest_matrix_path,
          packages_in_distro_path, full_distro_path, revdeps_of_sources_path)
