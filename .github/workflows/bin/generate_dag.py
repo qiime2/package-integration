@@ -86,6 +86,8 @@ def get_minimal_env(seed_env_path):
 
 # Get current distro dep structure from repodata.json under tested channel
 def get_distro_deps(epoch, conda_subdir, relevant_pkgs):
+    #HACK: TODO: undo this
+    epoch = 2023.2
     missing_pkgs = relevant_pkgs.copy()
     # TODO: update tested/ to staged/ once library does that also
     q2_pkg_channel_url = (f'https://packages.qiime2.org/qiime2/{epoch}/'
@@ -228,7 +230,6 @@ def main(epoch, distro, seed_env_path, diff_path, conda_subdir,
     changed_pkgs = diff['changed_pkgs']
     removed_pkgs = diff['removed_pkgs']
     all_changes = [*new_pkgs, *changed_pkgs, *removed_pkgs]
-    print(all_changes)
     # TODO: don't test a source which was removed, since it isn't there.
     # TODO: if the removed is a terminal node in the dag, we need to change the
     # test plan/skip doing anything interesting at all
