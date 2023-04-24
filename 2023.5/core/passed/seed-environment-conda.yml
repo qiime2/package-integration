@@ -7,18 +7,18 @@ dependencies:
   - q2-alignment=2023.2.0.dev0
   - q2-composition=2023.2.0.dev0
   - q2-cutadapt=2023.2.0.dev0
-  - q2-dada2=2023.2.0.dev0
+  - q2-dada2=2023.2.0
   - q2-deblur=2023.2.0.dev0
   - q2-demux=2023.2.0.dev0+1.g069b5af
   - q2-diversity=2023.2.0.dev0+1.gbb6d045
   - q2-diversity-lib=2023.2.0.dev0
   - q2-emperor=2023.2.0.dev0+1.gc79b39a
   - q2-feature-classifier=2023.2.0.dev0
-  - q2-feature-table=2023.2.0.dev0+1
+  - q2-feature-table=2023.2.0
   - q2-fragment-insertion=2023.2.0.dev0
   - q2-gneiss=2023.2.0.dev0
   - q2-longitudinal=2023.2.0.dev0
-  - q2-metadata=2023.2.0.dev0+1.g9a3f2cb
+  - q2-metadata=2023.2.0
   - q2-mystery-stew=2023.2.0.dev0
   - q2-phylogeny=2023.2.0.dev0
   - q2-quality-control=2023.2.0.dev0
@@ -43,4 +43,8 @@ dependencies:
   - unifrac=1.1.1
   - unifrac-binaries=1.1.1
   - r-base=4.2.2
+extras:
+  variant_override:
+    # This MUST be a string, lest the YAML dragon eat October
+    qiime2_epoch: '2023.2'
 
