@@ -259,6 +259,7 @@ jobs:
 
   build-metapackage:
     needs: [prepare, rebuild-0, rebuild-1, rebuild-2, rebuild-3, rebuild-4, rebuild-5]
+    if: ${{ always() && !contains(needs.*.result, 'failure') && !contains(need.*.result, 'cancelled') }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
