@@ -256,3 +256,15 @@ jobs:
       seed-environment-key: ${{ needs.prepare.outputs.seed-environment-key }}
       matrix-key: ${{ needs.prepare.outputs.matrix-key }}
       matrix-index: 5
+
+  build-metapackage:
+    needs: [prepare, rebuild-0, rebuild-1, rebuild-2, rebuild-3, rebuild-4, rebuild-5]
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: 'test'
+        shell: bash
+        run: echo "hello"
+
