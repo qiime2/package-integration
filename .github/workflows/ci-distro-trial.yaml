@@ -260,7 +260,7 @@ jobs:
   build-metapackage:
     needs: [conf, prepare, rebuild-0, rebuild-1, rebuild-2, rebuild-3, rebuild-4, rebuild-5]
     if: ${{ always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
-    uses: ./.github/workflows/ci-distro-trail_build-metapackage.yaml
+    uses: ./.github/workflows/ci-distro-trial_build-metapackage.yaml
     with:
       seed-environment-key: ${{ needs.prepare.outputs.seed-environment-key }}
       rebuilt-channel-key: ${{ needs.prepare.outputs.rebuilt-channel-key }}
