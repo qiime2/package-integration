@@ -59,7 +59,7 @@ q2_stats:
 q2_taxa:
 - 2023.5.0.dev0
 q2_types:
-- 2023.5.0.dev0+1.g05d433c
+- 2023.5.0.dev0+2.g8c5db7b
 q2_types_genomics:
 - 2023.5.0.dev0+3.gfaadb7b
 q2_vsearch:
