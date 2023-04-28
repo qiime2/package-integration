@@ -6,6 +6,22 @@ on:
     paths:
       - 20*.*/*/passed/seed-environment-conda.yml
 
+env:
+  matrix_key: '[GHA Matrix] Packages to rebuild and test'
+  matrix_path: './matrix'
+
+  patched_channel_key: '[Conda Channel] Mirror with patches' # + (HASH)
+  patched_channel_path: './patched-channel'
+
+  repodata_patches_key: '[Repodata Patches] patch_instructions.json'
+  repodata_patches_path: './repodata-patches'
+
+  rebuilt_channel_key: '[Conda Channel] Rebuilt packages'
+  rebuilt_channel_path: './rebuilt-channel'
+
+  seed_environment_key: '[Environment File] Metapackage seed environment'
+  seed_environment_path: './seed-env'
+
 jobs:
   conf:
     runs-on: ubuntu-latest  # this job is always run on linux
@@ -35,22 +51,6 @@ jobs:
   prepare:
     needs: conf
     runs-on: ubuntu-latest
-    env:
-      matrix_key: '[GHA Matrix] Packages to rebuild and test'
-      matrix_path: './matrix'
-
-      patched_channel_key: '[Conda Channel] Mirror with patches' # + (HASH)
-      patched_channel_path: './patched-channel'
-
-      repodata_patches_key: '[Repodata Patches] patch_instructions.json'
-      repodata_patches_path: './repodata-patches'
-
-      rebuilt_channel_key: '[Conda Channel] Rebuilt packages'
-      rebuilt_channel_path: './rebuilt-channel'
-
-      seed_environment_key: '[Environment File] Metapackage seed environment'
-      seed_environment_path: './seed-env'
-
     outputs:
       # patched-channel-key includes a hash which is calculated in this step
       patched-channel-key: ${{ steps.patched-channel-restore.outputs.cache-primary-key }}
@@ -258,14 +258,12 @@ jobs:
       matrix-index: 5
 
   build-metapackage:
-    needs: [prepare, rebuild-0, rebuild-1, rebuild-2, rebuild-3, rebuild-4, rebuild-5]
+    needs: [conf, prepare, rebuild-0, rebuild-1, rebuild-2, rebuild-3, rebuild-4, rebuild-5]
     if: ${{ always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: 'test'
-        shell: bash
-        run: echo "hello"
-
+    uses: ./.github/workflows/ci-distro-trail_build-metapackage.yaml
+    with:
+      seed-environment-key: ${{ needs.prepare.outputs.seed-environment-key }}
+      rebuilt-channel-key: ${{ needs.prepare.outputs.rebuilt-channel-key }}
+      patched-channel-key: ${{ needs.prepare.outputs.patched-channel-key }}
+      patched-channel-path: ${{ needs.prepare.outputs.patched-channel-path }}
+      distro-name: qiime2-${{ needs.conf.outputs.distro }}
