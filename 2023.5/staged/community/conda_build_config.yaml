@@ -35,7 +35,7 @@ q2_fmt:
 q2_fondue:
 - 2023.5.0.dev0+1.g1ed64bf
 q2_fragment_insertion:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+1.g48d557a
 q2_gneiss:
 - 2023.5.0.dev0
 q2_longitudinal:
@@ -71,7 +71,7 @@ q2galaxy:
 q2templates:
 - 2023.5.0.dev0
 qiime2:
-- 2023.5.0.dev0+4.gfe49136
+- 2023.5.0.dev0+5.g85f7111
 qiime2_epoch:
 - '2023.5'
 r_base:
