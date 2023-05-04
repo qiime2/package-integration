@@ -24,6 +24,8 @@ on:
 env:
   rebuilt_channel_path: './rebuilt-channel'
   seed_environment_path: './seed-env'
+  environment_file: './solved-env-file.yml'
+  environment_prefix: './test-env/
 
 jobs:
   setup-version:
@@ -71,6 +73,7 @@ jobs:
 
       - uses: qiime2/action-library-packaging/build-metapackage@beta
         name: "Build metapackage"
+        id: build-meta
         with:
           conda-activate: ${{ steps.build-env.outputs.conda-activate }}
           channels: '["${{ env.rebuilt_channel_path }}", "${{ inputs.patched-channel-path }}"]'
@@ -84,3 +87,19 @@ jobs:
         with:
           name: ${{ inputs.rebuilt-channel-key }}
           path: ${{ env.rebuilt_channel_path }}
+
+      - name: Install and create env file from metapackage
+        uses: qiime2/action-library-packaging/make-metapackage-env-file@beta
+        with:
+          conda-activate: ${{ steps.build-env.outputs.conda-activate }}
+          channels: ${{ steps.build-meta.outputs.channels }}
+          package-name: ${{ inputs.distro-name }}
+          package-version: ${{ needs.setup-version.outputs.version }}
+          conda-prefix: '${{ runner.temp }}/temp-env'
+          environment-file: ${{ env.environment_file }}
+
+      - name: Install from env file and cache
+        uses: qiime2/action-library-packaging/create-env@beta
+        with:
+          conda-prefix: ${{ env.environment_prefix }}
+          environment-file: ${{ env.environment_file }}
