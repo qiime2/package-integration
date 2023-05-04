@@ -65,6 +65,9 @@ jobs:
         with:
           python-version: '3.8'
 
+      - shell: bash
+        run: pip install pyyaml
+
       - uses: actions/cache/restore@v3
         name: 'Fetch base channel with patches'
         id: patched-base-restore
@@ -101,7 +104,7 @@ jobs:
         name: 'Determine package data for ${{ matrix.package }}'
         id: get-package-data
         with:
-          conda-activate: ${{ steps.setup-conda.outputs.conda-activate }}
+          conda-activate: ''
           recipe-path: ${{ env.plugin_path }}/ci/recipe/
           conda-build-config: ${{ steps.make-cbc.outputs.conda-build-config }}
           channels: ${{ steps.make-cbc.outputs.channels }}
