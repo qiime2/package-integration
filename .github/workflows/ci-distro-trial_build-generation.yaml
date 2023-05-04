@@ -55,6 +55,7 @@ jobs:
     name: '${{ matrix.package }} (${{ matrix.os }})'
     needs: configure_matrix
     strategy:
+      fail-fast: false
       matrix:
         package: ${{ fromJSON(needs.configure_matrix.outputs.matrix)[inputs.matrix-index] }}
         os: [ubuntu-latest, macos-latest]

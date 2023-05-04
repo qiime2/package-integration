@@ -43,6 +43,7 @@ jobs:
   build-metapackage:
     needs: [setup-version]
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
