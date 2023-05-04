@@ -25,7 +25,7 @@ env:
   rebuilt_channel_path: './rebuilt-channel'
   seed_environment_path: './seed-env'
   environment_file: './solved-env-file.yml'
-  environment_prefix: './test-env/
+  environment_prefix: './test-env/'
 
 jobs:
   setup-version:
