@@ -57,8 +57,6 @@ def _patch_repodata(repodata, changes):
                             f'{updated_pkg} {new_version}'
                         break
 
-    print('HELLO IS THERE ANYBODY OUT THERE...............')
-    print(instructions)
     return instructions
 
 
