@@ -66,9 +66,6 @@ def patch_channels(channel_dir, source_revdeps, pkgs_in_distro):
     versioned_revdeps = {(pkg, pkgs_in_distro[pkg]): revs
                          for pkg, revs in source_revdeps.items()}
 
-    print("PRINTING IS NOT A DEBUG STRATEGY.................")
-    print(pkgs_in_distro)
-
     for subdir in SUBDIRS:
         # The channel name might not end up just being a filepath but we will
         # see, depends on what happens with the github workers and whatever
@@ -83,6 +80,9 @@ def patch_channels(channel_dir, source_revdeps, pkgs_in_distro):
                                subdir, 'patch_instructions.json'), 'w') as fh:
             json.dump(patch_instructions, fh, indent=2,
                       sort_keys=True, separators=(",", ": "))
+
+    print("PRINTING IS NOT A DEBUG STRATEGY.................")
+    print(patch_instructions)
 
     subprocess.run(['conda', 'index', channel_dir], check=True)
 
