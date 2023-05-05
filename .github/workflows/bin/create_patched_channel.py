@@ -57,6 +57,8 @@ def _patch_repodata(repodata, changes):
                             f'{updated_pkg} {new_version}'
                         break
 
+    print('HELLO IS THERE ANYBODY OUT THERE...............')
+    print(instructions)
     return instructions
 
 
@@ -80,9 +82,6 @@ def patch_channels(channel_dir, source_revdeps, pkgs_in_distro):
                                subdir, 'patch_instructions.json'), 'w') as fh:
             json.dump(patch_instructions, fh, indent=2,
                       sort_keys=True, separators=(",", ": "))
-
-    print("PRINTING IS NOT A DEBUG STRATEGY.................")
-    print(patch_instructions)
 
     subprocess.run(['conda', 'index', channel_dir], check=True)
 
