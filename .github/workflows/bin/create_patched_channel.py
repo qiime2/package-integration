@@ -66,6 +66,9 @@ def patch_channels(channel_dir, source_revdeps, pkgs_in_distro):
     versioned_revdeps = {(pkg, pkgs_in_distro[pkg]): revs
                          for pkg, revs in source_revdeps.items()}
 
+    print("PRINTING IS NOT A DEBUG STRATEGY.................")
+    print(source_revdeps)
+
     for subdir in SUBDIRS:
         # The channel name might not end up just being a filepath but we will
         # see, depends on what happens with the github workers and whatever
@@ -91,9 +94,6 @@ if __name__ == '__main__':
      full_distro_path,
      revdeps_of_sources_path,
      local_channel) = sys.argv[1:]
-
-    print("PRINTING IS NOT A DEBUG STRATEGY.................")
-    print(revdeps_of_sources_path)
 
     with open(packages_in_distro_path, 'r') as fh:
         pkgs_in_distro = json.load(fh)
