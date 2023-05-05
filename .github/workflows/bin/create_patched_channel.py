@@ -67,7 +67,7 @@ def patch_channels(channel_dir, source_revdeps, pkgs_in_distro):
                          for pkg, revs in source_revdeps.items()}
 
     print("PRINTING IS NOT A DEBUG STRATEGY.................")
-    print(source_revdeps)
+    print(pkgs_in_distro)
 
     for subdir in SUBDIRS:
         # The channel name might not end up just being a filepath but we will
