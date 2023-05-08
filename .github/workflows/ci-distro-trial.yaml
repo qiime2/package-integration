@@ -105,7 +105,7 @@ jobs:
           '${{ env.matrix_path }}/retest_matrix.json' \
           'packages_in_distro.json' \
           'full_distro.json' \
-          'revdeps_of_sources.json' \
+          '${{ env.rev_deps_path }}' \
           ${{ github.head_ref }}
 
       - uses: actions/cache/restore@v3
