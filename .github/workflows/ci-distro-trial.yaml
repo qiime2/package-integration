@@ -90,8 +90,8 @@ jobs:
       - name: make matrix dir
         run: mkdir ${{ env.matrix_path }}
 
-      - name: make rev dep dir
-        run: mkdir ${{ env.rev_dep_path }}
+      - name: make rev deps dir
+        run: mkdir ${{ env.rev_deps_path }}
 
       - name: parse diff and generate dag
         env:
