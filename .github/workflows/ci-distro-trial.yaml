@@ -90,6 +90,9 @@ jobs:
       - name: make matrix dir
         run: mkdir ${{ env.matrix_path }}
 
+      - name: make rev dep dir
+        run: mkdir ${{ env.rev_dep_path }}
+
       - name: parse diff and generate dag
         env:
           GITHUB_TOKEN: ${{ secrets.Q2D2_TOKEN }}
@@ -105,7 +108,7 @@ jobs:
           '${{ env.matrix_path }}/retest_matrix.json' \
           'packages_in_distro.json' \
           'full_distro.json' \
-          '${{ env.rev_deps_path }}' \
+          '${{ env.rev_deps_path }}/rev_deps.json' \
           ${{ github.head_ref }}
 
       - uses: actions/cache/restore@v3

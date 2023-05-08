@@ -246,7 +246,7 @@ jobs:
         uses: qiime2/action-library-packaging/patch-repodata@beta
         with:
           channel: ${{ env.patched_channel_path }}
-          rev-deps: ${{ env.rev_deps_path }}
+          rev-deps: ${{ env.rev_deps_path }}/rev_deps.json
           versions-file: version_updates.txt
 
       - uses: actions/upload-artifact@v3
