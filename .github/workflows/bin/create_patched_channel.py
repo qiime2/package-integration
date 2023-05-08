@@ -60,7 +60,6 @@ def _patch_repodata(repodata, changes):
     return instructions
 
 
-# this is dumb
 def patch_channels(channel_dir, source_revdeps, pkgs_in_distro):
     patch_instructions = {}
 

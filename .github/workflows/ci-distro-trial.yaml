@@ -123,6 +123,13 @@ jobs:
           'revdeps_of_sources.json' \
           '${{ env.patched_channel_path }}'
 
+      - name: upload patched channel
+        uses: actions/upload-artifact@v2
+        with:
+          name: "${{ env.patched_channel_key }}"
+          path: ${{ env.patched_channel_path }}
+
+      # TODO: replace cached mirror w/artifact
       - uses: actions/cache/save@v3
         id: patched-channel-save
         if: steps.patched-channel-restore.outputs.cache-hit != 'true'
