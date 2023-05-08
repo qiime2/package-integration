@@ -2,29 +2,22 @@ on:
   workflow_call:
     inputs:
       seed-environment-key:
-        description: An artifact key
         required: true
         type: string
       solved-environment-key:
         required: true
         type: string
       rebuilt-channel-key:
-        description: An artifact key
         required: true
         type: string
       patched-channel-key:
-        description: A cache key
-        required: true
-        type: string
-      patched-channel-path:
-        description: A cache path
         required: true
         type: string
       distro-name:
-        description: Name of distro
         required: true
         type: string
 env:
+  patched_channel_path: './patched-channel'
   rebuilt_channel_path: './rebuilt-channel'
   seed_environment_path: './seed-env'
   environment_prefix: './test-env/'
@@ -56,13 +49,11 @@ jobs:
           name: ${{ inputs.seed-environment-key }}
           path: ${{ env.seed_environment_path }}
 
-      - uses: actions/cache/restore@v3
+      - uses: actions/download-artifacte@v3
         name: 'Fetch base channel with patches'
-        id: patched-base-restore
         with:
           key: ${{ inputs.patched-channel-key }}
-          path: ${{ inputs.patched-channel-path }}
-          fail-on-cache-miss: true
+          path: ${{ env.patched_channel_path }}
 
       - name: fetch rebuilt channel
         uses: actions/download-artifact@v3
