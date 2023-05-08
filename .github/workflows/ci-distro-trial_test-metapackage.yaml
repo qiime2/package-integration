@@ -1,0 +1,40 @@
+on:
+  workflow_call:
+    inputs:
+      solved-environment-key:
+        required: true
+        type: string
+      matrix-key:
+        required: true
+        type: string
+
+env:
+  matrix_path: './matrix'
+
+jobs:
+  configure_matrix:
+    name: 'Set up build matrix'
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.matrix-key }}
+          path: '${{ env.matrix_path }}'
+
+      - id: set-matrix
+        run: |
+          echo "matrix=$(cat ${{ env.matrix_path }}/retest_matrix.json)" >> $GITHUB_OUTPUT
+
+  run_matrix:
+    name: '${{ matrix.package }} (${{ matrix.os }})'
+    needs: configure_matrix
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJSON(needs.configure_matrix.outputs.matrix) }}
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps: []
