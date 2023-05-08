@@ -52,7 +52,7 @@ jobs:
       - uses: actions/download-artifacte@v3
         name: 'Fetch base channel with patches'
         with:
-          key: ${{ inputs.patched-channel-key }}
+          name: ${{ inputs.patched-channel-key }}
           path: ${{ env.patched_channel_path }}
 
       - name: fetch rebuilt channel

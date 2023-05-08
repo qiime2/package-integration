@@ -69,7 +69,7 @@ jobs:
       - uses: actions/download-artifact@v3
         name: 'Fetch base channel with patches'
         with:
-          key: ${{ inputs.patched-channel-key }}
+          name: ${{ inputs.patched-channel-key }}
           path: ${{ env.patched_channel_path }}
 
       - uses: actions/download-artifact@v3
@@ -233,13 +233,13 @@ jobs:
       - uses: actions/download-artifact@v3
         name: 'Fetch base channel with patches'
         with:
-          key: ${{ inputs.patched-channel-key }}
+          name: ${{ inputs.patched-channel-key }}
           path: ${{ env.patched_channel_path }}
 
       - uses: actions/download-artifact@v3
         name: 'Fetch rebuilt packages and their reverse dependencies'
         with:
-          key: ${{ inputs.rev-deps-key }}
+          name: ${{ inputs.rev-deps-key }}
           path: ${{ env.rev_deps_path }}
 
       - name: 'Patch base channel'
@@ -252,5 +252,5 @@ jobs:
       - uses: actions/upload-artifact@v3
         name: 'Upload base channel with patches'
         with:
-          key: ${{ inputs.patched-channel-key }}
+          name: ${{ inputs.patched-channel-key }}
           path: ${{ env.patched_channel_path }}
