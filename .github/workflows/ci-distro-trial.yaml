@@ -10,7 +10,7 @@ env:
   matrix_key: '[GHA Matrix] Packages to rebuild and test'
   matrix_path: './matrix'
 
-  patched_channel_key: '[Conda Channel] Mirror with patches' # + (HASH)
+  partial_patched_channel_key: '[Conda Channel] Mirror with patches' # + (HASH)
   patched_channel_path: './patched-channel'
 
   rev_deps_key: '[Reverse Dependencies] Packages to rebuild and their reverse dependencies'
@@ -57,8 +57,8 @@ jobs:
     needs: conf
     runs-on: ubuntu-latest
     outputs:
-      # patched-channel-key includes a hash which is calculated in this step
       rev-deps-key: ${{ env.rev_deps_key }}
+      # patched-channel-key includes a hash which is calculated in this step
       patched-channel-key: ${{ steps.patched-channel-restore.outputs.cache-primary-key }}
       rebuilt-channel-key: ${{ env.rebuilt_channel_key }}
       seed-environment-key: ${{ env.seed_environment_key }}
@@ -111,7 +111,7 @@ jobs:
       - uses: actions/cache/restore@v3
         id: patched-channel-restore
         with:
-          key: "${{ env.patched_channel_key }} (${{ hashFiles('full_distro.json') }})"
+          key: "${{ env.partial_patched_channel_key }} (${{ hashFiles('full_distro.json') }})"
           path: ${{ env.patched_channel_path }}
 
       - name: create base channel
@@ -135,7 +135,7 @@ jobs:
       - name: upload patched channel
         uses: actions/upload-artifact@v3
         with:
-          name: "${{ env.patched_channel_key }}"
+          name: "${{ steps.patched-channel-restore.outputs.cache-primary-key }}"
           path: ${{ env.patched_channel_path }}
 
       - uses: actions/cache/save@v3
