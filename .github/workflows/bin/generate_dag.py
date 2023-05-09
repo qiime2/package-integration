@@ -227,9 +227,9 @@ def main(epoch, distro, seed_env_path, original_env_path, conda_subdir,
 
     src_revdeps = get_source_revdeps(core_dag, distro_deps, all_changes)
 
-    pkgs_to_test = list(set.union(set(src_revdeps),
-                                  *(nx.descendants(core_dag, pkg)
-                                    for pkg in src_revdeps)))
+    pkgs_to_test = sorted(set.union(set(src_revdeps),
+                                    *(nx.descendants(core_dag, pkg)
+                                      for pkg in src_revdeps)))
 
     core_mermaid = to_mermaid(core_sub, highlight_from=src_revdeps)
 
