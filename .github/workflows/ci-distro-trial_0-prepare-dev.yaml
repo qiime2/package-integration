@@ -17,7 +17,7 @@ on:
       rebuilt-channel-key:
         value: ${{ jobs.prepare.outputs.rebuilt-channel-key }}
       seed-environment-key:
-        value: ${{ jobs.prepare.seed-environment-key }}
+        value: ${{ jobs.prepare.outputs.seed-environment-key }}
       solved-environment-key:
         value: ${{ jobs.prepare.outputs.solved-environment-key }}
 
