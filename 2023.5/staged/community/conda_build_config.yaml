@@ -9,7 +9,7 @@ python:
 q2_alignment:
 - 2023.5.0.dev0
 q2_assembly:
-- 2023.5.0.dev0+2.ge8d7dfb
+- 2023.5.0.dev0+3.g8f369c5
 q2_composition:
 - 2023.5.0.dev0+2.g017b756
 q2_cutadapt:
