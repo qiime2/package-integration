@@ -102,9 +102,9 @@ jobs:
         with:
           conda-activate: ''
           recipe-path: ${{ env.plugin_path }}/ci/recipe/
-          conda-build-config: ${{ steps.make-cbc.outputs.conda-build-config }}
-          channels: ${{ steps.make-cbc.outputs.channels }}
-          output-channel: ${{ env.rebuilt_channel_path }}
+          conda-build-config: ''
+          channels: ''
+          output-channel: ''
           dry-run: true
 
       - uses: actions/cache/restore@v3
