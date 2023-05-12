@@ -81,7 +81,7 @@ jobs:
         id: 'collect-package'
         uses: qiime2/action-library-packaging/collect-package@beta
         with:
-          os: ${{ matrix.os }}
+          runner: ${{ matrix.os }}
           package: ${{ matrix.package }}
           channels: '["${{ env.rebuilt_channel_path }}", "${{ env.patched_channel_path }}"]'
 
