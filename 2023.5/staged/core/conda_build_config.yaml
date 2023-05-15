@@ -9,11 +9,11 @@ provenance_lib:
 python:
 - '3.8'
 q2_alignment:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+1.g46d9907
 q2_composition:
 - 2023.5.0.dev0+2.g017b756
 q2_cutadapt:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.g4073350
 q2_dada2:
 - 2023.5.0.dev0
 q2_deblur:
@@ -59,9 +59,9 @@ q2cli:
 q2galaxy:
 - 2023.5.0.dev0
 q2templates:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.gc730772
 qiime2:
-- 2023.5.0.dev0+6.g357f902
+- 2023.5.0.dev0+8.g090f4e0
 qiime2_epoch:
 - '2023.5'
 r_base:
