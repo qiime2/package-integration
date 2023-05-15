@@ -5,6 +5,7 @@ ignore:
 meta:
   phone_home: true
 run:
+- provenance-lib
 - q2-alignment
 - q2-assembly
 - q2-composition
@@ -39,4 +40,4 @@ run:
 - q2templates
 - qiime2
 - rescript
-version: 2023.05.12.08.23.00
+version: 2023.05.15.18.23.00
