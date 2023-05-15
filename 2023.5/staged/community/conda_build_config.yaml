@@ -9,21 +9,21 @@ provenance_lib:
 python:
 - '3.8'
 q2_alignment:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.g6dc2ff1
 q2_assembly:
 - 2023.5.0.dev0+3.g8f369c5
 q2_composition:
-- 2023.5.0.dev0+2.g017b756
+- 2023.5.0.dev0+4.g6382d51
 q2_cutadapt:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+1.gebb5593
 q2_dada2:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.g4ed5b86
 q2_deblur:
 - 2023.5.0.dev0
 q2_demux:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.g8a6494a
 q2_diversity:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.g1aa35cd
 q2_diversity_lib:
 - 2023.5.0.dev0
 q2_emperor:
@@ -51,7 +51,7 @@ q2_mystery_stew:
 q2_phylogeny:
 - 2023.5.0.dev0
 q2_quality_control:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+1.g49e562d
 q2_quality_filter:
 - 2023.5.0.dev0
 q2_sample_classifier:
