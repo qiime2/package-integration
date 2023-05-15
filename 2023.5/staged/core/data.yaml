@@ -1,6 +1,7 @@
 meta:
   phone_home: true
 run:
+- provenance-lib
 - q2-alignment
 - q2-composition
 - q2-cutadapt
@@ -28,4 +29,4 @@ run:
 - q2galaxy
 - q2templates
 - qiime2
-version: 2023.05.10.19.23.00
+version: 2023.05.15.18.23.00
