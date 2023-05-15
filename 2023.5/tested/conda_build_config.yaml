@@ -23,7 +23,7 @@ q2_composition:
 q2_cutadapt:
 - 2023.5.0.dev0+2.g4073350
 q2_dada2:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+1.gde9c8eb
 q2_deblur:
 - 2023.5.0.dev0
 q2_demux:
