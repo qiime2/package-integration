@@ -8,6 +8,8 @@ numpy:
 - 1.23.5
 pandas:
 - '>=1.2.5,<2.0.0'
+provenance_lib:
+- 2023.5.0.dev0+2.g77aacf2
 python:
 - '3.8'
 q2_alignment:
