@@ -65,7 +65,7 @@ q2_sample_classifier:
 q2_stats:
 - 2023.5.0.dev0+1.g01bbdc9
 q2_taxa:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.gc801b98
 q2_types:
 - 2023.5.0.dev0+2.g8c5db7b
 q2_types_genomics:
