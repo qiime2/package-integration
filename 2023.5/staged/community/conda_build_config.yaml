@@ -5,7 +5,7 @@ hdf5:
 pandas:
 - '>=1.2.5'
 provenance_lib:
-- 2023.5.0.dev0+2.g77aacf2
+- 2023.5.0.dev0+3.g23b223b
 python:
 - '3.8'
 q2_alignment:
@@ -15,11 +15,11 @@ q2_assembly:
 q2_composition:
 - 2023.5.0.dev0+4.g6382d51
 q2_cutadapt:
-- 2023.5.0.dev0+1.gebb5593
+- 2023.5.0.dev0+2.g4073350
 q2_dada2:
 - 2023.5.0.dev0+2.g4ed5b86
 q2_deblur:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.g28d1385
 q2_demux:
 - 2023.5.0.dev0+2.g8a6494a
 q2_diversity:
@@ -27,9 +27,9 @@ q2_diversity:
 q2_diversity_lib:
 - 2023.5.0.dev0+2.ga2a757c
 q2_emperor:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.gac1d73e
 q2_feature_classifier:
-- 2023.5.0.dev0+1.g1031834
+- 2023.5.0.dev0+2.g94bc44b
 q2_feature_table:
 - 2023.5.0.dev0+7.gdf99d40
 q2_fmt:
@@ -49,31 +49,31 @@ q2_moshpit:
 q2_mystery_stew:
 - 2023.5.0.dev0+2.gf345ffd
 q2_phylogeny:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.gb26030f
 q2_quality_control:
-- 2023.5.0.dev0+1.g49e562d
+- 2023.5.0.dev0+2.g2d49d5a
 q2_quality_filter:
-- 2023.5.0.dev0+1.gdab1d91
+- 2023.5.0.dev0+2.g3567ef0
 q2_sample_classifier:
-- 2023.5.0.dev0+1.g4c16d88
+- 2023.5.0.dev0+3.g2196da9
 q2_stats:
 - 2023.5.0.dev0+1.g01bbdc9
 q2_taxa:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.gc801b98
 q2_types:
-- 2023.5.0.dev0+2.g8c5db7b
+- 2023.5.0.dev0+4.g5604a00
 q2_types_genomics:
 - 2023.5.0.dev0+4.gc4f304a
 q2_vsearch:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.gedf7d6c
 q2cli:
-- 2023.5.0.dev0+4.g6019cd7
+- 2023.5.0.dev0+7.g6a021a3
 q2galaxy:
 - 2023.5.0.dev0+2.gb5979e4
 q2templates:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.gc730772
 qiime2:
-- 2023.5.0.dev0+6.g357f902
+- 2023.5.0.dev0+8.g090f4e0
 qiime2_epoch:
 - '2023.5'
 r_base:
