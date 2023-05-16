@@ -33,7 +33,7 @@ q2_diversity:
 q2_diversity_lib:
 - 2023.5.0.dev0+1.g5113ed0
 q2_emperor:
-- 2023.5.0.dev0+1.g174b190
+- 2023.5.0.dev0+2.gac1d73e
 q2_feature_classifier:
 - 2023.5.0.dev0+2.g94bc44b
 q2_feature_table:
