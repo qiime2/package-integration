@@ -5,7 +5,7 @@ hdf5:
 pandas:
 - '>=1.2.5'
 provenance_lib:
-- 2023.5.0.dev0+2.g77aacf2
+- 2023.5.0.dev0+3.g23b223b
 python:
 - '3.8'
 q2_alignment:
@@ -17,21 +17,21 @@ q2_cutadapt:
 q2_dada2:
 - 2023.5.0.dev0
 q2_deblur:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.g28d1385
 q2_demux:
 - 2023.5.0.dev0
 q2_diversity:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+1.g7c87b70
 q2_diversity_lib:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+1.g5113ed0
 q2_emperor:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.gac1d73e
 q2_feature_classifier:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.g94bc44b
 q2_feature_table:
 - 2023.5.0.dev0+6.g6f2720a
 q2_fragment_insertion:
-- 2023.5.0.dev0+1.g48d557a
+- 2023.5.0.dev0+2.g3409f86
 q2_gneiss:
 - 2023.5.0.dev0
 q2_longitudinal:
@@ -41,21 +41,21 @@ q2_metadata:
 q2_mystery_stew:
 - 2023.5.0.dev0
 q2_phylogeny:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.gb26030f
 q2_quality_control:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.g2d49d5a
 q2_quality_filter:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.g3567ef0
 q2_sample_classifier:
-- 2023.5.0.dev0+1.g4c16d88
+- 2023.5.0.dev0+3.g2196da9
 q2_taxa:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.gc801b98
 q2_types:
-- 2023.5.0.dev0+2.g8c5db7b
+- 2023.5.0.dev0+4.g5604a00
 q2_vsearch:
-- 2023.5.0.dev0
+- 2023.5.0.dev0+2.gedf7d6c
 q2cli:
-- 2023.5.0.dev0+4.g6019cd7
+- 2023.5.0.dev0+7.g6a021a3
 q2galaxy:
 - 2023.5.0.dev0
 q2templates:
