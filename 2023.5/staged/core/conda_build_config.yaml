@@ -49,7 +49,7 @@ q2_quality_filter:
 q2_sample_classifier:
 - 2023.5.0.dev0+3.g2196da9
 q2_taxa:
-- 2023.5.0.dev0+2.gc801b98
+- 2023.5.0.dev0+3.gf2264ec
 q2_types:
 - 2023.5.0.dev0+4.g5604a00
 q2_vsearch:
