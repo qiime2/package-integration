@@ -5,7 +5,7 @@ hdf5:
 pandas:
 - '>=1.2.5'
 provenance_lib:
-- 2023.5.0.dev0+3.g23b223b
+- 2023.5.0
 python:
 - '3.8'
 q2_alignment:
@@ -33,7 +33,7 @@ q2_feature_classifier:
 q2_feature_table:
 - 2023.5.0.dev0+7.gdf99d40
 q2_fmt:
-- 2023.5.0.dev0+112.g40fb29b
+- 2023.5.0
 q2_fondue:
 - 2023.5.0.dev0+1.g1ed64bf
 q2_fragment_insertion:
@@ -57,7 +57,7 @@ q2_quality_filter:
 q2_sample_classifier:
 - 2023.5.0.dev0+3.g2196da9
 q2_stats:
-- 2023.5.0.dev0+1.g01bbdc9
+- 2023.5.0
 q2_taxa:
 - 2023.5.0.dev0+4.g942ac5e
 q2_types:
