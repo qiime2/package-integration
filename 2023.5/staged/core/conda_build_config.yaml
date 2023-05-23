@@ -39,7 +39,7 @@ q2_longitudinal:
 q2_metadata:
 - 2023.5.0.dev0+2.g19c5d9e
 q2_mystery_stew:
-- 2023.5.0.dev0+2.gf345ffd
+- 2023.5.0
 q2_phylogeny:
 - 2023.5.0.dev0+3.g1e38f18
 q2_quality_control:
@@ -51,7 +51,7 @@ q2_sample_classifier:
 q2_taxa:
 - 2023.5.0.dev0+4.g942ac5e
 q2_types:
-- 2023.5.0.dev0+4.g5604a00
+- 2023.5.0
 q2_vsearch:
 - 2023.5.0.dev0+2.gedf7d6c
 q2cli:
@@ -59,9 +59,9 @@ q2cli:
 q2galaxy:
 - 2023.5.0.dev0+2.gb5979e4
 q2templates:
-- 2023.5.0.dev0+2.gc730772
+- 2023.5.0
 qiime2:
-- 2023.5.0.dev0+9.gf2cb5a2
+- 2023.5.0
 qiime2_epoch:
 - '2023.5'
 r_base:
