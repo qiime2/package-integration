@@ -5,7 +5,7 @@ hdf5:
 pandas:
 - '>=1.2.5'
 provenance_lib:
-- 2023.5.0.dev0+3.g23b223b
+- 2023.5.0
 python:
 - '3.8'
 q2_alignment:
