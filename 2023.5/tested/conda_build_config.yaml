@@ -27,7 +27,7 @@ q2_dada2:
 q2_deblur:
 - 2023.5.0
 q2_demux:
-- 2023.5.0.dev0+2.g8a6494a
+- 2023.5.0
 q2_diversity:
 - 2023.5.0.dev0+2.g1aa35cd
 q2_diversity_lib:
