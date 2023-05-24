@@ -4,6 +4,8 @@ hdf5:
 - '*'
 pandas:
 - '>=1.2.5'
+numba:
+- '<0.57.0'
 provenance_lib:
 - 2023.5.0
 python:
