@@ -15,7 +15,7 @@ python:
 q2_alignment:
 - 2023.5.0
 q2_assembly:
-- 2023.5.0.dev0+3.g8f369c5
+- 2023.5.0.dev0+4.g9c719cc
 q2_checkm:
 - 2023.5.0.dev0+3.g2e56081
 q2_composition:
