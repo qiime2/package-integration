@@ -1,0 +1,8 @@
+ignore:
+- q2-moshpit
+- q2-fondue
+- rescript
+meta:
+  phone_home: false
+run: []
+version: 2023.06.01.18.41.04
