@@ -12,6 +12,8 @@ python:
 - '3.8'
 q2_mystery_stew:
 - 2023.7.0.dev0
+q2templates:
+- 2023.7.0.dev0
 qiime2:
 - 2023.7.0.dev0
 qiime2_epoch:
