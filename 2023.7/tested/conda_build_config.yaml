@@ -18,6 +18,8 @@ q2_cutadapt:
 - 2023.7.0.dev0
 q2_dada2:
 - 2023.7.0.dev0
+q2_emperor:
+- 2023.7.0.dev0
 q2_feature_table:
 - 2023.7.0.dev0
 q2_fragment_insertion:
