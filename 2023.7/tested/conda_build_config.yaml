@@ -14,6 +14,8 @@ q2_feature_table:
 - 2023.7.0.dev0
 q2_fragment_insertion:
 - 2023.7.0.dev0
+q2_gneiss:
+- 2023.7.0.dev0
 q2_mystery_stew:
 - 2023.7.0.dev0
 q2_types:
