@@ -4,5 +4,9 @@ ignore:
 - rescript
 meta:
   phone_home: false
-run: []
-version: 2023.06.01.18.41.04
+run:
+- q2-diversity
+- q2-feature-classifier
+- q2-longitudinal
+- q2-quality-control
+version: 2023.06.02.00.23.00
