@@ -38,6 +38,8 @@ q2_longitudinal:
 - 2023.7.0.dev0
 q2_metadata:
 - 2023.7.0.dev0
+q2_moshpit:
+- 2023.7.0.dev0
 q2_mystery_stew:
 - 2023.7.0.dev0
 q2_phylogeny:
