@@ -6,6 +6,8 @@ pandas:
 - '>=1.2.5'
 python:
 - '3.8'
+q2_types_genomics:
+- 2023.5.0.dev0+5.gcdcb76a
 qiime2_epoch:
 - '2023.7'
 r_base:
