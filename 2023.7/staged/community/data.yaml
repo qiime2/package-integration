@@ -4,5 +4,6 @@ ignore:
 - rescript
 meta:
   phone_home: false
-run: []
-version: 2023.06.01.18.41.04
+run:
+- q2-assembly
+version: 2023.06.02.15.23.00
