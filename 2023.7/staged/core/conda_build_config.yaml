@@ -4,6 +4,8 @@ hdf5:
 - '*'
 pandas:
 - '>=1.2.5'
+provenance_lib:
+- 2023.7.0.dev0
 python:
 - '3.8'
 qiime2_epoch:
