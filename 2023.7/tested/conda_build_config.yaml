@@ -39,7 +39,7 @@ q2_feature_classifier:
 q2_feature_table:
 - 2023.7.0.dev0
 q2_fmt:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+2.gfd5e56c
 q2_fondue:
 - 2023.7.0.dev0
 q2_fragment_insertion:
