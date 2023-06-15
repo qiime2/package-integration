@@ -45,7 +45,7 @@ q2_longitudinal:
 q2_metadata:
 - 2023.7.0.dev0
 q2_moshpit:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+1.g8b4d715
 q2_mystery_stew:
 - 2023.7.0.dev0
 q2_phylogeny:
