@@ -79,7 +79,7 @@ q2galaxy:
 q2templates:
 - 2023.7.0.dev0
 qiime2:
-- 2023.7.0.dev0+1.gc0d1dab
+- 2023.7.0.dev0+2.gb8c1127
 qiime2_epoch:
 - '2023.7'
 r_base:
