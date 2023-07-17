@@ -55,13 +55,13 @@ q2_types:
 q2_vsearch:
 - 2023.7.0.dev0
 q2cli:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+1.g39d0c8a
 q2galaxy:
 - 2023.7.0.dev0
 q2templates:
 - 2023.7.0.dev0
 qiime2:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+2.gb8c1127
 qiime2_epoch:
 - '2023.7'
 r_base:
