@@ -43,7 +43,7 @@ q2_gneiss:
 q2_longitudinal:
 - 2023.7.0.dev0
 q2_metadata:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+1.g7cae55a
 q2_moshpit:
 - 2023.7.0.dev0+3.g1c48cee
 q2_mystery_stew:
