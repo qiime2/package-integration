@@ -13,7 +13,7 @@ q2_alignment:
 q2_assembly:
 - 2023.7.0.dev0
 q2_composition:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+1.g6d69fd4
 q2_cutadapt:
 - 2023.7.0.dev0
 q2_dada2:
