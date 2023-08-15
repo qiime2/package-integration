@@ -19,7 +19,7 @@ q2_assembly:
 q2_checkm:
 - 2023.7.0.dev0
 q2_composition:
-- 2023.7.0.dev0+1.g6d69fd4
+- 2023.7.0.dev0+7.gb2c8733
 q2_cutadapt:
 - 2023.7.0.dev0+1.gdb6d44b
 q2_dada2:
