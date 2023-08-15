@@ -11,39 +11,39 @@ python:
 q2_alignment:
 - 2023.7.0.dev0
 q2_composition:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+7.gb2c8733
 q2_cutadapt:
 - 2023.7.0.dev0
 q2_dada2:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+1.gc3061d3
 q2_deblur:
-- 2023.7.0.dev0+1.g0996f9b
+- 2023.7.0.dev0+2.g23bbd4b
 q2_demux:
 - 2023.7.0.dev0
 q2_diversity:
-- 2023.7.0.dev0+1.g7ba421d
+- 2023.7.0.dev0+2.g71d3d14
 q2_diversity_lib:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+1.gbfc7996
 q2_emperor:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+1.g415e661
 q2_feature_classifier:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+1.g7f2729a
 q2_feature_table:
-- 2023.7.0.dev0+1.g5c2e826
+- 2023.7.0.dev0+3.gee964ac
 q2_fragment_insertion:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+1.gc97bdae
 q2_gneiss:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+1.gdc02780
 q2_longitudinal:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+1.g291d35a
 q2_metadata:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+3.ga2b085b
 q2_mystery_stew:
 - 2023.7.0.dev0
 q2_phylogeny:
 - 2023.7.0.dev0
 q2_quality_control:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+1.gc61d1b3
 q2_quality_filter:
 - 2023.7.0.dev0
 q2_sample_classifier:
