@@ -13,7 +13,7 @@ provenance_lib:
 python:
 - '3.8'
 q2_alignment:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+1.gb74f1ad
 q2_assembly:
 - 2023.7.0.dev0+1.g634a05b
 q2_checkm:
