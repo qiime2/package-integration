@@ -45,7 +45,7 @@ q2_fondue:
 q2_fragment_insertion:
 - 2023.7.0.dev0
 q2_gneiss:
-- 2023.7.0.dev0
+- 2023.7.0.dev0+1.gdc02780
 q2_longitudinal:
 - 2023.7.0.dev0
 q2_metadata:
