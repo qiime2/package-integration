@@ -69,7 +69,7 @@ q2_taxa:
 q2_types:
 - 2023.7.0.dev0+3.gb8de86d
 q2_types_genomics:
-- 2023.9.0.dev0+2.gcbba211
+- 2023.9.0.dev0+3.gcb0aefc
 q2_vsearch:
 - 2023.7.0.dev0+1.gbd10860
 q2cli:
